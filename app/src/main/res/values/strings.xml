@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Mecin.an</string>
+
+    <string name="iv_intro_bg">Login Background</string>
+
+    <string name="tv_intro_slide1_title">Get work done</string>
+    <string name="tv_intro_slide1_subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="tv_intro_slide2_title">..or get hired!</string>
+    <string name="tv_intro_slide2_subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="login">Login</string>
+
+    <string name="tv_login_username">Username</string>
+    <string name="tv_login_password">Password</string>
+
+    <string name="tv_login_signuphint">Don\'t have account yet?</string>
+    <string name="tv_login_signup">Sign up</string>
+
+</resources>
