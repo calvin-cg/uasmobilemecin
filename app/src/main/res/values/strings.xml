@@ -1,7 +1,19 @@
 <resources>
+
+    <!-- GLOBALS -->
     <string name="app_name">Mecin.an</string>
 
-    <string name="iv_intro_bg">Login Background</string>
+    <string name="next">Next</string>
+    <string name="start">Start</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="signup">Sign up</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+
+
+    <!-- INTRO ACTIVITY -->
+    <string name="iv_intro_bg">Intro Background</string>
 
     <string name="tv_intro_slide1_title">Get work done</string>
     <string name="tv_intro_slide1_subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
@@ -9,14 +21,17 @@
     <string name="tv_intro_slide2_title">..or get hired!</string>
     <string name="tv_intro_slide2_subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
 
-    <string name="next">Next</string>
-    <string name="skip">Skip</string>
-    <string name="login">Login</string>
+    <string name="tv_intro_starthint">By clicking Start, you are agree to our Terms and Conditions.</string>
 
-    <string name="tv_login_username">Username</string>
-    <string name="tv_login_password">Password</string>
+    <!-- LOGIN ACTIVITY -->
+    <string name="tv_login_title">Welcome Back!</string>
+    <string name="tv_login_signuphint">Don\'t have an account yet?</string>
 
-    <string name="tv_login_signuphint">Don\'t have account yet?</string>
-    <string name="tv_login_signup">Sign up</string>
+    <!-- SIGNUP ACTIVITY -->
+    <string name="tv_signup_loginhint">Already have an account?</string>
 
+
+    <!-- MAIN ACTIVITY -->
+    <string name="tv_main_dashboardTitle">Dashboard</string>
+    <string name="tv_main_dashboardSubtitle">Your ongoing projects</string>
 </resources>

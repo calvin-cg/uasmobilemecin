@@ -25,7 +25,8 @@ public class IntroActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
+    //private Button btnSkip, btnNext;
+    private Button btnLogin;
     private PrefManager prefManager;
 
     @Override
@@ -48,9 +49,11 @@ public class IntroActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        //btnSkip = (Button) findViewById(R.id.btn_skip);
+        btnLogin = (Button) findViewById(R.id.btn_intro_login);
 
+        //btnLogin.setVisibility(View.GONE);
+        btnLogin.setText(getString(R.string.next));
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -68,14 +71,14 @@ public class IntroActivity extends AppCompatActivity {
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
+//        btnSkip.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                launchHomeScreen();
+//            }
+//        });
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // checking for last page
@@ -101,7 +104,8 @@ public class IntroActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(64);
+            dots[i].setPadding(0, -50, 0, 0);
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
@@ -130,12 +134,14 @@ public class IntroActivity extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.login));
-                btnSkip.setVisibility(View.GONE);
+                btnLogin.setText(getString(R.string.start));
+                //btnLogin.setVisibility(View.VISIBLE);
+                //dotsLayout.setVisibility(View.GONE);
             } else {
                 // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
+                btnLogin.setText(getString(R.string.next));
+                //btnLogin.setVisibility(View.GONE);
+                //dotsLayout.setVisibility(View.VISIBLE);
             }
         }
 
