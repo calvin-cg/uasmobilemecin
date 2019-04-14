@@ -1,36 +1,115 @@
 package umn.ac.mecinan;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button btn_signup, btn_login;
+    private Button btnSignup, btnLogin, btnReset;
+    private EditText inputEmail, inputPassword;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            //finish();
+        }
+
+        //set the view now
         setContentView(R.layout.activity_login);
 
-        btn_signup = findViewById(R.id.btn_login_signup);
-        btn_login = findViewById(R.id.btn_login_login);
+        btnSignup = findViewById(R.id.btn_login_signup);
+        btnLogin = findViewById(R.id.btn_login_login);
+        btnReset = findViewById(R.id.btn_login_forgotpassword);
+        inputEmail = (EditText) findViewById(R.id.editText_login_email);
+        inputPassword = (EditText) findViewById(R.id.editText_login_password);
 
-        btn_signup.setOnClickListener(new View.OnClickListener() {
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-                finish();
             }
         });
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
+                startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = inputEmail.getText().toString();
+                final String password = inputPassword.getText().toString();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                final FirebaseUser user = auth.getCurrentUser();
+
+                //authenticate user
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    // there was an error
+                                    if (password.length() < 8) {
+                                        inputPassword.setError("Password too short, enter minimum 8 characters!");
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Login failed, check your email and password or sign up", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    if (user.isEmailVerified()) {
+                                        Toast.makeText(LoginActivity.this, "Email Verified", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, "Email Not Verified", Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            }
+                        });
+
             }
         });
     }
