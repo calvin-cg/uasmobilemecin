@@ -12,6 +12,7 @@
     <string name="email">Email</string>
     <string name="cancel">Cancel</string>
 
+    <string name="bottom_nav_home">Home</string>
 
     <!-- INTRO ACTIVITY -->
     <string name="iv_intro_bg">Intro Background</string>
