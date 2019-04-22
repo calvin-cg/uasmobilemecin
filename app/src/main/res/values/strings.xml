@@ -13,6 +13,10 @@
     <string name="cancel">Cancel</string>
 
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_browse">Browse</string>
+    <string name="bottom_nav_faq">FAQ</string>
+    <string name="bottom_nav_inbox">Inbox</string>
+    <string name="bottom_nav_profile">Profile</string>
 
     <!-- INTRO ACTIVITY -->
     <string name="iv_intro_bg">Intro Background</string>
