@@ -26,14 +26,14 @@
     <color name="colorHeading_1">@color/white</color>
     <color name="colorHeading_2">@color/hot_orange</color>
     <color name="colorHeading_3">@color/brink_pink</color>
-    <color name="colorHeading_4">@color/mine_shaft</color>
+    <color name="colorHeading_4">#636363</color>
 
     <color name="colorParagraph_1">@color/white</color>
     <color name="colorParagraph_2">@color/hot_orange</color>
     <color name="colorParagraph_3">@color/brink_pink</color>
     <color name="colorParagraph_4">@color/mine_shaft</color>
 
-    <color name="colorBorderLight">@color/gallery</color>
+    <color name="colorBorderLight">#F1F1F1</color>
 
 
     <!-- dots inactive colors -->

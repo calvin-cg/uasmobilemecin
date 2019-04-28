@@ -39,5 +39,9 @@
 
     <!-- MAIN ACTIVITY -->
     <string name="tv_main_dashboardTitle">Dashboard</string>
-    <string name="tv_main_dashboardSubtitle">Your ongoing projects</string>
+    <string name="tv_main_dashboardSubtitle">Your projects</string>
+
+    <!-- MAIN ACTIVITY - FRAGMENT -->
+    <string name="tv_main_fragmentOngoing_title">My Ongoing Projects</string>
+    <string name="tv_main_fragmentPast_title">My Past Projects</string>
 </resources>
