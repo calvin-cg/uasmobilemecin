@@ -25,6 +25,7 @@
             android:layout_marginEnd="24dp"
             android:text="Got Question?"
             android:textColor="@color/white"
+            android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +37,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:text="The Answer of Your Every Question"
+            android:text="Answer for Your Every Question"
             android:textAlignment="viewStart"
             android:textColor="@color/colorHeading_1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +66,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_navigation"
+        app:labelVisibilityMode="unlabeled"/>
 
 </android.support.constraint.ConstraintLayout>

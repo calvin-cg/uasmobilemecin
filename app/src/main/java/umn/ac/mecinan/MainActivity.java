@@ -1,5 +1,8 @@
 package umn.ac.mecinan;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,22 +11,28 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+    * DECLARATION - TAB LAYOUT
+    * */
     TabLayout tabLayout;
     TabItem tabOnGoingProjects;
     TabItem tabPastProjects;
-    ViewPager viewPager;
+    ViewPager tabViewPager;
+    MainProjectsPageAdapter projectsPageAdapter;
 
-    MainProjectsPageAdapter pageAdapter;
-
-    RecyclerView recyclerView;
-    ProjectsViewAdapter projectsViewAdapter;
-    List<Projects> projectsList;
+    /**
+     * DECLARATION - BOTTOM NAVIGATION
+     */
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,67 +41,23 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("EZRA", "Start Main");
 
-        //Buat Fragment Ongoing - Past
+        /**
+         * TAB LAYOUT
+         */
         tabLayout = findViewById(R.id.tabLayout);
         tabOnGoingProjects = findViewById(R.id.tabOnGoingProjects);
         tabPastProjects = findViewById(R.id.tabPastProjects);
-        viewPager = findViewById(R.id.view_pager);
+        tabViewPager = findViewById(R.id.viewPager);
 
-        pageAdapter = new MainProjectsPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        projectsPageAdapter = new MainProjectsPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
-        viewPager.setAdapter(pageAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        //Buat Project List
-        Log.d("EZRA", "log 1");
-        projectsList = new ArrayList<>();
-
-        Log.d("EZRA", "log 2");
-        recyclerView = findViewById(R.id.ongoingrec);
-        Log.d("EZRA", "log 3");
-
-        projectsList.add(
-                new Projects(
-                        001,
-                        "Website Mecan",
-                        "Ezra",
-                        "Calvin",
-                        "IT",
-                        "Website",
-                        "Ongoing",
-                        "Buat website sederhana untuk tugas Technopreneurship, cuma butuh bikin macam tokopedia. Gampang kan?"
-                )
-        );
-
-        projectsList.add(
-                new Projects(
-                        002,
-                        "Logo Mecan",
-                        "Devi",
-                        "Calvin",
-                        "Design",
-                        "Branding",
-                        "Ongoing",
-                        "Buat logo untuk startup Mecanan, ga ribet kok."
-                )
-        );
-
-        Log.d("EZRA", "log project list - add to adapter . . . 1");
-        projectsViewAdapter = new ProjectsViewAdapter(this, projectsList);
-        Log.d("EZRA", "log project list - add to adapter . . . 2");
-        //recyclerView.setAdapter(projectsViewAdapter);
-        Log.d("EZRA", "log project list - added to adapter");
+        tabViewPager.setAdapter(projectsPageAdapter);
+        tabViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                if (tab.getPosition() == 1){
-
-                }
-                else if (tab.getPosition() == 2){
-
-                }
+                tabViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -103,6 +68,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        /**
+         * BOTTOM NAVIGATION
+         */
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        Menu bottomMenu = bottomNavigationView.getMenu();
+        /** Ubah index untuk aktivasi button page sesuai index */
+        MenuItem bottomMenuItem = bottomMenu.getItem(0);
+        bottomMenuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.navigation_home:
+                        /*Intent iHome = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(iHome);*/
+                        Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.navigation_browse:
+                        Intent iBrowse = new Intent(MainActivity.this, SearchActivity.class);
+                        startActivity(iBrowse);
+                        break;
+                    case R.id.navigation_faq:
+                        Intent iFAQ = new Intent(MainActivity.this, FAQActivity.class);
+                        startActivity(iFAQ);
+                        break;
+                    case R.id.navigation_inbox:
+                        Intent iInbox = new Intent(MainActivity.this, InboxActivity.class);
+                        startActivity(iInbox);
+                        break;
+                    case R.id.navigation_profile:
+                        Intent iProfile = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(iProfile);
+                        break;
+                }
+                return false;
             }
         });
 
