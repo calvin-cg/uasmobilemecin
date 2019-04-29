@@ -1,6 +1,6 @@
 package umn.ac.mecinan;
 
-public class Projects {
+public class Project {
 
     private int id;
     private String title;
@@ -9,7 +9,18 @@ public class Projects {
     private String status;
     private String desc;
 
-    public Projects(int id, String title, String nameDev, String nameClient, String nameField, String nameCategory, String status, String desc) {
+    public Project(){
+        this.id = 999;
+        this.title = "UNDEFINED";
+        this.nameDev = "UNDEFINED";
+        this.nameClient = "UNDEFINED";
+        this.nameField = "UNDEFINED";
+        this.nameCategory = "UNDEFINED";
+        this.status = "UNDEFINED";
+        this.desc = "UNDEFINED";
+    }
+
+    public Project(int id, String title, String nameDev, String nameClient, String nameField, String nameCategory, String status, String desc) {
         this.id = id;
         this.title = title;
         this.nameDev = nameDev;

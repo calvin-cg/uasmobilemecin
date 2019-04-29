@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapter.ProjectViewHolder> {
 
     private Context mCtx;
-    private List<Projects> projectList;
+    private List<Project> projectList;
 
-    public ProjectsViewAdapter(Context mCtx, List<Projects> projectList){
+    public ProjectsViewAdapter(Context mCtx, List<Project> projectList){
         this.mCtx = mCtx;
         this.projectList = projectList;
     }
@@ -31,7 +32,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
-        Projects project = projectList.get(i);
+        Project project = projectList.get(i);
 
         projectViewHolder.projectTitle.setText(project.getTitle());
         projectViewHolder.projectField.setText(project.getNameField());
