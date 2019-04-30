@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 final FirebaseUser user = auth.getCurrentUser();
+                Log.d("login", "userlogin: " + user.getEmail());
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)

@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "310713684919-c0jefoqdcq43upbp6713f9vu52rujdft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "umn.ac.mecinan",
+            "certificate_hash": "64f213471c24d400649d41e41f31bc65a0f4923a"
+          }
+        },
+        {
+          "client_id": "310713684919-ofjom6do97c4o3pcmh9s0lmurklk1reh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "umn.ac.mecinan",
+            "certificate_hash": "dc096ea4032c1e0a07cedd773e803b97e5a0e019"
+          }
+        },
+        {
           "client_id": "310713684919-2kne2ip2ia49f3uduikdi8psg4biqh2o.apps.googleusercontent.com",
           "client_type": 3
         }
