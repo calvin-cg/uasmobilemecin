@@ -29,6 +29,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -149,12 +153,21 @@ public class SignupActivity extends AppCompatActivity {
                         });
 
 
+                List<String> tagline = new ArrayList<>();
+                tagline.add("The New Rising Star");
+                tagline.add("The Old Rising Star");
+                tagline.add("The New Rising Moon");
+                tagline.add("The Old Rising Moon");
+                tagline.add("The New Rising Sun");
+
+                Random r = new Random();
+                int idx = r.nextInt(5);
+
                 //store to db
-                //passwordnya jangan lupa di enkripsi atau ilangin aja
                 User user = new User(
                         username,
-                        password,
-                        email
+                        email,
+                        tagline.get(idx)
                 );
 
                 mDatabase.child("user").child(username).setValue(user);
