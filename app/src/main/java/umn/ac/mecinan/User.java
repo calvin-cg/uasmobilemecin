@@ -2,15 +2,15 @@ package umn.ac.mecinan;
 
 public class User {
 
-    private String username, password, email;
+    private String username, email, tagline;
 
     public User(){
 
     }
-    public User(String username, String password, String email) {
+    public User(String username, String email, String tagline) {
         this.username = username;
-        //this.password = password;
         this.email = email;
+        this.tagline = tagline;
     }
 
     public String getUsername() {
@@ -21,13 +21,6 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getEmail() {
         return email;
@@ -35,5 +28,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
     }
 }
