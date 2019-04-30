@@ -1,42 +1,48 @@
 package umn.ac.mecinan;
 
+import java.util.Date;
+
 public class Project {
 
-    private int id;
     private String title;
-    private String nameDev, nameClient;
-    private String nameField, nameCategory;
-    private String status;
+    private Date dateStart, dateDue;
+    private String idEmployer, idClient;
+    private String idField, idCategory;
     private String desc;
+    private int price;
+    private int status;
+    private Date dateEnd;
+    private float rating;
 
-    public Project(){
-        this.id = 999;
-        this.title = "UNDEFINED";
-        this.nameDev = "UNDEFINED";
-        this.nameClient = "UNDEFINED";
-        this.nameField = "UNDEFINED";
-        this.nameCategory = "UNDEFINED";
-        this.status = "UNDEFINED";
-        this.desc = "UNDEFINED";
-    }
+    /**
+     * STATUS
+     *  0  = Waiting for Response
+     *  1  = Accepted
+     * -1  = Refused
+     *  2  = Paid
+     * -2  = Not Paid
+     *  3  = Finished
+     * -3  = Ongoing
+     *  4  = Confirmed
+     * -4  = Unconfirmed
+     */
 
-    public Project(int id, String title, String nameDev, String nameClient, String nameField, String nameCategory, String status, String desc) {
-        this.id = id;
+    public Project(String title, Date dateStart, Date dateDue, String idEmployer, String idClient, String idField, String idCategory, String desc, int price, int status) {
+
         this.title = title;
-        this.nameDev = nameDev;
-        this.nameClient = nameClient;
-        this.nameField = nameField;
-        this.nameCategory = nameCategory;
-        this.status = status;
+        this.dateStart = dateStart;
+        this.dateDue = dateDue;
+        this.idEmployer = idEmployer;
+        this.idClient = idClient;
+        this.idField = idField;
+        this.idCategory = idCategory;
         this.desc = desc;
-    }
+        this.price = price;
+        this.status = status;
 
-    public int getId() {
-        return id;
-    }
+        this.dateEnd = null;
+        this.rating = 4;
 
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -47,44 +53,60 @@ public class Project {
         this.title = title;
     }
 
-    public String getNameDev() {
-        return nameDev;
+    public Date getDateStart() {
+        return dateStart;
     }
 
-    public void setNameDev(String nameDev) {
-        this.nameDev = nameDev;
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
-    public String getNameClient() {
-        return nameClient;
+    public Date getDateDue() {
+        return dateDue;
     }
 
-    public void setNameClient(String nameClient) {
-        this.nameClient = nameClient;
+    public void setDateDue(Date dateDue) {
+        this.dateDue = dateDue;
     }
 
-    public String getNameField() {
-        return nameField;
+    public Date getDateEnd() {
+        return dateEnd;
     }
 
-    public void setNameField(String nameField) {
-        this.nameField = nameField;
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
-    public String getNameCategory() {
-        return nameCategory;
+    public String getIdEmployer() {
+        return idEmployer;
     }
 
-    public void setNameCategory(String nameCategory) {
-        this.nameCategory = nameCategory;
+    public void setIdEmployer(String idEmployer) {
+        this.idEmployer = idEmployer;
     }
 
-    public String getStatus() {
-        return status;
+    public String getIdClient() {
+        return idClient;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIdClient(String idClient) {
+        this.idClient = idClient;
+    }
+
+    public String getIdField() {
+        return idField;
+    }
+
+    public void setIdField(String idField) {
+        this.idField = idField;
+    }
+
+    public String getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(String idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getDesc() {
@@ -93,5 +115,31 @@ public class Project {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        if (rating>=0 && rating<=5){
+            this.rating = rating;
+        }
     }
 }
