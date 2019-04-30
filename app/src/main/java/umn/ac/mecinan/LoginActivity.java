@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        Log.d("debug_login", "userloginFirst: " + auth.getCurrentUser());
         //Log.d("User", "curr_user: " + auth.getCurrentUser().getEmail());
 
         if (auth.getCurrentUser() != null) {
@@ -80,9 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                final FirebaseUser user = auth.getCurrentUser();
-                Log.d("login", "userlogin: " + user.getEmail());
-
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -99,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, "Login failed, check your email and password or sign up", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    final FirebaseUser user = auth.getCurrentUser();
+
                                     if (user.isEmailVerified()) {
                                         Toast.makeText(LoginActivity.this, "Email Verified", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
