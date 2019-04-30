@@ -37,13 +37,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/projectTextRequestedBy"
+                android:id="@+id/projectWorkRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:text="Requested by "
+                android:text="Requested/Worked by "
                 android:textColor="@color/colorHeading_4"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -51,17 +51,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/projectRating" />
 
             <TextView
-                android:id="@+id/projectClient"
+                android:id="@+id/projectWRUser"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
-                android:text="projectClientDefault"
+                android:text="projectWRUserDefault"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/projectTextRequestedBy"
+                app:layout_constraintBottom_toBottomOf="@+id/projectWorkRequest"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/projectTextRequestedBy"
-                app:layout_constraintTop_toTopOf="@+id/projectTextRequestedBy" />
+                app:layout_constraintStart_toEndOf="@+id/projectWorkRequest"
+                app:layout_constraintTop_toTopOf="@+id/projectWorkRequest" />
 
             <TextView
                 android:id="@+id/projectField"

@@ -22,7 +22,7 @@ public class MainProjectsPageAdapter extends FragmentPagerAdapter {
             case 0:
                 return new MainOngoingFragment();
             case 1:
-                return new MainPastFragment();
+                return new MainMyProjectFragment();
             default:
                 return null;
         }

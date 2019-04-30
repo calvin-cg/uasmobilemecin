@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
          * TAB LAYOUT
          */
         tabLayout = findViewById(R.id.tabLayout);
-        tabOnGoingProjects = findViewById(R.id.tabOnGoingProjects);
-        tabPastProjects = findViewById(R.id.tabPastProjects);
+        tabOnGoingProjects = findViewById(R.id.tabLeft);
+        tabPastProjects = findViewById(R.id.tabRight);
         tabViewPager = findViewById(R.id.viewPager);
 
         projectsPageAdapter = new MainProjectsPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

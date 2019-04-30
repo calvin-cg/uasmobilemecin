@@ -59,18 +59,16 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabOnGoingProjects"
+            android:id="@+id/tabLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ongoing Projects"
-            android:textSize="10sp" />
+            android:text="@string/ongoing_project" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabPastProjects"
+            android:id="@+id/tabRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Past Projects"
-            android:textSize="10sp" />
+            android:text="@string/my_request" />
 
     </android.support.design.widget.TabLayout>
 

@@ -6,7 +6,7 @@ public class Project {
 
     private String title;
     private Date dateStart, dateDue;
-    private String idEmployer, idClient;
+    private String idEmployee, idClient;
     private String idField, idCategory;
     private String desc;
     private int price;
@@ -27,12 +27,12 @@ public class Project {
      * -4  = Unconfirmed
      */
 
-    public Project(String title, Date dateStart, Date dateDue, String idEmployer, String idClient, String idField, String idCategory, String desc, int price, int status) {
+    public Project(String title, Date dateStart, Date dateDue, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status) {
 
         this.title = title;
         this.dateStart = dateStart;
         this.dateDue = dateDue;
-        this.idEmployer = idEmployer;
+        this.idEmployee = idEmployee;
         this.idClient = idClient;
         this.idField = idField;
         this.idCategory = idCategory;
@@ -77,12 +77,12 @@ public class Project {
         this.dateEnd = dateEnd;
     }
 
-    public String getIdEmployer() {
-        return idEmployer;
+    public String getIdEmployee() {
+        return idEmployee;
     }
 
-    public void setIdEmployer(String idEmployer) {
-        this.idEmployer = idEmployer;
+    public void setIdEmployee(String idEmployee) {
+        this.idEmployee = idEmployee;
     }
 
     public String getIdClient() {

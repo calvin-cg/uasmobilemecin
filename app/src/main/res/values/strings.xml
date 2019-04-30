@@ -44,4 +44,6 @@
     <!-- MAIN ACTIVITY - FRAGMENT -->
     <string name="tv_main_fragmentOngoing_title">My Ongoing Projects</string>
     <string name="tv_main_fragmentPast_title">My Past Projects</string>
+    <string name="ongoing_project">Ongoing Project</string>
+    <string name="my_request">My Request</string>
 </resources>
