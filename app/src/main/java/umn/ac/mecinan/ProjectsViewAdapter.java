@@ -3,7 +3,6 @@ package umn.ac.mecinan;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,14 +80,14 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         public ProjectViewHolder(@NonNull View itemView){
             super(itemView);
 
-            projectTitle = itemView.findViewById(R.id.projectTitle);
+            projectTitle = itemView.findViewById(R.id.employeeName);
             projectProgressBar = itemView.findViewById(R.id.projectProgressBar);
-            projectWorkRequest = itemView.findViewById(R.id.projectWorkRequest);
-            projectWRUser = itemView.findViewById(R.id.projectWRUser);
-            projectField = itemView.findViewById(R.id.projectField);
+            projectWorkRequest = itemView.findViewById(R.id.tvCompletedProject);
+            projectWRUser = itemView.findViewById(R.id.employeeCompletedProject);
+            projectField = itemView.findViewById(R.id.employeeField);
             projectCategory = itemView.findViewById(R.id.projectCategory);
-            projectStatus = itemView.findViewById(R.id.projectStatus);
-            projectRating = itemView.findViewById(R.id.projectRating);
+            projectStatus = itemView.findViewById(R.id.employeeRate);
+            projectRating = itemView.findViewById(R.id.employeeRatingBar);
 
         }
     }

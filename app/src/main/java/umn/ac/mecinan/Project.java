@@ -35,7 +35,6 @@ public class Project {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myProjectRef = database.getReference("project");
 
-
     /**
      * STATUS
      *  0  = Waiting for Response

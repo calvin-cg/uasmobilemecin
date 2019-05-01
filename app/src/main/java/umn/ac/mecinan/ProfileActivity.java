@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,16 +62,16 @@ public class ProfileActivity extends AppCompatActivity {
         TextView username = findViewById(R.id.textView8);
         TextView tagline = findViewById(R.id.textView9);
         TextView email = findViewById(R.id.textView15);
-
-        user.retrieveProfile(curr_user, username, tagline, email);
-        try{
-            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        TextView phoneNumber = findViewById(R.id.textView21);
 
 
-
+//        user.retrieveProfile(curr_user, username, tagline, email, phoneNumber);
+//        try{
+//            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+        
         /**
          * Button Logout
          */
@@ -84,6 +87,19 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+//        /**
+//         * Button Edit Profile
+//         */
+//        Button btnEditProfile = findViewById(R.id.btn_editprofile);
+//        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
 
         /**
@@ -125,4 +141,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

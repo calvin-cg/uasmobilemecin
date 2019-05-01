@@ -2,14 +2,40 @@ package umn.ac.mecinan;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class SearchActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    /**
+     * DECLARATION - SPINNER FIELD
+     */
+    private Spinner browseSpinnerField;
+    private TextView testestes;
+
+    /**
+     * DECLARATION - DATABASE EMPLOYEE
+     */
+    RecyclerView recyclerView;
+    EmployeeAdapter employeeAdapter;
+    List<User> employeeList;
 
     /**
      * DECLARATION - BOTTOM NAVIGATION
@@ -20,6 +46,53 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        /**
+         * DECLARATION - SPINNER FIELD
+         */
+        browseSpinnerField = findViewById(R.id.browseSpinnerField);
+        ArrayAdapter fieldAdapter = ArrayAdapter.createFromResource(this, R.array.field_view, android.R.layout.simple_spinner_item);
+        fieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        browseSpinnerField.setAdapter(fieldAdapter);
+        browseSpinnerField.setSelection(4);
+        browseSpinnerField.setOnItemSelectedListener(this);
+
+        /**
+         * RECYCLER VIEW - EMPLOYEE
+         */
+        employeeList = new ArrayList<>();
+        recyclerView = findViewById(R.id.employeeRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        employeeList.add(
+                new User(
+                        "abed",
+                        "abed@abed.com",
+                        "abed is my name",
+                        "081806542abed"
+                )
+        );
+
+        employeeList.add(
+                new User(
+                        "nego",
+                        "nego@nego.com",
+                        "nego is my name",
+                        "08180654nego"
+                )
+        );
+
+        employeeList.add(
+                new User(
+                        "vito",
+                        "vito@vito.com",
+                        "vito is my name",
+                        "08180654vito"
+                )
+        );
+
+        employeeAdapter = new EmployeeAdapter(this, employeeList);
+        recyclerView.setAdapter(employeeAdapter);
 
         /**
          * BOTTOM NAVIGATION
@@ -59,6 +132,18 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectedField = parent.getItemAtPosition(position).toString();
+        testestes = findViewById(R.id.testestes);
+        testestes.setText(selectedField);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

@@ -47,4 +47,46 @@
     <string name="tv_main_fragmentPast_title">My Past Projects</string>
     <string name="ongoing_project">Ongoing Project</string>
     <string name="my_request">My Request</string>
+
+    <!-- SKILL FIELD AND CATEGORY -->
+    <string-array name="field_view">
+        <item>Information &amp; Technology</item>
+        <item>Art &amp; Design</item>
+        <item>Business</item>
+        <item>Public Relation</item>
+        <item>View All Field</item>
+    </string-array>
+
+    <string-array name="field_select">
+        <item>Information &amp; Technology</item>
+        <item>Art &amp; Design</item>
+        <item>Business</item>
+        <item>Public Relation</item>
+    </string-array>
+
+    <string-array name="cat_it">
+        <item>Website</item>
+        <item>Mobile Application</item>
+        <item>Desktop Application</item>
+    </string-array>
+
+    <string-array name="cat_ad">
+        <item>Handcraft</item>
+        <item>Graphic Design</item>
+        <item>Packaging</item>
+    </string-array>
+
+    <string-array name="cat_bu">
+        <item>Budget Consultation</item>
+        <item>Investment</item>
+        <item>Asset Management</item>
+    </string-array>
+
+    <string-array name="cat_pr">
+        <item>Marketing &amp; Advertising</item>
+        <item>Brand Activation</item>
+        <item>Media Relation</item>
+    </string-array>
+
+
 </resources>
