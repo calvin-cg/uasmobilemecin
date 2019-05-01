@@ -25,7 +25,7 @@ import java.io.IOException;
 
 public class User {
 
-    private String username, email, tagline;
+    private String username, email, tagline, phoneNumber;
 
     final String TAG = "retrieve_profile";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -38,10 +38,11 @@ public class User {
     public User(){
 
     }
-    public User(String username, String email, String tagline) {
+    public User(String username, String email, String tagline, String phoneNumber) {
         this.username = username;
         this.email = email;
         this.tagline = tagline;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -68,6 +69,14 @@ public class User {
 
     public void setTagline(String tagline) {
         this.tagline = tagline;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 

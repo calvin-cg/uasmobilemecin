@@ -36,7 +36,7 @@ import java.util.Random;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputUsername;
+    private EditText inputEmail, inputPassword, inputUsername, inputPhone;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -60,13 +60,8 @@ public class SignupActivity extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.editText_signup_email);
         inputPassword = (EditText) findViewById(R.id.editText_signup_password);
         inputUsername = (EditText) findViewById(R.id.editText_signup_username);
+        inputPhone = findViewById(R.id.editText_signup_phone);
 
-        /*btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
-            }
-        });*/
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,13 +76,19 @@ public class SignupActivity extends AppCompatActivity {
                 String username = inputUsername.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                String phoneNumber = inputPhone.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(username)){
-                    Toast.makeText(getApplicationContext(), "Enter Email address, Password, and Username!", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(username) && TextUtils.isEmpty(phoneNumber)){
+                    Toast.makeText(getApplicationContext(), "Enter Email address, PhoneNumber, Password, and Username!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                else if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)){
+                else if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(phoneNumber)){
+                    Toast.makeText(getApplicationContext(), "Enter Email address, PhoneNumber, Password, and Username!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else if(TextUtils.isEmpty(email) && TextUtils.isEmpty(phoneNumber)){
                     Toast.makeText(getApplicationContext(), "Enter Email address, Password, and Username!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -99,6 +100,11 @@ public class SignupActivity extends AppCompatActivity {
 
                 else if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else if(TextUtils.isEmpty(phoneNumber)){
+                    Toast.makeText(getApplicationContext(), "Enter PhoneNumber!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -167,8 +173,10 @@ public class SignupActivity extends AppCompatActivity {
                 User user = new User(
                         username,
                         email,
-                        tagline.get(idx)
+                        tagline.get(idx),
+                        phoneNumber
                 );
+
                 mDatabase.child("user").push().setValue(user);
 
             }

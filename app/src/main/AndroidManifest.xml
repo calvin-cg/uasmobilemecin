@@ -16,7 +16,6 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".InboxActivity" />
         <activity android:name=".MainActivity">
-
         </activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".SignupActivity" />
