@@ -48,22 +48,21 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
 
-
         /**
          * Retrieving Profile Data from Firebase Storage
          */
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser curr_user = auth.getCurrentUser();
+        User user = new User();
 
         ImageView avatar = findViewById(R.id.imageView);
         TextView username = findViewById(R.id.textView8);
         TextView tagline = findViewById(R.id.textView9);
         TextView email = findViewById(R.id.textView15);
 
-        RetrieveUser retrieveUser = new RetrieveUser();
-        retrieveUser.retrieveProfile(user, username, tagline, email);
+        user.retrieveProfile(curr_user, username, tagline, email);
         try{
-            retrieveUser.retrieveAvatar(getApplicationContext(), user, avatar);
+            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
         } catch(IOException e) {
             e.printStackTrace();
         }
