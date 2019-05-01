@@ -55,9 +55,15 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        retrieveProfile();
+        ImageView avatar = findViewById(R.id.imageView);
+        TextView username = findViewById(R.id.textView8);
+        TextView tagline = findViewById(R.id.textView9);
+        TextView email = findViewById(R.id.textView15);
+
+        RetrieveUser retrieveUser = new RetrieveUser();
+        retrieveUser.retrieveProfile(user, username, tagline, email);
         try{
-            retrieveAvatar(user);
+            retrieveUser.retrieveAvatar(getApplicationContext(), user, avatar);
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -117,122 +123,6 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
                 }
                 return false;
-            }
-        });
-    }
-
-    public void retrieveProfile() {
-        final String TAG = "retrieve_profile";
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("user");
-
-        userRef.addValueEventListener(new ValueEventListener() {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            FirebaseUser curr_user = auth.getCurrentUser();
-            User user;
-
-            TextView username = findViewById(R.id.textView8);
-            TextView tagline = findViewById(R.id.textView9);
-            TextView email = findViewById(R.id.textView15);
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    //Log.d(TAG, "curr_user: " + curr_user.getEmail());
-                    //Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
-
-                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
-                        user = ds.getValue(User.class);
-                    }
-                }
-
-                username = findViewById(R.id.textView8);
-                tagline = findViewById(R.id.textView9);
-                email = findViewById(R.id.textView15);
-
-                username.setText(user.getUsername());
-                tagline.setText(user.getTagline());
-                email.setText(user.getEmail());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    public void retrieveAvatar(FirebaseUser curr_user) throws IOException {
-        final String TAG = "retrieve_avatar";
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference mAvatarRef;
-        mAvatarRef = storage.getReference("user_avatar/" + curr_user.getUid() + ".jpg");
-
-        Log.d(TAG, "ref: " + mAvatarRef);
-        Log.d(TAG, "snap: " + "start");
-
-        final File localFile = File.createTempFile("images", "jpg");
-        mAvatarRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        ImageView avatar = findViewById(R.id.imageView);
-
-                        Log.d(TAG, "snap: " + taskSnapshot);
-                        Glide.with(getApplicationContext())
-                                .load(localFile)
-                                .into(avatar);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(TAG, "snap: " + "Failed... Retrieving default avatar...");
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                FirebaseUser curr_user = auth.getCurrentUser();
-                try{
-                    retrieveDefaultAvatar(curr_user);
-                } catch(IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void retrieveDefaultAvatar(FirebaseUser curr_user) throws IOException {
-        final String TAG = "retrieve_avatar";
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference mDefaultAvatarRef;
-        mDefaultAvatarRef = storage.getReference("user_avatar/default.jpg");
-
-        Log.d(TAG, "defaultref: " + mDefaultAvatarRef);
-        Log.d(TAG, "snap: " + "start");
-
-        final File localFile = File.createTempFile("images", "jpg");
-        mDefaultAvatarRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        ImageView avatar = findViewById(R.id.imageView);
-
-                        Log.d(TAG, "snap: " + taskSnapshot);
-                        Glide.with(getApplicationContext())
-                                .load(localFile)
-                                .into(avatar);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(TAG, "snap: " + "Failed retrieving default avatar...");
-
             }
         });
     }

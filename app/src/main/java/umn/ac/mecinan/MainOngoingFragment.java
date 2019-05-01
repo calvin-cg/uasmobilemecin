@@ -148,6 +148,28 @@ public class MainOngoingFragment extends Fragment {
         /**
          * Retrieve Project
          */
+        retrieve_project();
+
+        /**
+         * Set to recycler view from listongoing
+         */
+        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
+        recyclerView.setAdapter(ongoingAdapter);
+
+        return myFragmentView;
+    }
+
+
+
+    /**
+     * Method: retrieve_project()
+     * desc: retrieve project from realtime db and set into list ongoing
+     *
+     * param: empty
+     *
+     * return void
+     */
+    public void retrieve_project() {
         final String TAG = "retrieve_project";
         database = FirebaseDatabase.getInstance();
         myProjectRef = database.getReference("project");
@@ -155,18 +177,16 @@ public class MainOngoingFragment extends Fragment {
         Log.d(TAG, "start retrieve project");
         Log.d(TAG, "ref: " + myProjectRef);
         myProjectRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("debug", "datachange");
-                System.out.println(dataSnapshot.getChildren());
 
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for(DataSnapshot dataSnapshot1: children){
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
 
                     Log.d("debug", "masukfor");
-                   // System.out.println(dataSnapshot1.getValue(Project.class));
+                    // System.out.println(dataSnapshot1.getValue(Project.class));
 
-                    Project listProject = dataSnapshot1.getValue(Project.class);
+                    Project listProject = ds.getValue(Project.class);
                     Log.d("debug", "getvalue");
                     Project project = new Project();
 
@@ -203,7 +223,6 @@ public class MainOngoingFragment extends Fragment {
 
                 ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
                 recyclerView.setAdapter(ongoingAdapter);
-
             }
 
             @Override
@@ -212,12 +231,5 @@ public class MainOngoingFragment extends Fragment {
             }
         });
 
-
-
-        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
-        recyclerView.setAdapter(ongoingAdapter);
-
-        return myFragmentView;
     }
-
 }
