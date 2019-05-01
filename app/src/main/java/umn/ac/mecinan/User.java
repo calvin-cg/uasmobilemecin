@@ -82,7 +82,7 @@ public class User {
 
 
     /**
-     * Method: RetrieveProfile()
+     * Method: retrieveProfile()
      * desc: retrieve user from realtime db and set into TextView
      *
      * param:
@@ -136,7 +136,7 @@ public class User {
 
 
     /**
-     * Method: RetrieveAvatar()
+     * Method: retrieveAvatar()
      * desc: retrieve user avatar from realtime db and set into ImageView
      *
      * param:

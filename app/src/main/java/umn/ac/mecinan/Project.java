@@ -29,7 +29,6 @@ public class Project {
     public Project(){
 
     }
-
     /*public Project(String title, Date dateStart, Date dateDue, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status) {
 
         this.title = title;
@@ -47,7 +46,7 @@ public class Project {
         this.rating = 4;
 
     }
-*/
+    */
     public Project(String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating) {
 
         this.title = title;
@@ -62,6 +61,18 @@ public class Project {
 
     }
 
+
+    /**
+     * Method: Setter and Getter
+     * desc: Setter and Getter for Project
+     *
+     * List Method:
+     *      Set and Get Title
+     *      Set and Get ---
+     *      Set and Get ---
+     *      Set and Get ---
+     *      Etc..
+     */
     public String getTitle() {
         return title;
     }
@@ -158,5 +169,22 @@ public class Project {
         if (rating>=0 && rating<=5){
             this.rating = rating;
         }
+    }
+
+
+    /**
+     * Method: retrieveProfile()
+     * desc: retrieve user from realtime db and set into TextView
+     *
+     * param:
+     *      FirebaseUser curr_user
+     *      TextView username
+     *      TextView tagline
+     *      TextView email
+     *
+     * return void
+     */
+    public void retrieveProject() {
+
     }
 }

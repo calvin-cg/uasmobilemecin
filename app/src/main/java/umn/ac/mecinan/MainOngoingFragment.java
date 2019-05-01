@@ -148,13 +148,9 @@ public class MainOngoingFragment extends Fragment {
         /**
          * Retrieve Project
          */
-        retrieve_project();
-
-        /**
-         * Set to recycler view from listongoing
-         */
-        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
-        recyclerView.setAdapter(ongoingAdapter);
+        Project project = new Project();
+        project.retrieveProject();
+        //retrieve_project();
 
         return myFragmentView;
     }
@@ -227,9 +223,15 @@ public class MainOngoingFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // Failed to read value
+                Log.w(TAG, "Failed to read user value.", databaseError.toException());
             }
         });
 
+        /**
+         * Set to recycler view from listongoing
+         */
+        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
+        recyclerView.setAdapter(ongoingAdapter);
     }
 }
