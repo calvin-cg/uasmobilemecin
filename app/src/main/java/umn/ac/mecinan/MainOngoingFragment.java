@@ -1,6 +1,7 @@
 package umn.ac.mecinan;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainOngoingFragment extends Fragment {
@@ -21,7 +29,19 @@ public class MainOngoingFragment extends Fragment {
      */
     RecyclerView recyclerView;
     ProjectsViewAdapter ongoingAdapter;
-    List<Project> ongoingProjectList;
+    List<Project> listOngoing;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
+    private String title;
+    private Date dateStart, dateDue;
+    private String idEmployee, idClient;
+    private String idField, idCategory;
+    private String desc;
+    private int price;
+    private int status;
+    private Date dateEnd;
+    private float rating;
 
     public MainOngoingFragment() {
         // Required empty public constructor
@@ -38,7 +58,7 @@ public class MainOngoingFragment extends Fragment {
         /**
          * FRAGMENT ONGOING
          */
-        ongoingProjectList = new ArrayList<>();
+        listOngoing = new ArrayList<>();
         recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -47,7 +67,7 @@ public class MainOngoingFragment extends Fragment {
         Log.d("EZRA", "onCreateView MainMyProjectFragment: InputDatabase");
         Project temp1, temp2, temp3;
         temp1 = temp2 = temp3 = null;
-        try {
+        /*try {
             temp1 = new Project(
                     "Website Mecan.an",
                     simpleDateFormat.parse("2019-04-30"),
@@ -96,21 +116,100 @@ public class MainOngoingFragment extends Fragment {
             );
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        //MISALKAN: LOGIN as Ezra Abednego Hayvito, id 0001EZRA
-        String tempLoggedInUser = "0001EZRA";
-        if (temp1.getIdClient() == tempLoggedInUser){
-            ongoingProjectList.add(temp1);
-        }
-        if (temp2.getIdClient() == tempLoggedInUser){
-            ongoingProjectList.add(temp2);
-        }
-        if (temp3.getIdClient() == tempLoggedInUser){
-            ongoingProjectList.add(temp3);
-        }
 
-        ongoingAdapter = new ProjectsViewAdapter(getActivity(), ongoingProjectList, false);
+        //Write Data
+        /*title = "Website Mecan.an";
+        idEmployee = "0001EZRA";
+        idClient = "0002SPON";
+        idField = "IT";
+        idCategory = "Website";
+        desc = "Rancang bangun website technopreneurship";
+        price = 100000;
+        status = 3;
+        rating = 4;
+
+        Project project = new Project(
+                title,
+                idEmployee,
+                idClient,
+                idField,
+                idCategory,
+                desc,
+                price,
+                status,
+                rating
+        );
+
+        myRef = FirebaseDatabase.getInstance().getReference();
+        myRef.child("project").setValue(project);*/
+
+
+        //Retrieve data
+        //System.out.println(myRef.child("project").child("idEmployee"));
+        myRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference temp = myRef.child("project");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("debug", "datachange");
+                System.out.println(dataSnapshot.getChildren());
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot dataSnapshot1: children){
+                    Log.d("debug", "masukfor");
+                   // System.out.println(dataSnapshot1.getValue(Project.class));
+
+                    Project listProject = dataSnapshot1.getValue(Project.class);
+                    Log.d("debug", "getvalue");
+                    Project project = new Project();
+
+                    Log.d("debug", "getset");
+
+                    title = listProject.getTitle();
+                    /*dateStart = listProject.getDateStart();
+                    dateDue = listProject.getDateDue();
+                    dateEnd = listProject.getDateEnd();*/
+                    desc = listProject.getDesc();
+                    idCategory = listProject.getIdCategory();
+                    idEmployee = listProject.getIdEmployee();
+                    idClient = listProject.getIdClient();
+                    idField = listProject.getIdField();
+                    price = listProject.getPrice();
+                    rating = listProject.getRating();
+                    status = listProject.getStatus();
+
+                    project.setTitle(title);
+                    /*project.setDateStart(dateStart);
+                    project.setDateDue(dateDue);
+                    project.setDateEnd(dateEnd);*/
+                    project.setDesc(desc);
+                    project.setIdCategory(idCategory);
+                    project.setIdEmployee(idEmployee);
+                    project.setIdClient(idClient);
+                    project.setIdField(idField);
+                    project.setPrice(price);
+                    project.setRating(rating);
+                    project.setStatus(status);
+
+                    listOngoing.add(project);
+                }
+
+                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
+                recyclerView.setAdapter(ongoingAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
         recyclerView.setAdapter(ongoingAdapter);
 
         return myFragmentView;
