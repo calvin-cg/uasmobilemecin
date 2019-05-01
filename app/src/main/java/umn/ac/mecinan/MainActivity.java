@@ -19,6 +19,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
+
         Log.d("current_user", "curruser UID: " + currentUser.getUid());
         Log.d("current_user", "curruser photo: " + currentUser.getPhotoUrl());
 

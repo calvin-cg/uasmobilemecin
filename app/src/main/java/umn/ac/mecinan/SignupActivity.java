@@ -169,8 +169,7 @@ public class SignupActivity extends AppCompatActivity {
                         email,
                         tagline.get(idx)
                 );
-
-                mDatabase.child("user").child(username).setValue(user);
+                mDatabase.child("user").push().setValue(user);
 
             }
         });

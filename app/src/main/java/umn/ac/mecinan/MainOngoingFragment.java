@@ -31,7 +31,7 @@ public class MainOngoingFragment extends Fragment {
     ProjectsViewAdapter ongoingAdapter;
     List<Project> listOngoing;
     FirebaseDatabase database;
-    DatabaseReference myRef;
+    DatabaseReference myProjectRef;
 
     private String title;
     private Date dateStart, dateDue;
@@ -49,8 +49,7 @@ public class MainOngoingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d("EZRA", "onCreateView MainOngoingFragment");
         View myFragmentView = inflater.inflate(R.layout.fragment_main_ongoing, container, false);
@@ -146,11 +145,16 @@ public class MainOngoingFragment extends Fragment {
         myRef.child("project").setValue(project);*/
 
 
-        //Retrieve data
-        //System.out.println(myRef.child("project").child("idEmployee"));
-        myRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference temp = myRef.child("project");
-        myRef.addValueEventListener(new ValueEventListener() {
+        /**
+         * Retrieve Project
+         */
+        final String TAG = "retrieve_project";
+        database = FirebaseDatabase.getInstance();
+        myProjectRef = database.getReference("project");
+
+        Log.d(TAG, "start retrieve project");
+        Log.d(TAG, "ref: " + myProjectRef);
+        myProjectRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("debug", "datachange");
@@ -158,6 +162,7 @@ public class MainOngoingFragment extends Fragment {
 
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
                 for(DataSnapshot dataSnapshot1: children){
+
                     Log.d("debug", "masukfor");
                    // System.out.println(dataSnapshot1.getValue(Project.class));
 
