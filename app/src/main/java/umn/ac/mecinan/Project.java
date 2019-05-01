@@ -5,13 +5,13 @@ import java.util.Date;
 public class Project {
 
     private String title;
-    private Date dateStart, dateDue;
+    //private Date dateStart, dateDue;
     private String idEmployee, idClient;
     private String idField, idCategory;
     private String desc;
     private int price;
     private int status;
-    private Date dateEnd;
+    //private Date dateEnd;
     private float rating;
 
     /**
@@ -26,8 +26,11 @@ public class Project {
      *  4  = Confirmed
      * -4  = Unconfirmed
      */
+    public Project(){
 
-    public Project(String title, Date dateStart, Date dateDue, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status) {
+    }
+
+    /*public Project(String title, Date dateStart, Date dateDue, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status) {
 
         this.title = title;
         this.dateStart = dateStart;
@@ -44,6 +47,20 @@ public class Project {
         this.rating = 4;
 
     }
+*/
+    public Project(String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating) {
+
+        this.title = title;
+        this.idEmployee = idEmployee;
+        this.idClient = idClient;
+        this.idField = idField;
+        this.idCategory = idCategory;
+        this.desc = desc;
+        this.price = price;
+        this.status = status;
+        this.rating = rating;
+
+    }
 
     public String getTitle() {
         return title;
@@ -53,7 +70,7 @@ public class Project {
         this.title = title;
     }
 
-    public Date getDateStart() {
+   /* public Date getDateStart() {
         return dateStart;
     }
 
@@ -75,7 +92,7 @@ public class Project {
 
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
-    }
+    }*/
 
     public String getIdEmployee() {
         return idEmployee;

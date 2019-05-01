@@ -49,7 +49,7 @@ public class MainMyProjectFragment extends Fragment {
         Log.d("EZRA", "onCreateView MainMyProjectFragment: InputDatabase");
         Project temp1, temp2, temp3;
         temp1 = temp2 = temp3 = null;
-        try {
+        /*try {
             temp1 = new Project(
                     "Website Mecan.an",
                     simpleDateFormat.parse("2019-04-30"),
@@ -82,8 +82,8 @@ public class MainMyProjectFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        try {
+*/
+        /*try {
             temp3 = new Project(
                     "Invitation Sweet 17",
                     simpleDateFormat.parse("2019-04-30"),
@@ -98,9 +98,9 @@ public class MainMyProjectFragment extends Fragment {
             );
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        //MISALKAN: LOGIN as Ezra Abednego Hayvito, id 0001EZRA
+        /*//MISALKAN: LOGIN as Ezra Abednego Hayvito, id 0001EZRA
         String tempLoggedInUser = "0001EZRA";
         if (temp1.getIdClient() == tempLoggedInUser){
             ongoingProjectList.add(temp1);
@@ -110,7 +110,7 @@ public class MainMyProjectFragment extends Fragment {
         }
         if (temp3.getIdClient() == tempLoggedInUser){
             ongoingProjectList.add(temp3);
-        }
+        }*/
 
         ongoingAdapter = new ProjectsViewAdapter(getActivity(), ongoingProjectList, true);
         recyclerView.setAdapter(ongoingAdapter);
