@@ -1,6 +1,20 @@
 package umn.ac.mecinan;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Project {
 
@@ -13,6 +27,14 @@ public class Project {
     private int status;
     //private Date dateEnd;
     private float rating;
+
+
+    private final String TAG = "retrieve_project";
+    private ProjectsViewAdapter ongoingAdapter;
+    private List<Project> listOngoing;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myProjectRef = database.getReference("project");
+
 
     /**
      * STATUS
@@ -89,6 +111,7 @@ public class Project {
         this.dateStart = dateStart;
     }
 
+
     public Date getDateDue() {
         return dateDue;
     }
@@ -96,6 +119,7 @@ public class Project {
     public void setDateDue(Date dateDue) {
         this.dateDue = dateDue;
     }
+
 
     public Date getDateEnd() {
         return dateEnd;
@@ -105,6 +129,7 @@ public class Project {
         this.dateEnd = dateEnd;
     }*/
 
+
     public String getIdEmployee() {
         return idEmployee;
     }
@@ -112,6 +137,7 @@ public class Project {
     public void setIdEmployee(String idEmployee) {
         this.idEmployee = idEmployee;
     }
+
 
     public String getIdClient() {
         return idClient;
@@ -121,6 +147,7 @@ public class Project {
         this.idClient = idClient;
     }
 
+
     public String getIdField() {
         return idField;
     }
@@ -128,6 +155,7 @@ public class Project {
     public void setIdField(String idField) {
         this.idField = idField;
     }
+
 
     public String getIdCategory() {
         return idCategory;
@@ -137,6 +165,7 @@ public class Project {
         this.idCategory = idCategory;
     }
 
+
     public String getDesc() {
         return desc;
     }
@@ -144,6 +173,7 @@ public class Project {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
 
     public int getPrice() {
         return price;
@@ -153,6 +183,7 @@ public class Project {
         this.price = price;
     }
 
+
     public int getStatus() {
         return status;
     }
@@ -160,6 +191,7 @@ public class Project {
     public void setStatus(int status) {
         this.status = status;
     }
+
 
     public float getRating() {
         return rating;
@@ -173,18 +205,66 @@ public class Project {
 
 
     /**
-     * Method: retrieveProfile()
-     * desc: retrieve user from realtime db and set into TextView
+     * Method: retrieveProject()
+     * desc: retrieve project from realtime db and set into MainActivity
      *
      * param:
-     *      FirebaseUser curr_user
-     *      TextView username
-     *      TextView tagline
-     *      TextView email
+     *      Context context
+     *      RecyclerView recyclerview
      *
      * return void
      */
-    public void retrieveProject() {
+    public void retrieveProject(final Context context, final RecyclerView recyclerView) {
+        listOngoing = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
+        Log.d(TAG, "start retrieve project");
+        Log.d(TAG, "ref: " + myProjectRef);
+        myProjectRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Project listProject = ds.getValue(Project.class);
+                    Project project = new Project();
+
+                    title = listProject.getTitle();
+                    desc = listProject.getDesc();
+                    idCategory = listProject.getIdCategory();
+                    idEmployee = listProject.getIdEmployee();
+                    idClient = listProject.getIdClient();
+                    idField = listProject.getIdField();
+                    price = listProject.getPrice();
+                    rating = listProject.getRating();
+                    status = listProject.getStatus();
+
+                    project.setTitle(title);
+                    project.setDesc(desc);
+                    project.setIdCategory(idCategory);
+                    project.setIdEmployee(idEmployee);
+                    project.setIdClient(idClient);
+                    project.setIdField(idField);
+                    project.setPrice(price);
+                    project.setRating(rating);
+                    project.setStatus(status);
+
+                    listOngoing.add(project);
+                }
+
+                /**
+                 * Set to recycler view from listongoing
+                 */
+                ongoingAdapter = new ProjectsViewAdapter(context, listOngoing, false);
+                recyclerView.setAdapter(ongoingAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read user value.", databaseError.toException());
+            }
+
+        });
     }
 }
