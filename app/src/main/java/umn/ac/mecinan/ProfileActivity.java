@@ -33,12 +33,17 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    User user = new User();
+    final String TAG = "retrieve_profile";
 
     /**
      * DECLARATION - BOTTOM NAVIGATION
@@ -56,28 +61,61 @@ public class ProfileActivity extends AppCompatActivity {
          */
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser curr_user = auth.getCurrentUser();
-        User user = new User();
 
-        ImageView avatar = findViewById(R.id.imageView);
-        TextView username = findViewById(R.id.textView8);
-        TextView tagline = findViewById(R.id.textView9);
-        TextView email = findViewById(R.id.textView15);
-        TextView phoneNumber = findViewById(R.id.textView21);
+        /**Retrieve Profile**/
+        user.retrieveProfile(curr_user, new OnGetUserDataListener() {
+            @Override
+            public void onStart() {
 
-        user.retrieveProfile(curr_user, username, tagline, email);
-        Log.d("retrieve_profile", "user: " + user);
+            }
+
+            @Override
+            public void onSuccess(User user) {
+                TextView tvName = findViewById(R.id.tvName);
+                TextView tvTagline = findViewById(R.id.tvTagline);
+                TextView tvEmail = findViewById(R.id.tvEmail);
+                TextView tvUsername = findViewById(R.id.tvUsername);
+                TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
+
+                tvName.setText(user.getUsername());
+                tvTagline.setText(user.getTagline());
+                tvEmail.setText(user.getEmail());
+                tvUsername.setText(user.getUsername());
+                tvPhoneNumber.setText(user.getPhoneNumber());
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
+
+        /**Retrieve Avatar**/
         try{
-            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
+            user.retrieveAvatar(curr_user, new OnGetUserAvatarDataListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onSuccess(File file) {
+                    ImageView avatar = findViewById(R.id.imageView);
+
+                    Glide.with(getApplicationContext())
+                            .load(file)
+                            .into(avatar);
+                }
+
+                @Override
+                public void onFailed(DatabaseError databaseError) {
+
+                }
+            });
         } catch(IOException e) {
             e.printStackTrace();
         }
 
-//        user.retrieveProfile(curr_user, username, tagline, email, phoneNumber);
-//        try{
-//            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
-//        } catch(IOException e) {
-//            e.printStackTrace();
-//        }
         
         user.retrieveEmployer(new OnGetUserDataListener() {
             @Override

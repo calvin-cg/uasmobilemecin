@@ -96,7 +96,7 @@ public class User {
      *
      * return void
      */
-    public void retrieveProfile(final FirebaseUser curr_user, final TextView username, final TextView tagline, final TextView email) {
+    public void retrieveProfile(final FirebaseUser curr_user, final OnGetUserDataListener userListener) {
         final String TAG = "retrieve_profile";
 
         Log.d(TAG, "start method retrieve profile (in User.java)");
@@ -118,13 +118,10 @@ public class User {
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
                         user = ds.getValue(User.class);
+
+                        userListener.onSuccess(user);
                     }
                 }
-                Log.d(TAG, "user: " + user);
-
-                username.setText(user.getUsername());
-                tagline.setText(user.getTagline());
-                email.setText(user.getEmail());
             }
 
             @Override
@@ -149,7 +146,7 @@ public class User {
      *
      * return void
      */
-    public void retrieveAvatar(final Context context, FirebaseUser curr_user, final ImageView avatar) throws IOException {
+    public void retrieveAvatar(FirebaseUser curr_user, final OnGetUserAvatarDataListener userAvatarListener) throws IOException {
         final String TAG = "retrieve_avatar";
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -161,31 +158,45 @@ public class User {
 
         final File localFile = File.createTempFile("images", "jpg");
         mAvatarRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d(TAG, "snap: " + taskSnapshot);
-                        Glide.with(context)
-                                .load(localFile)
-                                .into(avatar);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(TAG, "snap: " + "Failed... Retrieving default avatar...");
+            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG, "snap: " + taskSnapshot);
 
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                FirebaseUser curr_user = auth.getCurrentUser();
-                try{
-                    retrieveDefaultAvatar(context, curr_user, avatar);
-                } catch(IOException e) {
-                    e.printStackTrace();
+                    userAvatarListener.onSuccess(localFile);
                 }
-            }
-        });
+            })
+
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d(TAG, "snap: " + "Failed... Retrieving default avatar...");
+
+                    try{
+                        retrieveDefaultAvatar(new OnGetUserAvatarDataListener() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                userAvatarListener.onSuccess(file);
+                            }
+
+                            @Override
+                            public void onFailed(DatabaseError databaseError) {
+
+                            }
+                        });
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
     }
 
-    public void retrieveDefaultAvatar(final Context context, FirebaseUser curr_user, final ImageView avatar) throws IOException {
+    public void retrieveDefaultAvatar(final OnGetUserAvatarDataListener userAvatarDataListener) throws IOException {
         final String TAG = "retrieve_avatar";
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -197,21 +208,21 @@ public class User {
 
         final File localFile = File.createTempFile("images", "jpg");
         mDefaultAvatarRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d(TAG, "snap: " + taskSnapshot);
-                        Glide.with(context)
-                                .load(localFile)
-                                .into(avatar);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(TAG, "snap: " + "Failed retrieving default avatar...");
+            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG, "snap: " + taskSnapshot);
 
-            }
-        });
+                    userAvatarDataListener.onSuccess(localFile);
+                }
+            })
+
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d(TAG, "snap: " + "Failed retrieving default avatar...");
+                }
+            });
     }
 
 
