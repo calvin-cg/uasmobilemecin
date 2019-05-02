@@ -208,12 +208,13 @@ public class Project {
      * desc: retrieve project from realtime db and set into MainActivity
      *
      * param:
+     *      OnGetProjectDataListener listener
      *      Context context
      *      RecyclerView recyclerview
      *
      * return void
      */
-    public void retrieveProject(final Context context, final RecyclerView recyclerView) {
+    public void retrieveProject(final Context context, final RecyclerView recyclerView, final OnGetProjectDataListener listener) {
         listOngoing = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -250,6 +251,8 @@ public class Project {
 
                     listOngoing.add(project);
                 }
+
+                listener.onSuccess(listOngoing);
 
                 /**
                  * Set to recycler view from listongoing

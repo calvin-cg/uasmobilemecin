@@ -34,6 +34,8 @@ public class User {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curr_user = auth.getCurrentUser();
     User user;
+    User employer;
+    User agent;
 
     public User(){
 
@@ -210,5 +212,58 @@ public class User {
 
             }
         });
+    }
+
+
+    /**
+     * Method: getEmployer()
+     * desc: retrieve user as a project employer
+     *
+     * param:
+     *      Context context
+     *      FirebaseUser curr_user
+     *      ImageView avatar
+     *
+     * return void
+     */
+    public void retrieveEmployer(final OnGetUserDataListener listener) {
+        final String TAG = "retrieve_employer";
+
+        Log.d(TAG, "start method retrieve employer (in User.java)");
+        Log.d(TAG, "ref: " + userRef);
+        userRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange");
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    //Log.d(TAG, "curr_user: " + curr_user.getEmail());
+                    //Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
+
+                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
+                        Log.d(TAG, "uid: " + ds.getKey());
+
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
+                        user = ds.getValue(User.class);;
+
+                        listener.onSuccess(user);
+                    }
+                }
+                Log.d(TAG, "user: " + user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read user value.", error.toException());
+            }
+        });
+
+        Log.d(TAG, "finish method retrieve employer");
     }
 }

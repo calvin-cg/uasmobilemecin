@@ -64,6 +64,13 @@ public class ProfileActivity extends AppCompatActivity {
         TextView email = findViewById(R.id.textView15);
         TextView phoneNumber = findViewById(R.id.textView21);
 
+        user.retrieveProfile(curr_user, username, tagline, email);
+        Log.d("retrieve_profile", "user: " + user);
+        try{
+            user.retrieveAvatar(getApplicationContext(), curr_user, avatar);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 
 //        user.retrieveProfile(curr_user, username, tagline, email, phoneNumber);
 //        try{
@@ -72,6 +79,24 @@ public class ProfileActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         
+        user.retrieveEmployer(new OnGetUserDataListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(User employer) {
+                Log.d("retrieve_employer", "on callback employer: " + employer.getEmail());
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
+
+
         /**
          * Button Logout
          */

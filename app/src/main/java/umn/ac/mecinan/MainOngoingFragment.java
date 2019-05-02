@@ -61,7 +61,22 @@ public class MainOngoingFragment extends Fragment {
         recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
 
         Project project = new Project();
-        project.retrieveProject(getActivity(), recyclerView);
+        project.retrieveProject(getActivity(), recyclerView, new OnGetProjectDataListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(List<Project> project) {
+                Log.d("retrieve_project", "callback retrieve project");
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
 
         return myFragmentView;
     }
