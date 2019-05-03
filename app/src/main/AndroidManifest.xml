@@ -11,22 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".FAQActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".InboxActivity" />
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".activity.EditProfileActivity"></activity>
+        <activity android:name=".activity.FAQActivity" />
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.InboxActivity" />
+        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.ForgotPassword" />
+        <activity android:name=".activity.SignupActivity" />
+        <activity android:name=".activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".IntroActivity">
+        <activity android:name=".activity.IntroActivity">
 
         </activity>
     </application>
