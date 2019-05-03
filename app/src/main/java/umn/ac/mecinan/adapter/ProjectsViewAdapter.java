@@ -3,6 +3,7 @@ package umn.ac.mecinan.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseError;
+
 import java.util.List;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.User;
 
@@ -20,17 +24,13 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     private Context mCtx;
     private List<Project> projectList;
-    private User user;
-    private boolean myRequest;
 
     private String tvStatus;
     private int tvProgressBar;
 
-    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, boolean myRequest){
+    public ProjectsViewAdapter(Context mCtx, List<Project> projectList){
         this.mCtx = mCtx;
         this.projectList = projectList;
-        //this.user = user;
-        this.myRequest = myRequest;
     }
 
     @NonNull
@@ -45,30 +45,22 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
         Project project = projectList.get(i);
-        User user = this.user;
 
-        //Set Project Brief Data
+        /** Set Project Brief Data */
         projectViewHolder.projectTitle.setText(project.getTitle());
         projectViewHolder.projectField.setText(project.getIdField()); // Perlu diganti biar muncul nama dari table lain
         projectViewHolder.projectCategory.setText(project.getIdCategory()); // Perlu diganti biar muncul nama dari table lain
 
-        //WorkRequest
-        if (!myRequest){
-            //Untuk Left Tab - Ongoing Projects
-            projectViewHolder.projectWorkRequest.setText("Requested by ");
-            projectViewHolder.projectWRUser.setText(project.getIdClient()); // Perlu diganti biar muncul nama dari table lain
-        } else {
-            //Untuk Right Tab - My Request
-            projectViewHolder.projectWorkRequest.setText("Worked by ");
-            projectViewHolder.projectWRUser.setText(project.getIdEmployee()); // Perlu diganti biar muncul nama dari table lain
-        }
+        /** WorkRequest */
+        projectViewHolder.projectWorkRequest.setText("Requested By ");
+        projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
 
-        //ProgressionBar
+        /** progressionBar */
         setProgression(project.getStatus());
         projectViewHolder.projectStatus.setText(tvStatus);
         projectViewHolder.projectProgressBar.setProgress(tvProgressBar);
 
-        //RatingBar
+        /** RatingBar */
         if (project.getStatus() == 4) //if project is completed
         {
             projectViewHolder.projectRating.setRating(project.getRating());

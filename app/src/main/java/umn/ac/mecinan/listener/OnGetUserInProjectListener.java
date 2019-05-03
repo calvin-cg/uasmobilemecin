@@ -5,8 +5,8 @@ import com.google.firebase.database.DatabaseError;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.User;
 
-public interface OnGetUserProjectRoleListener {
+public interface OnGetUserInProjectListener {
     void onStart();
-    void onSuccess(Project project, User user, boolean isWorker);
+    void onSuccess(Project project);
     void onFailed (DatabaseError databaseError);
 }

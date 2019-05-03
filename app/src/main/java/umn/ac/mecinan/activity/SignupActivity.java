@@ -164,7 +164,7 @@ public class SignupActivity extends AppCompatActivity {
                 tagline.add("The New Rising Sun");
 
                 Random r = new Random();
-                int idx = r.nextInt(5);
+                int idx = r.nextInt(5); //Random antara 0-4;
 
                 //store to db
                 User user = new User(

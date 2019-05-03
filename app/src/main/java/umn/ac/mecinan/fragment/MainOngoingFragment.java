@@ -8,13 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import umn.ac.mecinan.listener.OnGetUserInProjectListener;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
@@ -23,6 +27,12 @@ import umn.ac.mecinan.listener.OnGetProjectDataListener;
 import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 
 public class MainOngoingFragment extends Fragment {
+
+    /**
+     * DECLARATION - FIREBASE
+     */
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser curr_user = auth.getCurrentUser();
 
     /**
      * DECLARATION - DATABASE PROJECT
@@ -68,26 +78,56 @@ public class MainOngoingFragment extends Fragment {
 
             @Override
             public void onDataChange(Project project) {
-                User user = new User();
+                Log.d("user_in_project", "retrieving user in project");
+                User userInProject = new User();
 
-                listOngoing.add(project);
+                userInProject.retrieveUserInProject(project, new OnGetUserInProjectListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Project project) {
+                        String curr_user_email = curr_user.getEmail();
+                        User employee = project.getUserEmployee();
+                        User client = project.getUserClient();
+
+                        TextView tvEmpty;
+                        RecyclerView recyclerView;
+                        ProjectsViewAdapter ongoingAdapter = null;
+
+                        tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
+                        recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                        if(curr_user_email.equals(employee.getEmail()) || curr_user_email.equals(client.getEmail())) {
+                            tvEmpty.setVisibility(View.GONE);
+                            listOngoing.add(project);
+
+                            /**
+                             * Set to recycler view from listongoing
+                             */
+                            ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing);
+                            recyclerView.setAdapter(ongoingAdapter);
+                        }
+
+                        Log.d("isNullPVA", "isNull: " + ongoingAdapter);
+                        if(ongoingAdapter == null) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
             public void onSuccess() {
                 Log.d("retrieve_project", "callback retrieve project");
-
-                RecyclerView recyclerView;
-                ProjectsViewAdapter ongoingAdapter;
-
-                recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                /**
-                 * Set to recycler view from listongoing
-                 */
-                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, false);
-                recyclerView.setAdapter(ongoingAdapter);
             }
 
             @Override
@@ -95,37 +135,6 @@ public class MainOngoingFragment extends Fragment {
 
             }
         });
-
-        /*project.retrieveProject(new OnGetProjectDataListener() {
-            final String TAG = "retrieve_project";
-
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onSuccess(List<Project> listOngoing, User user) {
-                Log.d("retrieve_project", "callback retrieve project");
-
-                RecyclerView recyclerView;
-                ProjectsViewAdapter ongoingAdapter;
-
-                recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                *//**
-                 * Set to recycler view from listongoing
-                 *//*
-                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, user, false);
-                recyclerView.setAdapter(ongoingAdapter);
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-                Log.d(TAG, "dbError: " + databaseError);
-            }
-        });*/
 
         return myFragmentView;
     }

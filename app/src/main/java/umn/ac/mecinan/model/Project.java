@@ -128,6 +128,13 @@ public class Project {
     public void setIdEmployee(String idEmployee) {
         this.idEmployee = idEmployee;
     }
+    public User getUserEmployee() {
+        return userEmployee;
+    }
+    public void setUserEmployee(User employee) {
+        this.userEmployee = employee;
+    }
+
 
     public String getIdClient() {
         return idClient;
@@ -135,6 +142,13 @@ public class Project {
     public void setIdClient(String idClient) {
         this.idClient = idClient;
     }
+    public User getUserClient() {
+        return userClient;
+    }
+    public void setUserClient(User client) {
+        this.userClient = client;
+    }
+
 
 
     public String getIdField() {

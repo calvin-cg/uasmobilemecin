@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import umn.ac.mecinan.listener.OnGetUserAvatarDataListener;
 import umn.ac.mecinan.listener.OnGetUserDataListener;
+import umn.ac.mecinan.listener.OnGetUserInProjectListener;
 import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 
 public class User {
@@ -34,8 +35,6 @@ public class User {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curr_user = auth.getCurrentUser();
     User user;
-    User employer;
-    User agent;
 
     public User(){
 
@@ -46,6 +45,7 @@ public class User {
         this.tagline = tagline;
         this.phoneNumber = phoneNumber;
     }
+
 
     public String getUsername() {
         return username;
@@ -231,7 +231,7 @@ public class User {
 
 
     /**
-     * Method: retrieveClient()
+     * Method: retrieveUserProjectRole()
      * desc: retrieve user as a project client
      *
      * param:
@@ -240,7 +240,7 @@ public class User {
      *
      * return void
      */
-    public void retrieveUserProjectRole(Project project, final OnGetUserProjectRoleListener roleListener) {
+    public void retrieveUserProjectRole(final Project project, final OnGetUserProjectRoleListener roleListener) {
         final String TAG = "retrieve_project_role";
 
         Log.d(TAG, "start method retrieve project role (in User.java)");
@@ -251,29 +251,28 @@ public class User {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange");
 
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    //Log.d(TAG, "curr_user: " + curr_user.getEmail());
-                    //Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
-
+                    //Log.d(TAG, "idClient: " + project.getIdClient());
+                    //Log.d(TAG, "idWorker: " + project.getIdEmployee());
+                    //Log.d(TAG, "key: " + ds.getKey());
+                    Log.d(TAG, "curr_user: " + curr_user.getEmail());
                     if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
-                        Log.d(TAG, "uid: " + ds.getKey());
+                        user = ds.getValue(User.class);
 
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
-                        user = ds.getValue(User.class);;
-
-                        //roleListener.onSuccess(project);
+                        if(project.getIdClient().equals(ds.getKey())) {
+                            Log.d(TAG, "is Client");
+                            roleListener.onSuccess(project, user, false);
+                        } else if(project.getIdEmployee().equals(ds.getKey())) {
+                            Log.d(TAG, "is Worker");
+                            roleListener.onSuccess(project, user, false);
+                        }
                     }
                 }
-                Log.d(TAG, "user: " + user);
+                //Log.d(TAG, "user: " + user);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Log.w(TAG, "Failed to read user value.", error.toException());
 
                 roleListener.onFailed(error);
@@ -281,5 +280,44 @@ public class User {
         });
 
         Log.d(TAG, "finish method retrieve employer");
+    }
+
+    public void retrieveUserInProject(final Project project, final OnGetUserInProjectListener userInProjectListener) {
+        final String TAG = "user_in_project";
+
+        Log.d(TAG, "start method retrieve user in project (in User.java)");
+        Log.d(TAG, "ref: " + userRef);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int countJoin = 0;
+                //Log.d(TAG, "countJoinGlobal: " + countJoin);
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    if(project.getIdEmployee().equals(ds.getKey())) {
+                        Log.d(TAG, "key: " + ds.getKey());
+                        project.setUserEmployee(ds.getValue(User.class));
+                        countJoin++;
+                    }
+
+                    if(project.getIdClient().equals(ds.getKey())) {
+                        project.setUserClient(ds.getValue(User.class));
+                        countJoin++;
+                    }
+
+                    if(project.getIdEmployee().equals(ds.getKey()) || project.getIdClient().equals(ds.getKey())){
+                        if(countJoin >= 2) {
+                            Log.d(TAG, "curr_user: " + curr_user.getEmail());
+                            userInProjectListener.onSuccess(project);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                userInProjectListener.onFailed(databaseError);
+            }
+        });
     }
 }
