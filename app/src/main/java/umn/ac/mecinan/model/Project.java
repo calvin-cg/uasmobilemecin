@@ -214,13 +214,13 @@ public class Project {
     public void retrieveProject(final OnGetProjectDataListener projectListener) {
         final String TAG = "retrieve_project";
 
+        projectListener.onStart();
+
         Log.d(TAG, "start retrieve project");
         Log.d(TAG, "ref: " + myProjectRef);
         myProjectRef.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Project detailProject = ds.getValue(Project.class);
                     Project project = new Project();

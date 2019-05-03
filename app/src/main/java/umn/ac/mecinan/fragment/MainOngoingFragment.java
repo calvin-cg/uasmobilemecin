@@ -64,17 +64,20 @@ public class MainOngoingFragment extends Fragment {
 
 
         /**
-         * Retrieve Project
+         * Retrieve Ongoing Project
          */
         Project project = new Project();
         project.retrieveProject(new OnGetProjectDataListener() {
-            final String TAG = "retrieve_project";
+            final String TAG = "retrieve_ongoingProject";
             List<Project> listOngoing = new ArrayList<>();
             List<Boolean> listIsEmployee = new ArrayList<>();
 
             @Override
             public void onStart() {
+                TextView tvEmpty;
+                tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
 
+                tvEmpty.setText(getString(R.string.loading_ongoing_project));
             }
 
             @Override
@@ -83,48 +86,48 @@ public class MainOngoingFragment extends Fragment {
                 Log.d("user_in_project", "retrieving user in project");
                 User userInProject = new User();
 
+                /**
+                 * Joining Process--
+                 * Retrieve User who are on the project
+                 * (from idEmployee and idClient)
+                 */
                 userInProject.retrieveUserInProject(project, new OnGetUserInProjectListener() {
+                    ProjectsViewAdapter ongoingAdapter = null;
+                    TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
+                    RecyclerView recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
+
                     @Override
                     public void onStart() {
 
                     }
 
                     @Override
-                    public void onSuccess(Project project) {
+                    public void onDataChange(Project project) {
                         String curr_user_email = curr_user.getEmail();
                         User employee = project.getUserEmployee();
-                        User client = project.getUserClient();
 
-                        TextView tvEmpty;
-                        RecyclerView recyclerView;
-                        ProjectsViewAdapter ongoingAdapter = null;
-
-                        tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
-                        recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                        if(curr_user_email.equals(employee.getEmail()) || curr_user_email.equals(client.getEmail())) {
+                        if(curr_user_email.equals(employee.getEmail())) {
                             String TAG = "attaching_ongoing";
 
                             tvEmpty.setVisibility(View.GONE);
                             listOngoing.add(project);
-
-                            /**
-                             * Set to recycler view from listongoing
-                             */
-                            if(curr_user_email.equals(employee.getEmail())){
-                                listIsEmployee.add(true);
-                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
-                            } else {
-                                listIsEmployee.add(false);
-                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
-                            }
-
-                            recyclerView.setAdapter(ongoingAdapter);
                         }
+                    }
 
-                        Log.d("isNullPVA", "isNull: " + ongoingAdapter);
-                        if(ongoingAdapter == null) {
+                    @Override
+                    public void onSuccess() {
+                        /**
+                         * Set to recycler view from listongoing
+                         */
+                        listIsEmployee.add(true);
+                        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
+
+                        recyclerView.setAdapter(ongoingAdapter);
+
+                        if(ongoingAdapter.getItemCount() <= 0) {
+                            tvEmpty.setText(getString(R.string.empty_ongoing_project));
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
                     }
@@ -138,12 +141,12 @@ public class MainOngoingFragment extends Fragment {
 
             @Override
             public void onSuccess() {
-                Log.d("retrieve_project", "callback retrieve project");
+                Log.d(TAG, "callback success retrieve ongoing project");
             }
 
             @Override
             public void onFailed(DatabaseError databaseError) {
-
+                Log.d(TAG, "dbError: " + databaseError);
             }
         });
 

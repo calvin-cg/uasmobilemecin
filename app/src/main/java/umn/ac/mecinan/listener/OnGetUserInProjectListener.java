@@ -7,6 +7,7 @@ import umn.ac.mecinan.model.User;
 
 public interface OnGetUserInProjectListener {
     void onStart();
-    void onSuccess(Project project);
+    void onDataChange(Project project);
+    void onSuccess();
     void onFailed (DatabaseError databaseError);
 }

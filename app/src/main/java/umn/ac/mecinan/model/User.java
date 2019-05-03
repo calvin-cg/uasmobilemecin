@@ -282,6 +282,18 @@ public class User {
         Log.d(TAG, "finish method retrieve employer");
     }
 
+
+    /**
+     * Joining Process--
+     * Method: retrieveUserInProject()
+     * desc: retrieve users who are on the project
+     *
+     * param:
+     *      @Project project
+     *      @OnGetUserInProjectListener userInProjectListener
+     *
+     * return void
+     */
     public void retrieveUserInProject(final Project project, final OnGetUserInProjectListener userInProjectListener) {
         final String TAG = "user_in_project";
 
@@ -308,10 +320,12 @@ public class User {
                     if(project.getIdEmployee().equals(ds.getKey()) || project.getIdClient().equals(ds.getKey())){
                         if(countJoin >= 2) {
                             Log.d(TAG, "curr_user: " + curr_user.getEmail());
-                            userInProjectListener.onSuccess(project);
+                            userInProjectListener.onDataChange(project);
                         }
                     }
                 }
+
+                userInProjectListener.onSuccess();
             }
 
             @Override

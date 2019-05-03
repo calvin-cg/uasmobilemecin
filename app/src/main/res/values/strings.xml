@@ -47,7 +47,10 @@
     <string name="tv_main_fragmentPast_title">My Past Projects</string>
     <string name="ongoing_project">Ongoing Project</string>
     <string name="my_request">My Request</string>
+    <string name="loading_ongoing_project">Loading Ongoing Project</string>
+    <string name="loading_my_project">Loading My Project</string>
     <string name="empty_ongoing_project">Ongoing Project is Empty</string>
+    <string name="empty_my_project">My Project is Empty</string>
 
     <!-- SKILL FIELD AND CATEGORY -->
     <string-array name="field_view">
