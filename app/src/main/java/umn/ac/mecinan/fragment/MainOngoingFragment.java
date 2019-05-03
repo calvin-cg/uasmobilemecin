@@ -70,6 +70,7 @@ public class MainOngoingFragment extends Fragment {
         project.retrieveProject(new OnGetProjectDataListener() {
             final String TAG = "retrieve_project";
             List<Project> listOngoing = new ArrayList<>();
+            List<Boolean> listIsEmployee = new ArrayList<>();
 
             @Override
             public void onStart() {
@@ -78,6 +79,7 @@ public class MainOngoingFragment extends Fragment {
 
             @Override
             public void onDataChange(Project project) {
+                final String TAG = "user_in_project";
                 Log.d("user_in_project", "retrieving user in project");
                 User userInProject = new User();
 
@@ -102,13 +104,22 @@ public class MainOngoingFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                         if(curr_user_email.equals(employee.getEmail()) || curr_user_email.equals(client.getEmail())) {
+                            String TAG = "attaching_ongoing";
+
                             tvEmpty.setVisibility(View.GONE);
                             listOngoing.add(project);
 
                             /**
                              * Set to recycler view from listongoing
                              */
-                            ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing);
+                            if(curr_user_email.equals(employee.getEmail())){
+                                listIsEmployee.add(true);
+                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
+                            } else {
+                                listIsEmployee.add(false);
+                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
+                            }
+
                             recyclerView.setAdapter(ongoingAdapter);
                         }
 

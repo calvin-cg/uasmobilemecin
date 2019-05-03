@@ -65,8 +65,8 @@ public class Project {
         this.title = title;
         this.idEmployee = idEmployee;
         this.userEmployee = null;
-        this.userClient = null;
         this.idClient = idClient;
+        this.userClient = null;
         this.idField = idField;
         this.idCategory = idCategory;
         this.desc = desc;

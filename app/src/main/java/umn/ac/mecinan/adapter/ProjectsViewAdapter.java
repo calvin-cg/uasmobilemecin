@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseError;
 
+import java.sql.Array;
 import java.util.List;
 
 import umn.ac.mecinan.R;
@@ -24,11 +25,13 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     private Context mCtx;
     private List<Project> projectList;
+    private List<Boolean> isEmployeeList;
 
     private String tvStatus;
     private int tvProgressBar;
 
-    public ProjectsViewAdapter(Context mCtx, List<Project> projectList){
+    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList){
+        this.isEmployeeList = isEmployeeList;
         this.mCtx = mCtx;
         this.projectList = projectList;
     }
@@ -45,6 +48,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
         Project project = projectList.get(i);
+        Boolean isEmployee = isEmployeeList.get(i);
 
         /** Set Project Brief Data */
         projectViewHolder.projectTitle.setText(project.getTitle());
@@ -52,8 +56,14 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         projectViewHolder.projectCategory.setText(project.getIdCategory()); // Perlu diganti biar muncul nama dari table lain
 
         /** WorkRequest */
-        projectViewHolder.projectWorkRequest.setText("Requested By ");
-        projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
+        if(isEmployee) {
+            projectViewHolder.projectWorkRequest.setText("Requested By ");
+            projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
+        } else {
+            projectViewHolder.projectWorkRequest.setText("Worked By ");
+            projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
+        }
+
 
         /** progressionBar */
         setProgression(project.getStatus());
