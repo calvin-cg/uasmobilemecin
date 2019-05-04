@@ -12,6 +12,7 @@
     <string name="logout">Logout</string>
     <string name="email">Email</string>
     <string name="cancel">Cancel</string>
+    <string name="editprofile">Edit Profile</string>
 
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_browse">Browse</string>

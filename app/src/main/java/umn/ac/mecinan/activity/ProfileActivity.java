@@ -62,13 +62,11 @@ public class ProfileActivity extends AppCompatActivity {
                 TextView tvName = findViewById(R.id.tvName);
                 TextView tvTagline = findViewById(R.id.tvTagline);
                 TextView tvEmail = findViewById(R.id.tvEmail);
-                TextView tvUsername = findViewById(R.id.tvUsername);
                 TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
 
                 tvName.setText(user.getUsername());
                 tvTagline.setText(user.getTagline());
                 tvEmail.setText(user.getEmail());
-                tvUsername.setText(user.getUsername());
                 tvPhoneNumber.setText(user.getPhoneNumber());
             }
 
@@ -140,18 +138,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-//        /**
-//         * Button Edit Profile
-//         */
-//        Button btnEditProfile = findViewById(R.id.btn_editprofile);
-//        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        /**
+         * Button Edit Profile
+         */
+        Button btnEditProfile = findViewById(R.id.btn_editprofile);
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         /**

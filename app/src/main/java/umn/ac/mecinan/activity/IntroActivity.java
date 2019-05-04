@@ -107,8 +107,8 @@ public class IntroActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(64);
-            dots[i].setPadding(0, -50, 0, 0);
+            dots[i].setTextSize(48);
+            dots[i].setPadding(0, -80, 0, 0);
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
