@@ -93,6 +93,20 @@ public class ProfileActivity extends AppCompatActivity {
                 tvField.setText(user.getField());
                 tvCategory.setText(user.getCategory());
                 tvFee.setText(user.getFee());
+
+
+                if(user.getDesc() == null) {
+                    tvDesc.setVisibility(View.GONE);
+                }
+                if(user.getField() == null) {
+                    tvField.setVisibility(View.GONE);
+                }
+                if(user.getCategory() == null) {
+                    tvCategory.setVisibility(View.GONE);
+                }
+                if(user.getFee() == null) {
+                    tvFee.setVisibility(View.GONE);
+                }
             }
 
             @Override
