@@ -58,10 +58,10 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         /** WorkRequest */
         if(isEmployee) {
             projectViewHolder.projectWorkRequest.setText("Requested By ");
-            projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
+            //projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
         } else {
             projectViewHolder.projectWorkRequest.setText("Worked By ");
-            projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
+            //projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
         }
 
 
@@ -125,7 +125,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvProgressBar = 40;
                 break;
             case -3:
-                tvStatus = "Project On Progress";
+                tvStatus = "Project Not Finished";
                 tvProgressBar = 50;
                 break;
             case  3:

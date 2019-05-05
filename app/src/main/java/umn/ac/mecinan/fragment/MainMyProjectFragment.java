@@ -110,12 +110,15 @@ public class MainMyProjectFragment extends Fragment {
                         User client = project.getUserClient();
 
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+                        Log.d(TAG, client.getEmail());
                         if(curr_user_email.equals(client.getEmail())) {
                             String TAG = "attaching_ongoing";
 
                             tvEmpty.setVisibility(View.GONE);
-                            listMyProject.add(project);
+                            if(project.getStatus() == 1 || project.getStatus() == 3) {
+                                Log.d("Title Status 1 & 3 :", project.getTitle());
+                                listMyProject.add(project);
+                            }
                         }
 
                         /*

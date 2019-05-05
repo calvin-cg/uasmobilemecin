@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import umn.ac.mecinan.adapter.MainProjectsPageAdapter;
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +48,30 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
+
+
+/*        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference ref = db.getReference("project");
+        String key = ref.push().getKey();
+
+        Project project = new Project(
+            key,
+            "Project w/ Status 4 (client confirm)",
+            "C35GovM3FAcHq1M0j9LesmeWinz1",
+            "lmUOraYXRRYuqWzAJrjrU4DCEr63",
+            "IT",
+            "Website",
+            "Project dengan status 4 (for employee)",
+            5000,
+            0,
+            5
+        );
+
+        Log.d("manual_input", "id: " + project.getIdProject());
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, project);
+        ref.updateChildren(childUpdates);*/
+
 
         Log.d("current_user", "curruser UID: " + currentUser.getUid());
         Log.d("current_user", "curruser photo: " + currentUser.getPhotoUrl());

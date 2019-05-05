@@ -32,7 +32,7 @@ public class Project {
      *  2  = Paid
      * -2  = Not Paid
      *  3  = Finished
-     * -3  = Ongoing
+     * -3  = Not Finished
      *  4  = Confirmed
      * -4  = Unconfirmed
      */

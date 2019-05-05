@@ -19,6 +19,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import umn.ac.mecinan.listener.OnGetUserAvatarDataListener;
 import umn.ac.mecinan.listener.OnGetUserDataListener;
@@ -28,6 +30,8 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 public class User {
 
     private String username, email, tagline, phoneNumber, desc, field, category, fee;
+    public Map<String, Boolean> stars = new HashMap<>();
+
 
     public User(){
 
@@ -47,6 +51,19 @@ public class User {
         this.field = field;
         this.category = category;
         this.fee = fee;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("email", email);
+        result.put("username", username);
+        result.put("desc", desc);
+        result.put("phoneNumber", phoneNumber);
+        result.put("field", field);
+        result.put("category", category);
+        result.put("fee", fee);
+
+        return result;
     }
 
     public String getDesc() {
