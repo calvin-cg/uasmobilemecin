@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.listener.OnGetUserAvatarDataListener;
 import umn.ac.mecinan.listener.OnGetUserDataListener;
 import umn.ac.mecinan.listener.OnGetUserInProjectListener;
@@ -28,6 +29,7 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 public class User {
 
     private String username, email, tagline, phoneNumber;
+    private Boolean isEmployee;
 
     public User(){
 
@@ -37,42 +39,43 @@ public class User {
         this.email = email;
         this.tagline = tagline;
         this.phoneNumber = phoneNumber;
+        this.isEmployee = false;
     }
 
 
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-
     public String getTagline() {
         return tagline;
     }
-
     public void setTagline(String tagline) {
         this.tagline = tagline;
     }
 
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getIsEmployee() {
+        return isEmployee;
+    }
+    public void setIsEmployee(Boolean isEmployee) {
+        this.isEmployee = isEmployee;
     }
 
 
@@ -280,5 +283,56 @@ public class User {
                 userInProjectListener.onFailed(databaseError);
             }
         });
+    }
+
+
+    /**
+     * Joining Process--
+     * Method: retrieveEmployee()
+     * desc: retrieve employee to appear in browse
+     *
+     * param:
+     *      @Project project
+     *      @OnGetUserInProjectListener userInProjectListener
+     *
+     * return void
+     */
+    public void retrieveEmployee(final OnGetEmployeeListener employeeListener) {
+        final String TAG = "retrieve_employee";
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("user");
+
+        employeeListener.onStart();
+
+        Log.d(TAG, "start method retrieve profile (in User.java)");
+        Log.d(TAG, "ref: " + userRef);
+        userRef.addValueEventListener(new ValueEventListener() {
+            User user;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange");
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    user = ds.getValue(User.class);
+                    employeeListener.onDataChange(user);
+                }
+
+                employeeListener.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read user value.", error.toException());
+
+                employeeListener.onFailed(error);
+            }
+        });
+
+        Log.d(TAG, "finish method retrieve employee");
     }
 }

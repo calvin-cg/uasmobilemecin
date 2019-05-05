@@ -1,10 +1,14 @@
 package umn.ac.mecinan.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,6 +26,19 @@ public class FAQActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
+
+        /**
+         * Logout Broadcast Receiver
+         */
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("umn.ac.mecinan.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                finish();
+            }
+        }, intentFilter);
 
         /**
          * BOTTOM NAVIGATION

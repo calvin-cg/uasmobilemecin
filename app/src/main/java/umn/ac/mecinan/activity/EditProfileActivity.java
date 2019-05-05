@@ -1,6 +1,9 @@
 package umn.ac.mecinan.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,6 +42,19 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        /**
+         * Logout Broadcast Receiver
+         */
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("umn.ac.mecinan.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                finish();
+            }
+        }, intentFilter);
 
         Spinner spinnerField = findViewById(R.id.spinnerField);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.field_select, android.R.layout.simple_spinner_item);

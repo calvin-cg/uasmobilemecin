@@ -1,6 +1,9 @@
 package umn.ac.mecinan.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +44,19 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        /**
+         * Logout Broadcast Receiver
+         */
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("umn.ac.mecinan.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                finish();
+            }
+        }, intentFilter);
 
         /**
          * Retrieving Profile Data from Firebase Storage
@@ -102,25 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        /*
-        user.retrieveClient(new OnGetUserDataListener() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onSuccess(User employer) {
-                Log.d("retrieve_employer", "on callback employer: " + employer.getEmail());
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-
-            }
-        });
-        */
-
 
         /**
          * Button Logout
@@ -129,11 +126,15 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent logoutIntent = new Intent();
+                logoutIntent.setAction("umn.ac.mecinan.ACTION_LOGOUT");
+                sendBroadcast(logoutIntent);
+
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                startActivity(intent);
                 finish();
+                startActivity(intent);
             }
         });
 
@@ -147,7 +148,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

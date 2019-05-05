@@ -1,7 +1,9 @@
 package umn.ac.mecinan.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,19 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * Logout Broadcast Receiver
+         */
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("umn.ac.mecinan.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                finish();
+            }
+        }, intentFilter);
 
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
@@ -123,8 +139,8 @@ public class IntroActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(IntroActivity.this, LoginActivity.class));
         finish();
+        startActivity(new Intent(IntroActivity.this, LoginActivity.class));
     }
 
     //  viewpager change listener

@@ -109,21 +109,12 @@ public class MainMyProjectFragment extends Fragment {
                         String curr_user_email = curr_user.getEmail();
                         User client = project.getUserClient();
 
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
                         if(curr_user_email.equals(client.getEmail())) {
                             String TAG = "attaching_ongoing";
 
                             tvEmpty.setVisibility(View.GONE);
                             listMyProject.add(project);
                         }
-
-                        /*
-                        Log.d("isNullPVA_my", "isNull: " + myProjectAdapter);
-                        if(myProjectAdapter == null) {
-                            tvEmpty.setVisibility(View.VISIBLE);
-                        }
-                        */
                     }
 
                     @Override
@@ -131,6 +122,8 @@ public class MainMyProjectFragment extends Fragment {
                         /**
                          * Set to recycler view from listongoing
                          */
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
                         listIsEmployee.add(false);
                         myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProject, listIsEmployee);
 
@@ -144,7 +137,7 @@ public class MainMyProjectFragment extends Fragment {
 
                     @Override
                     public void onFailed(DatabaseError databaseError) {
-
+                        Log.d(TAG, "dbError: " + databaseError);
                     }
                 });
             }

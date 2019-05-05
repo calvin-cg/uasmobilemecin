@@ -53,6 +53,10 @@
     <string name="empty_ongoing_project">Ongoing Project is Empty</string>
     <string name="empty_my_project">My Project is Empty</string>
 
+    <!-- INTRO ACTIVITY -->
+    <string name="empty_employee">There is no employee available</string>
+    <string name="loading_employee">Loading List Employee</string>
+
     <!-- SKILL FIELD AND CATEGORY -->
     <string-array name="field_view">
         <item>Information &amp; Technology</item>

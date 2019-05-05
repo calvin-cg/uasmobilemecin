@@ -1,12 +1,16 @@
 package umn.ac.mecinan.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +20,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseError;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.adapter.EmployeeAdapter;
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.adapter.ProjectsViewAdapter;
+import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.model.User;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -32,13 +40,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     private TextView testestes;
 
     /**
-     * DECLARATION - DATABASE EMPLOYEE
-     */
-    RecyclerView recyclerView;
-    EmployeeAdapter employeeAdapter;
-    List<User> employeeList;
-
-    /**
      * DECLARATION - BOTTOM NAVIGATION
      */
     BottomNavigationView bottomNavigationView;
@@ -47,6 +48,19 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        /**
+         * Logout Broadcast Receiver
+         */
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("umn.ac.mecinan.ACTION_LOGOUT");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                finish();
+            }
+        }, intentFilter);
 
         /**
          * DECLARATION - SPINNER FIELD
@@ -61,39 +75,45 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         /**
          * RECYCLER VIEW - EMPLOYEE
          */
-        employeeList = new ArrayList<>();
-        recyclerView = findViewById(R.id.employeeRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        User employee = new User();
+        employee.retrieveEmployee(new OnGetEmployeeListener() {
+            final String TAG = "retrieve_employee";
+            List<User> listEmployee = new ArrayList<>();
 
-        employeeList.add(
-                new User(
-                        "abed",
-                        "abed@abed.com",
-                        "abed is my name",
-                        "081806542abed"
-                )
-        );
+            TextView tvEmpty = findViewById(R.id.tvEmptyEmployee);
+            RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
+            EmployeeAdapter employeeAdapter;
 
-        employeeList.add(
-                new User(
-                        "nego",
-                        "nego@nego.com",
-                        "nego is my name",
-                        "08180654nego"
-                )
-        );
+            @Override
+            public void onStart() {
+                tvEmpty.setText(getString(R.string.loading_employee));
+            }
 
-        employeeList.add(
-                new User(
-                        "vito",
-                        "vito@vito.com",
-                        "vito is my name",
-                        "08180654vito"
-                )
-        );
+            @Override
+            public void onDataChange(User user) {
+                listEmployee.add(user);
+                tvEmpty.setVisibility(View.GONE);
+            }
 
-        employeeAdapter = new EmployeeAdapter(this, employeeList);
-        recyclerView.setAdapter(employeeAdapter);
+            @Override
+            public void onSuccess() {
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                recyclerView.setAdapter(employeeAdapter);
+
+                if(employeeAdapter.getItemCount() <= 0) {
+                    tvEmpty.setText(getString(R.string.empty_employee));
+                    tvEmpty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+                Log.d(TAG, "dbError: " + databaseError);
+            }
+        });
+
 
         /**
          * BOTTOM NAVIGATION
