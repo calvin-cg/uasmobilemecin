@@ -178,27 +178,28 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 }
 
                 if(!isEmpty){
+                    String email = users.getEmail();
+                    String field = string_field;
+                    String category = string_category;
+
+                    User user = new User(
+                            email,
+                            username,
+                            desc,
+                            phone,
+                            field,
+                            category,
+                            fee
+                    );
+                    userRef.child(users.getUid()).setValue(user);
+
                     startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
                     finish();
                 }
 
-                String field = string_field;
-                String category = string_category;
+
                 Log.d(TAG, "field: " + string_field);
                 Log.d(TAG, "category: " + string_category);
-
-                String email = users.getEmail();
-
-                User user = new User(
-                        email,
-                        username,
-                        desc,
-                        phone,
-                        field,
-                        category,
-                        fee
-                );
-                userRef.child(users.getUid()).setValue(user);
 
             }
         });
