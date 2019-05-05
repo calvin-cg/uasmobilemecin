@@ -28,7 +28,7 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 
 public class User {
 
-    private String username, email, tagline, phoneNumber;
+    private String username, email, tagline, phoneNumber, desc, field, category, fee;
     private Boolean isEmployee;
 
     public User(){
@@ -42,6 +42,47 @@ public class User {
         this.isEmployee = false;
     }
 
+    public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee) {
+        this.email = email;
+        this.username = username;
+        this.desc = desc;
+        this.phoneNumber = phoneNumber;
+        this.field = field;
+        this.category = category;
+        this.fee = fee;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
 
     public String getUsername() {
         return username;

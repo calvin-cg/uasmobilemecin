@@ -76,14 +76,23 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User user) {
                 TextView tvName = findViewById(R.id.tvName);
-                TextView tvTagline = findViewById(R.id.tvTagline);
+                //TextView tvTagline = findViewById(R.id.tvTagline);
                 TextView tvEmail = findViewById(R.id.tvEmail);
                 TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
+                TextView tvDesc = findViewById(R.id.tvDesc);
+                TextView tvField = findViewById(R.id.tvField);
+                TextView tvCategory = findViewById(R.id.tvCategory);
+                TextView tvFee = findViewById(R.id.tvFee);
+
 
                 tvName.setText(user.getUsername());
-                tvTagline.setText(user.getTagline());
+                //tvTagline.setText(user.getTagline());
                 tvEmail.setText(user.getEmail());
                 tvPhoneNumber.setText(user.getPhoneNumber());
+                tvDesc.setText(user.getDesc());
+                tvField.setText(user.getField());
+                tvCategory.setText(user.getCategory());
+                tvFee.setText(user.getFee());
             }
 
             @Override
