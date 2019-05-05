@@ -16,12 +16,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.User;
 
 public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     final String TAG = "edit_profile";
@@ -52,12 +56,61 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         spinnerCategory.setAdapter(adapter1);
         spinnerCategory.setOnItemSelectedListener(this);
 
+        final String TAG = "edit_profile";
+
+        final FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (users == null) {
+            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            String FirebaseUsername = users.getUid();
+            String FirebaseEmail = users.getEmail();
+
+
+            Log.d(TAG, "firebase: " + FirebaseUsername);
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference userRef = database.getReference("user");
+
+        /** Get User Data **/
+        userRef.addValueEventListener(new ValueEventListener() {
+            User dataUser;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange");
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
+                        Log.d(TAG, "ds: " + ds.getValue(User.class).getPhoneNumber());
+                        dataUser = ds.getValue(User.class);
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read user value.", error.toException());
+            }
+        });
+
         Button btnEdit = findViewById(R.id.btn_edit);
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             TextView tv_ef_username = findViewById(R.id.ef_username);
             TextView tv_ef_desc = findViewById(R.id.ef_desc);
             TextView tv_ef_fee = findViewById(R.id.ef_fee);
+            TextView tv_ef_phone = findViewById(R.id.ef_phone);
 
             @Override
             public void onClick(View v) {
@@ -65,10 +118,12 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 EditText inputusername = findViewById(R.id.editText_ef_username);
                 EditText inputdesc = findViewById(R.id.editText_ef_decs);
                 EditText inputfee = findViewById(R.id.editText_ef_fee);
+                EditText inputphone = findViewById(R.id.editText_ef_phone);
 
                 String username = inputusername.getText().toString().trim();
                 String desc = inputdesc.getText().toString().trim();
                 String fee = inputfee.getText().toString().trim();
+                String phone = inputphone.getText().toString().trim();
 
                 /** Username Edit Field Validation **/
                 if(TextUtils.isEmpty(username)) {
@@ -86,6 +141,14 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     tv_ef_desc.setTextColor(getResources().getColor(R.color.black));
                 }
 
+                /** Phone Edit Field Validation **/
+                if(TextUtils.isEmpty(fee)) {
+                    tv_ef_phone.setTextColor(getResources().getColor(R.color.brink_pink));
+                    isEmpty = true;
+                } else {
+                    tv_ef_phone.setTextColor(getResources().getColor(R.color.black));
+                }
+
                 /** Fee Edit Field Validation **/
                 if(TextUtils.isEmpty(fee)) {
                     tv_ef_fee.setTextColor(getResources().getColor(R.color.brink_pink));
@@ -98,21 +161,31 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     Toast.makeText(getApplicationContext(), "Fill the required field", Toast.LENGTH_SHORT).show();
                 }
 
+                if(!isEmpty){
+                    startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
+                    finish();
+                }
+
+                String field = string_field;
+                String category = string_category;
                 Log.d(TAG, "field: " + string_field);
                 Log.d(TAG, "category: " + string_category);
+
+                String email = users.getEmail();
+
+                User user = new User(
+                        email,
+                        username,
+                        desc,
+                        phone,
+                        field,
+                        category,
+                        fee
+                );
+                userRef.child(users.getUid()).setValue(user);
+
             }
         });
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user == null) {
-            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            String FirebaseUsername = user.getUid();
-            String FirebaseEmail = user.getEmail();
-        }
 
     }
 
@@ -132,4 +205,6 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> parent) {
         Log.d(TAG, "nothing selected");
     }
+
+
 }
