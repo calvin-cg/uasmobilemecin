@@ -24,9 +24,6 @@ public class Project {
     //private Date dateEnd;
     private float rating;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myProjectRef = database.getReference("project");
-
     /**
      * STATUS
      *  0  = Waiting for Response
@@ -213,6 +210,9 @@ public class Project {
      */
     public void retrieveProject(final OnGetProjectDataListener projectListener) {
         final String TAG = "retrieve_project";
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myProjectRef = database.getReference("project");
 
         projectListener.onStart();
 

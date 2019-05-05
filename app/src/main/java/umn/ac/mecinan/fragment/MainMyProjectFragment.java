@@ -94,7 +94,7 @@ public class MainMyProjectFragment extends Fragment {
                  * Retrieve User who are on the project
                  * (from idEmployee and idClient)
                  */
-                userInProject.retrieveUserInProject(project, new OnGetUserInProjectListener() {
+                userInProject.retrieveUserInProject(curr_user, project, new OnGetUserInProjectListener() {
                     ProjectsViewAdapter myProjectAdapter = null;
                     TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
                     RecyclerView recyclerView = myFragmentView.findViewById(R.id.myprojectRecyclerView);

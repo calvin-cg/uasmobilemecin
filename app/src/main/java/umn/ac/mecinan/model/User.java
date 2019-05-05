@@ -18,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import umn.ac.mecinan.listener.OnGetUserAvatarDataListener;
 import umn.ac.mecinan.listener.OnGetUserDataListener;
@@ -27,14 +28,6 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 public class User {
 
     private String username, email, tagline, phoneNumber;
-
-    final String TAG = "retrieve_profile";
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference userRef = database.getReference("user");
-
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser curr_user = auth.getCurrentUser();
-    User user;
 
     public User(){
 
@@ -97,9 +90,13 @@ public class User {
     public void retrieveProfile(final FirebaseUser curr_user, final OnGetUserDataListener userListener) {
         final String TAG = "retrieve_profile";
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("user");
+
         Log.d(TAG, "start method retrieve profile (in User.java)");
         Log.d(TAG, "ref: " + userRef);
         userRef.addValueEventListener(new ValueEventListener() {
+            User user;
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -111,7 +108,7 @@ public class User {
                     //Log.d(TAG, "curr_user: " + curr_user.getEmail());
                     //Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
 
-                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
+                    if(curr_user.getUid().equals(ds.getKey())) {
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
@@ -231,59 +228,6 @@ public class User {
 
 
     /**
-     * Method: retrieveUserProjectRole()
-     * desc: retrieve user as a project client
-     *
-     * param:
-     *      @String idClient
-     *      @OnGetUserDataListener clientListener
-     *
-     * return void
-     */
-    public void retrieveUserProjectRole(final Project project, final OnGetUserProjectRoleListener roleListener) {
-        final String TAG = "retrieve_project_role";
-
-        Log.d(TAG, "start method retrieve project role (in User.java)");
-        Log.d(TAG, "ref: " + userRef);
-        userRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange");
-
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    //Log.d(TAG, "idClient: " + project.getIdClient());
-                    //Log.d(TAG, "idWorker: " + project.getIdEmployee());
-                    //Log.d(TAG, "key: " + ds.getKey());
-                    Log.d(TAG, "curr_user: " + curr_user.getEmail());
-                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
-                        user = ds.getValue(User.class);
-
-                        if(project.getIdClient().equals(ds.getKey())) {
-                            Log.d(TAG, "is Client");
-                            roleListener.onSuccess(project, user, false);
-                        } else if(project.getIdEmployee().equals(ds.getKey())) {
-                            Log.d(TAG, "is Worker");
-                            roleListener.onSuccess(project, user, false);
-                        }
-                    }
-                }
-                //Log.d(TAG, "user: " + user);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w(TAG, "Failed to read user value.", error.toException());
-
-                roleListener.onFailed(error);
-            }
-        });
-
-        Log.d(TAG, "finish method retrieve employer");
-    }
-
-
-    /**
      * Joining Process--
      * Method: retrieveUserInProject()
      * desc: retrieve users who are on the project
@@ -294,8 +238,11 @@ public class User {
      *
      * return void
      */
-    public void retrieveUserInProject(final Project project, final OnGetUserInProjectListener userInProjectListener) {
+    public void retrieveUserInProject(final FirebaseUser curr_user, final Project project, final OnGetUserInProjectListener userInProjectListener) {
         final String TAG = "user_in_project";
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("user");
 
         Log.d(TAG, "start method retrieve user in project (in User.java)");
         Log.d(TAG, "ref: " + userRef);

@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignup, btnLogin, btnReset;
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        Log.d("debug_login", "userloginFirst: " + auth.getCurrentUser());
-        //Log.d("User", "curr_user: " + auth.getCurrentUser().getEmail());
+        user = auth.getCurrentUser();
 
-        if (auth.getCurrentUser() != null) {
+        if (user != null && user.isEmailVerified()) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,9 +24,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import umn.ac.mecinan.R;
 
 public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private FirebaseAuth auth;
-    private FirebaseFirestore db;
-    private DatabaseReference mDatabase;
+    final String TAG = "edit_profile";
+
+    private String string_field;
+    private String string_category;
+
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseUser curr_user = auth.getCurrentUser();
+
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference userRef = db.getReference("user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +52,56 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         spinnerCategory.setAdapter(adapter1);
         spinnerCategory.setOnItemSelectedListener(this);
 
-        auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Button btnEdit = findViewById(R.id.btn_edit);
 
-        EditText inputusername = findViewById(R.id.editText_ef_username);
-        EditText inputdesc = findViewById(R.id.editText_ef_decs);
-        EditText inputfee = findViewById(R.id.editText_ef_fee);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            TextView tv_ef_username = findViewById(R.id.ef_username);
+            TextView tv_ef_desc = findViewById(R.id.ef_desc);
+            TextView tv_ef_fee = findViewById(R.id.ef_fee);
 
-        String username = inputusername.getText().toString().trim();
-        String desc = inputdesc.getText().toString().trim();
-        String fee = inputfee.getText().toString().trim();
+            @Override
+            public void onClick(View v) {
+                Boolean isEmpty = false;
+                EditText inputusername = findViewById(R.id.editText_ef_username);
+                EditText inputdesc = findViewById(R.id.editText_ef_decs);
+                EditText inputfee = findViewById(R.id.editText_ef_fee);
 
-        if(TextUtils.isEmpty(username) && TextUtils.isEmpty(desc) && TextUtils.isEmpty(fee)){
-            Toast.makeText(getApplicationContext(), "Enter Username, Describe, and Fee!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                String username = inputusername.getText().toString().trim();
+                String desc = inputdesc.getText().toString().trim();
+                String fee = inputfee.getText().toString().trim();
+
+                /** Username Edit Field Validation **/
+                if(TextUtils.isEmpty(username)) {
+                    tv_ef_username.setTextColor(getResources().getColor(R.color.brink_pink));
+                    isEmpty = true;
+                } else {
+                    tv_ef_username.setTextColor(getResources().getColor(R.color.black));
+                }
+
+                /** Describe Edit Field Validation **/
+                if(TextUtils.isEmpty(desc)) {
+                    tv_ef_desc.setTextColor(getResources().getColor(R.color.brink_pink));
+                    isEmpty = true;
+                } else {
+                    tv_ef_desc.setTextColor(getResources().getColor(R.color.black));
+                }
+
+                /** Fee Edit Field Validation **/
+                if(TextUtils.isEmpty(fee)) {
+                    tv_ef_fee.setTextColor(getResources().getColor(R.color.brink_pink));
+                    isEmpty = true;
+                } else {
+                    tv_ef_fee.setTextColor(getResources().getColor(R.color.black));
+                }
+
+                if(isEmpty) {
+                    Toast.makeText(getApplicationContext(), "Fill the required field", Toast.LENGTH_SHORT).show();
+                }
+
+                Log.d(TAG, "field: " + string_field);
+                Log.d(TAG, "category: " + string_category);
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -67,21 +112,24 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         } else {
             String FirebaseUsername = user.getUid();
             String FirebaseEmail = user.getEmail();
-
-
         }
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        if(parent.getId() == R.id.spinnerField) {
+            string_field = parent.getItemAtPosition(position).toString();
+        }
+
+        if(parent.getId() == R.id.spinnerCategory) {
+            string_category = parent.getItemAtPosition(position).toString();
+        }
     }
 
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        Log.d(TAG, "nothing selected");
     }
 }

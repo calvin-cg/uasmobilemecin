@@ -18,7 +18,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,7 +35,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword, inputUsername, inputPhone;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private FirebaseAuth auth;
-    private FirebaseFirestore db;
     private DatabaseReference mDatabase;
 
     //private static final String TAG = "SigunUp";
@@ -49,8 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("user");
 
         btnSignIn = (Button) findViewById(R.id.btn_signup_login);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
@@ -70,10 +67,10 @@ public class SignupActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = inputUsername.getText().toString().trim();
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String phoneNumber = inputPhone.getText().toString().trim();
+                final String username = inputUsername.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
+                final String password = inputPassword.getText().toString().trim();
+                final String phoneNumber = inputPhone.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(username) && TextUtils.isEmpty(phoneNumber)){
                     Toast.makeText(getApplicationContext(), "Enter Email address, PhoneNumber, Password, and Username!", Toast.LENGTH_SHORT).show();
@@ -131,11 +128,30 @@ public class SignupActivity extends AppCompatActivity {
                                 Toast.makeText(SignupActivity.this, "Sign Up Success!", Toast.LENGTH_SHORT).show();
 
                                 //email verify
-                                final FirebaseUser user = auth.getCurrentUser();
+                                final FirebaseUser curr_user = auth.getCurrentUser();
 
-                                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                curr_user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+                                        List<String> tagline = new ArrayList<>();
+                                        tagline.add("The New Rising Star");
+                                        tagline.add("The Old Rising Star");
+                                        tagline.add("The New Rising Moon");
+                                        tagline.add("The Old Rising Moon");
+                                        tagline.add("The New Rising Sun");
+
+                                        Random r = new Random();
+                                        int idx = r.nextInt(5); //Random antara 0-4;
+
+                                        //store to db
+                                        User user = new User(
+                                                username,
+                                                email,
+                                                tagline.get(idx),
+                                                phoneNumber
+                                        );
+
+                                        mDatabase.child(curr_user.getUid()).setValue(user);
                                         Toast.makeText(SignupActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -154,27 +170,6 @@ public class SignupActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-
-                List<String> tagline = new ArrayList<>();
-                tagline.add("The New Rising Star");
-                tagline.add("The Old Rising Star");
-                tagline.add("The New Rising Moon");
-                tagline.add("The Old Rising Moon");
-                tagline.add("The New Rising Sun");
-
-                Random r = new Random();
-                int idx = r.nextInt(5); //Random antara 0-4;
-
-                //store to db
-                User user = new User(
-                        username,
-                        email,
-                        tagline.get(idx),
-                        phoneNumber
-                );
-
-                mDatabase.child("user").push().setValue(user);
 
             }
         });

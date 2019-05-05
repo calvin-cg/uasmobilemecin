@@ -91,7 +91,7 @@ public class MainOngoingFragment extends Fragment {
                  * Retrieve User who are on the project
                  * (from idEmployee and idClient)
                  */
-                userInProject.retrieveUserInProject(project, new OnGetUserInProjectListener() {
+                userInProject.retrieveUserInProject(curr_user, project, new OnGetUserInProjectListener() {
                     ProjectsViewAdapter ongoingAdapter = null;
                     TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
                     RecyclerView recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
