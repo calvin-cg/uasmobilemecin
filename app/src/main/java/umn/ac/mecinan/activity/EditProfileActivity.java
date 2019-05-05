@@ -27,6 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.model.User;
 
@@ -182,16 +185,28 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     String field = string_field;
                     String category = string_category;
 
+                    /**Write New Data User **/
                     User user = new User(
-                            email,
-                            username,
-                            desc,
-                            phone,
-                            field,
-                            category,
-                            fee
-                    );
-                    userRef.child(users.getUid()).setValue(user);
+                                    email,
+                                    username,
+                                    desc,
+                                    phone,
+                                    field,
+                                    category,
+                                    fee
+                            );
+                    Map<String, Object> postValues = user.toMap();
+
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("username", username);
+                    childUpdates.put("desc", desc);
+                    childUpdates.put("phoneNumber", phone);
+                    childUpdates.put("field", field);
+                    childUpdates.put("category", category);
+                    childUpdates.put("fee", fee);
+
+                    userRef.child(users.getUid()).updateChildren(childUpdates);
+
 
                     startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
                     finish();
