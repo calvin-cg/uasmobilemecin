@@ -19,6 +19,7 @@ import java.util.List;
 
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
+import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.User;
 
@@ -27,6 +28,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private Context mCtx;
     private List<Project> projectList;
     private List<Boolean> isEmployeeList;
+    private List<ButtonProject> buttonProjectList;
 
     private String tvStatus;
     private int tvProgressBar;
@@ -34,10 +36,11 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private int visibilityBtnLeft, visibilityBtnRight;
     private String stringBtnLeft, stringBtnRight;
 
-    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList){
+    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList, List<ButtonProject> buttonProjectList){
         this.isEmployeeList = isEmployeeList;
         this.mCtx = mCtx;
         this.projectList = projectList;
+        this.buttonProjectList = buttonProjectList;
     }
 
     @NonNull
@@ -53,6 +56,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
         Project project = projectList.get(i);
         Boolean isEmployee = isEmployeeList.get(i);
+        ButtonProject buttonProject = buttonProjectList.get(i);
 
         /** Set Project Brief Data */
         projectViewHolder.projectTitle.setText(project.getTitle());
@@ -81,11 +85,11 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         }
 
         /** Button */
-        setButton(project.getStatus());
-        projectViewHolder.btnLeft.setVisibility(visibilityBtnLeft);
-        projectViewHolder.btnLeft.setText(stringBtnLeft);
-        projectViewHolder.btnRight.setVisibility(visibilityBtnRight);
-        projectViewHolder.btnRight.setText(stringBtnRight);
+        projectViewHolder.btnLeft.setVisibility(buttonProject.getViewBtnLeft());
+        projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
+        projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
+        projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
+        buttonProject.makeListener(projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject());
     }
 
     @Override
@@ -110,17 +114,6 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectRating = itemView.findViewById(R.id.employeeRatingBar);
             btnLeft = itemView.findViewById(R.id.btn_left);
             btnRight = itemView.findViewById(R.id.btn_right);
-        }
-    }
-
-    public void setButton(int status) {
-        switch(status) {
-            case 3:
-                visibilityBtnLeft = View.VISIBLE;
-                stringBtnLeft = "Finish";
-                visibilityBtnRight = View.GONE;
-                stringBtnRight = "";
-                break;
         }
     }
 

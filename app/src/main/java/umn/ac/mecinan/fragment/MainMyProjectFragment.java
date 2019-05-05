@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import umn.ac.mecinan.listener.OnGetProjectDataListener;
 import umn.ac.mecinan.listener.OnGetUserInProjectListener;
+import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
@@ -74,6 +76,7 @@ public class MainMyProjectFragment extends Fragment {
             final String TAG = "retrieve_my_project";
             List<Project> listMyProject = new ArrayList<>();
             List<Boolean> listIsEmployee = new ArrayList<>();
+            List<ButtonProject> listButton = new ArrayList<>();
 
             @Override
             public void onStart() {
@@ -112,8 +115,13 @@ public class MainMyProjectFragment extends Fragment {
                         if(curr_user_email.equals(client.getEmail())) {
                             String TAG = "attaching_ongoing";
 
+                            //Log.d("test_idProject", "idProject: " + project.getIdProject());
+
                             tvEmpty.setVisibility(View.GONE);
                             listMyProject.add(project);
+
+                            ButtonProject buttonProject = new ButtonProject();
+                            listButton.add(buttonProject.makeButton(project.getStatus()));
                         }
                     }
 
@@ -125,14 +133,18 @@ public class MainMyProjectFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                         listIsEmployee.add(false);
-                        myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProject, listIsEmployee);
-
+                        myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProject, listIsEmployee, listButton);
                         recyclerView.setAdapter(myProjectAdapter);
+
+                        myProjectAdapter.notifyDataSetChanged();
 
                         if(myProjectAdapter.getItemCount() <= 0) {
                             tvEmpty.setText(getString(R.string.empty_my_project));
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
+
+                        //listIsEmployee = new ArrayList<>();
+                        //listMyProject = new ArrayList<>();
                     }
 
                     @Override

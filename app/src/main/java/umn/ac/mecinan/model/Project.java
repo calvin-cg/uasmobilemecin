@@ -13,6 +13,7 @@ import umn.ac.mecinan.listener.OnGetProjectDataListener;
 
 public class Project {
 
+    private String idProject;
     private String title;
     //private Date dateStart, dateDue;
     private String idEmployee, idClient;
@@ -32,7 +33,7 @@ public class Project {
      *  2  = Paid
      * -2  = Not Paid
      *  3  = Finished
-     * -3  = Ongoing
+     * -3  = Not Finished
      *  4  = Confirmed
      * -4  = Unconfirmed
      */
@@ -57,8 +58,8 @@ public class Project {
 
     }
     */
-    public Project(String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating) {
-
+    public Project(String idProject, String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating) {
+        this.idProject = idProject;
         this.title = title;
         this.idEmployee = idEmployee;
         this.userEmployee = null;
@@ -84,10 +85,16 @@ public class Project {
      *      Set and Get ---
      *      Etc..
      */
+    public String getIdProject() {
+        return idProject;
+    }
+    public void setIdProject(String idProject) {
+        this.idProject = idProject;
+    }
+
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -145,7 +152,6 @@ public class Project {
     public void setUserClient(User client) {
         this.userClient = client;
     }
-
 
 
     public String getIdField() {
@@ -222,28 +228,8 @@ public class Project {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    Project detailProject = ds.getValue(Project.class);
-                    Project project = new Project();
-
-                    title = detailProject.getTitle();
-                    desc = detailProject.getDesc();
-                    idCategory = detailProject.getIdCategory();
-                    idEmployee = detailProject.getIdEmployee();
-                    idClient = detailProject.getIdClient();
-                    idField = detailProject.getIdField();
-                    price = detailProject.getPrice();
-                    rating = detailProject.getRating();
-                    status = detailProject.getStatus();
-
-                    project.setTitle(title);
-                    project.setDesc(desc);
-                    project.setIdCategory(idCategory);
-                    project.setIdEmployee(idEmployee);
-                    project.setIdClient(idClient);
-                    project.setIdField(idField);
-                    project.setPrice(price);
-                    project.setRating(rating);
-                    project.setStatus(status);
+                    Project project;
+                    project = ds.getValue(Project.class);
 
                     projectListener.onDataChange(project);
                     Log.d(TAG, "looping project");

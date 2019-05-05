@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import umn.ac.mecinan.listener.OnGetUserInProjectListener;
+import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
@@ -72,6 +73,9 @@ public class MainOngoingFragment extends Fragment {
             final String TAG = "retrieve_ongoingProject";
             List<Project> listOngoing = new ArrayList<>();
             List<Boolean> listIsEmployee = new ArrayList<>();
+            List<ButtonProject> listButton = new ArrayList<>();
+
+            Boolean firstInit = true;
 
             @Override
             public void onStart() {
@@ -114,6 +118,9 @@ public class MainOngoingFragment extends Fragment {
 
                             tvEmpty.setVisibility(View.GONE);
                             listOngoing.add(project);
+
+                            ButtonProject buttonProject = new ButtonProject();
+                            listButton.add(buttonProject.makeButton(project.getStatus()));
                         }
                     }
 
@@ -123,14 +130,18 @@ public class MainOngoingFragment extends Fragment {
                          * Set to recycler view from listongoing
                          */
                         listIsEmployee.add(true);
-                        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee);
-
+                        ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoing, listIsEmployee, listButton);
                         recyclerView.setAdapter(ongoingAdapter);
+
+                        ongoingAdapter.notifyDataSetChanged();
 
                         if(ongoingAdapter.getItemCount() <= 0) {
                             tvEmpty.setText(getString(R.string.empty_ongoing_project));
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
+
+                        //listIsEmployee = new ArrayList<>();
+                        //listOngoing = new ArrayList<>();
                     }
 
                     @Override
