@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     private String tvStatus;
     private int tvProgressBar;
+
+    private int visibilityBtnLeft, visibilityBtnRight;
+    private String stringBtnLeft, stringBtnRight;
 
     public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList){
         this.isEmployeeList = isEmployeeList;
@@ -64,7 +68,6 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
         }
 
-
         /** progressionBar */
         setProgression(project.getStatus());
         projectViewHolder.projectStatus.setText(tvStatus);
@@ -76,6 +79,13 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectViewHolder.projectRating.setRating(project.getRating());
             projectViewHolder.projectRating.setVisibility(View.VISIBLE);
         }
+
+        /** Button */
+        setButton(project.getStatus());
+        projectViewHolder.btnLeft.setVisibility(visibilityBtnLeft);
+        projectViewHolder.btnLeft.setText(stringBtnLeft);
+        projectViewHolder.btnRight.setVisibility(visibilityBtnRight);
+        projectViewHolder.btnRight.setText(stringBtnRight);
     }
 
     @Override
@@ -83,6 +93,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     class ProjectViewHolder extends RecyclerView.ViewHolder{
         TextView projectTitle, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
+        Button btnLeft, btnRight;
         ProgressBar projectProgressBar;
         RatingBar projectRating;
 
@@ -97,7 +108,19 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectCategory = itemView.findViewById(R.id.projectCategory);
             projectStatus = itemView.findViewById(R.id.employeeRate);
             projectRating = itemView.findViewById(R.id.employeeRatingBar);
+            btnLeft = itemView.findViewById(R.id.btn_left);
+            btnRight = itemView.findViewById(R.id.btn_right);
+        }
+    }
 
+    public void setButton(int status) {
+        switch(status) {
+            case 3:
+                visibilityBtnLeft = View.VISIBLE;
+                stringBtnLeft = "Finish";
+                visibilityBtnRight = View.GONE;
+                stringBtnRight = "";
+                break;
         }
     }
 
