@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +38,15 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
      * DECLARATION - SPINNER FIELD
      */
     private Spinner browseSpinnerField;
-    private TextView testestes;
 
     /**
      * DECLARATION - BOTTOM NAVIGATION
      */
     BottomNavigationView bottomNavigationView;
+
+    /**
+     * DECLARATION - SEARCH VIEW
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,48 +75,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         browseSpinnerField.setAdapter(fieldAdapter);
         browseSpinnerField.setSelection(4);
         browseSpinnerField.setOnItemSelectedListener(this);
-
-        /**
-         * RECYCLER VIEW - EMPLOYEE
-         */
-        User employee = new User();
-        employee.retrieveEmployee(new OnGetEmployeeListener() {
-            final String TAG = "retrieve_employee";
-            List<User> listEmployee = new ArrayList<>();
-
-            TextView tvEmpty = findViewById(R.id.tvEmptyEmployee);
-            RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
-            EmployeeAdapter employeeAdapter;
-
-            @Override
-            public void onStart() {
-                tvEmpty.setText(getString(R.string.loading_employee));
-            }
-
-            @Override
-            public void onDataChange(User user) {
-                listEmployee.add(user);
-                tvEmpty.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onSuccess() {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
-                recyclerView.setAdapter(employeeAdapter);
-
-                if(employeeAdapter.getItemCount() <= 0) {
-                    tvEmpty.setText(getString(R.string.empty_employee));
-                    tvEmpty.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-                Log.d(TAG, "dbError: " + databaseError);
-            }
-        });
 
 
         /**
@@ -157,10 +119,59 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedField = parent.getItemAtPosition(position).toString();
-        testestes = findViewById(R.id.testestes);
-        testestes.setText(selectedField);
+    public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+        final String selectedField = parent.getItemAtPosition(position).toString();
+
+        /**
+         * RECYCLER VIEW - EMPLOYEE
+         */
+        User employee = new User();
+        employee.retrieveEmployee(new OnGetEmployeeListener() {
+            final String TAG = "retrieve_employee";
+            List<User> listEmployee = new ArrayList<>();
+
+            TextView tvEmpty = findViewById(R.id.tvEmptyEmployee);
+            RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
+            EmployeeAdapter employeeAdapter;
+            ProgressBar pbar = findViewById(R.id.pBar);
+
+            @Override
+            public void onStart() {
+                tvEmpty.setText(getString(R.string.loading_employee));
+                pbar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onDataChange(User user) {
+
+                if (position == 4 || user.getField().equals(selectedField)){
+                    listEmployee.add(user);
+                }
+
+                tvEmpty.setVisibility(View.GONE);
+                pbar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onSuccess() {
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                recyclerView.setAdapter(employeeAdapter);
+
+                pbar.setVisibility(View.GONE);
+
+                if(employeeAdapter.getItemCount() <= 0) {
+                    tvEmpty.setText(getString(R.string.empty_employee));
+                    tvEmpty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+                Log.d(TAG, "dbError: " + databaseError);
+            }
+        });
     }
 
     @Override

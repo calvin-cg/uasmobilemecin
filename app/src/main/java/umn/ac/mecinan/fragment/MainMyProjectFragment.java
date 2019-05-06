@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,9 +82,12 @@ public class MainMyProjectFragment extends Fragment {
             @Override
             public void onStart() {
                 TextView tvEmpty;
+                ProgressBar pBar;
                 tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
+                pBar = myFragmentView.findViewById(R.id.pBar);
 
                 tvEmpty.setText(getString(R.string.loading_my_project));
+                pBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -101,6 +105,7 @@ public class MainMyProjectFragment extends Fragment {
                     ProjectsViewAdapter myProjectAdapter = null;
                     TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
                     RecyclerView recyclerView = myFragmentView.findViewById(R.id.myprojectRecyclerView);
+                    ProgressBar pBar = myFragmentView.findViewById(R.id.pBar);
 
                     @Override
                     public void onStart() {
@@ -120,14 +125,15 @@ public class MainMyProjectFragment extends Fragment {
                             //Log.d("test_idProject", "idProject: " + project.getIdProject());
 
                             tvEmpty.setVisibility(View.GONE);
+                            pBar.setVisibility(View.GONE);
+
                             if(project.getStatus() == 1 || project.getStatus() == 3) {
                                 Log.d("Title Status 1 & 3 :", project.getTitle());
                                 listMyProject.add(project);
-                            }
-                        }
 
-                            ButtonProject buttonProject = new ButtonProject();
-                            listButton.add(buttonProject.makeButton(project.getStatus()));
+                                ButtonProject buttonProject = new ButtonProject();
+                                listButton.add(buttonProject.makeButton(project.getStatus()));
+                            }
                         }
                     }
 
@@ -144,9 +150,12 @@ public class MainMyProjectFragment extends Fragment {
 
                         myProjectAdapter.notifyDataSetChanged();
 
+                        pBar.setVisibility(View.GONE);
+
                         if(myProjectAdapter.getItemCount() <= 0) {
                             tvEmpty.setText(getString(R.string.empty_my_project));
                             tvEmpty.setVisibility(View.VISIBLE);
+
                         }
 
                         //listIsEmployee = new ArrayList<>();

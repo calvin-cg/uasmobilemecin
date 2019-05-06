@@ -95,13 +95,14 @@
 
             <RatingBar
                 android:id="@+id/employeeRatingBar"
-                style="?android:attr/ratingBarStyleIndicator"
+                style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+                android:progressTint="@color/colorAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="5dp"
                 android:numStars="5"
-                android:rating="0"
+                android:rating="3"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/employeeField" />

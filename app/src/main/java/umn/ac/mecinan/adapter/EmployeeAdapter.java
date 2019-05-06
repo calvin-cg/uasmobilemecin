@@ -39,7 +39,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         User employee = employeeList.get(i);
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
-        employeeViewHolder.employeeField.setText(employee.getTagline());
+        employeeViewHolder.employeeField.setText(employee.getField());
         employeeViewHolder.employeeRatingBar.setRating(5);
         employeeViewHolder.employeeRate.setText(employee.getPhoneNumber());
         employeeViewHolder.employeeCompletedProject.setText(employee.getEmail());

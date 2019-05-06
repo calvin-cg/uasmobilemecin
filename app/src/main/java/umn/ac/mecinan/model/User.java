@@ -32,7 +32,6 @@ public class User {
 
     private String username, email, tagline, phoneNumber, desc, field, category, fee;
     private Boolean isEmployee;
-    public Map<String, Boolean> stars = new HashMap<>();
 
 
     public User(){
@@ -72,7 +71,6 @@ public class User {
     public String getDesc() {
         return desc;
     }
-
     public void setDesc(String desc) {
         this.desc = desc;
     }
@@ -80,7 +78,6 @@ public class User {
     public String getField() {
         return field;
     }
-
     public void setField(String field) {
         this.field = field;
     }
@@ -88,7 +85,6 @@ public class User {
     public String getCategory() {
         return category;
     }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -96,7 +92,6 @@ public class User {
     public String getFee() {
         return fee;
     }
-
     public void setFee(String fee) {
         this.fee = fee;
     }

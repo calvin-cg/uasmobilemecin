@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,9 +86,12 @@ public class MainOngoingFragment extends Fragment {
             @Override
             public void onStart() {
                 TextView tvEmpty;
+                ProgressBar pBar;
                 tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
+                pBar = myFragmentView.findViewById(R.id.pBar);
 
                 tvEmpty.setText(getString(R.string.loading_ongoing_project));
+                pBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -105,6 +109,7 @@ public class MainOngoingFragment extends Fragment {
                     ProjectsViewAdapter ongoingAdapter = null;
                     TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyOngoingProject);
                     RecyclerView recyclerView = myFragmentView.findViewById(R.id.ongoingRecyclerView);
+                    ProgressBar pBar = myFragmentView.findViewById(R.id.pBar);
 
                     @Override
                     public void onStart() {
@@ -122,6 +127,8 @@ public class MainOngoingFragment extends Fragment {
                             String TAG = "attaching_ongoing";
 
                             tvEmpty.setVisibility(View.GONE);
+                            pBar.setVisibility(View.GONE);
+
                             if(project.getStatus() == 2) {
                                 listOngoing.add(project);
 
@@ -141,6 +148,8 @@ public class MainOngoingFragment extends Fragment {
                         recyclerView.setAdapter(ongoingAdapter);
 
                         ongoingAdapter.notifyDataSetChanged();
+
+                        pBar.setVisibility(View.GONE);
 
                         if(ongoingAdapter.getItemCount() <= 0) {
                             tvEmpty.setText(getString(R.string.empty_ongoing_project));
