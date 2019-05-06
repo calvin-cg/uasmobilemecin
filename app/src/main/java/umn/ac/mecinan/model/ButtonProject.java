@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import umn.ac.mecinan.adapter.ProjectsViewAdapter;
+
 public class ButtonProject {
     private int viewBtnLeft, viewBtnRight;
     private String stringBtnLeft, stringBtnRight;
