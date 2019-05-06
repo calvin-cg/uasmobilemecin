@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_centerHorizontal="true"
+    >
+
+    <!-- 320dp hardcode, karena kalau match parent cardnya ga fullwidth -->
+    <android.support.v7.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorBorderLight"
+        app:cardCornerRadius="25dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/employeeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:text="projectTitleDefault"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCompletedProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="Requested/Worked by "
+                android:textColor="@color/colorHeading_4"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/employeeRatingBar" />
+
+            <TextView
+                android:id="@+id/employeeCompletedProject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="projectWRUserDefault"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCompletedProject"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvCompletedProject"
+                app:layout_constraintTop_toTopOf="@+id/tvCompletedProject" />
+
+            <TextView
+                android:id="@+id/employeeField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="projectFieldDefault"
+                android:textColor="@color/cabaret"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/employeeName" />
+
+            <TextView
+                android:id="@+id/projectCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="projectCatDefault"
+                android:textColor="@color/colorHeading_4"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/employeeField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/employeeField" />
+
+            <TextView
+                android:id="@+id/employeeRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:text="projectStatusDefault"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/projectProgressBar" />
+
+            <ProgressBar
+                android:id="@+id/projectProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:progressTint="@color/brink_pink"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/employeeField" />
+
+            <RatingBar
+                android:id="@+id/employeeRatingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:progressTint="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/employeeRate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/employeeRate" />
+
+            <LinearLayout
+                android:id="@+id/layoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCompletedProject">
+
+                <Button
+                    android:id="@+id/btn_left"
+                    style="@style/Button_Primary"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/background02"
+                    android:text="[Left]"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_right"
+                    style="@style/Button_Primary"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:width="100dp"
+                    android:background="@drawable/background02"
+                    android:text="[Right]"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+                "/>
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

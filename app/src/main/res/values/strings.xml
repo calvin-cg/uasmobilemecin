@@ -9,10 +9,16 @@
     <string name="password">Password</string>
     <string name="signup">Sign up</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="email">Email</string>
     <string name="cancel">Cancel</string>
+    <string name="editprofile">Edit Profile</string>
 
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_browse">Browse</string>
+    <string name="bottom_nav_faq">FAQ</string>
+    <string name="bottom_nav_inbox">Inbox</string>
+    <string name="bottom_nav_profile">Profile</string>
 
     <!-- INTRO ACTIVITY -->
     <string name="iv_intro_bg">Intro Background</string>
@@ -35,5 +41,61 @@
 
     <!-- MAIN ACTIVITY -->
     <string name="tv_main_dashboardTitle">Dashboard</string>
-    <string name="tv_main_dashboardSubtitle">Your ongoing projects</string>
+    <string name="tv_main_dashboardSubtitle">Your projects</string>
+
+    <!-- MAIN ACTIVITY - FRAGMENT -->
+    <string name="tv_main_fragmentOngoing_title">My Ongoing Projects</string>
+    <string name="tv_main_fragmentPast_title">My Past Projects</string>
+    <string name="ongoing_project">Ongoing Project</string>
+    <string name="my_request">My Request</string>
+    <string name="loading_ongoing_project">Loading Ongoing Project</string>
+    <string name="loading_my_project">Loading My Project</string>
+    <string name="empty_ongoing_project">Ongoing Project is Empty</string>
+    <string name="empty_my_project">My Project is Empty</string>
+
+    <!-- INTRO ACTIVITY -->
+    <string name="empty_employee">There is no employee available</string>
+    <string name="loading_employee">Loading List Employee</string>
+
+    <!-- SKILL FIELD AND CATEGORY -->
+    <string-array name="field_view">
+        <item>Information &amp; Technology</item>
+        <item>Art &amp; Design</item>
+        <item>Business</item>
+        <item>Public Relation</item>
+        <item>View All Field</item>
+    </string-array>
+
+    <string-array name="field_select">
+        <item>Information &amp; Technology</item>
+        <item>Art &amp; Design</item>
+        <item>Business</item>
+        <item>Public Relation</item>
+    </string-array>
+
+    <string-array name="cat_it">
+        <item>Website</item>
+        <item>Mobile Application</item>
+        <item>Desktop Application</item>
+    </string-array>
+
+    <string-array name="cat_ad">
+        <item>Handcraft</item>
+        <item>Graphic Design</item>
+        <item>Packaging</item>
+    </string-array>
+
+    <string-array name="cat_bu">
+        <item>Budget Consultation</item>
+        <item>Investment</item>
+        <item>Asset Management</item>
+    </string-array>
+
+    <string-array name="cat_pr">
+        <item>Marketing &amp; Advertising</item>
+        <item>Brand Activation</item>
+        <item>Media Relation</item>
+    </string-array>
+
+
 </resources>
