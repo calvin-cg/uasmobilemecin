@@ -21,6 +21,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import umn.ac.mecinan.PrefManager;
 import umn.ac.mecinan.R;
 
@@ -34,6 +37,9 @@ public class IntroActivity extends AppCompatActivity {
     //private Button btnSkip, btnNext;
     private Button btnLogin;
     private PrefManager prefManager;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,14 @@ public class IntroActivity extends AppCompatActivity {
         prefManager = new PrefManager(this);
         if (prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
+            finish();
+        }
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        if (user != null && user.isEmailVerified()) {
+            startActivity(new Intent(IntroActivity.this, MainActivity.class));
             finish();
         }
 
