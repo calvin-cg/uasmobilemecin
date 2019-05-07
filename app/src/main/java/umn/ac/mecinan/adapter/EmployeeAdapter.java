@@ -109,6 +109,5 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                 notifyDataSetChanged();
             }
         };
-
     }
 }

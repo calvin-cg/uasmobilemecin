@@ -63,6 +63,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
      */
     List<User> listEmployee = new ArrayList<>();
     EmployeeAdapter employeeAdapter;
+    String filterName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +97,17 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public boolean onQueryTextChange(String newText) {
                 // do something when text changes
-                String username = newText;
-                Log.d("username", username);
+                filterName = newText;
 
                 RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
-                recyclerView.setAdapter(employeeAdapter);
-
-                if(employeeAdapter != null) {
-                    employeeAdapter.getFilter().filter(username);
+                if(employeeAdapter == null) {
+                    employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerView.setAdapter(employeeAdapter);
+                } else {
+                    employeeAdapter.getFilter().filter(filterName);
                 }
 
                 return false;
@@ -171,18 +172,15 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
         final String selectedField = parent.getItemAtPosition(position).toString();
 
-
         /**
          * RECYCLER VIEW - EMPLOYEE
          */
         User employee = new User();
         employee.retrieveEmployee(new OnGetEmployeeListener() {
             final String TAG = "retrieve_employee";
-            //List<User> listEmployee = new ArrayList<>();
 
             TextView tvEmpty = findViewById(R.id.tvEmptyEmployee);
             RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
-            EmployeeAdapter employeeAdapter;
             ProgressBar pbar = findViewById(R.id.pBar);
 
             @Override
@@ -193,6 +191,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onDataChange(User user) {
+                Log.d(TAG, "position: " + position);
 
                 if (position == 4 || user.getField().equals(selectedField)){
                     listEmployee.add(user);
@@ -204,10 +203,16 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onSuccess() {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                List<User> listEmployeeUpdate = new ArrayList<>(listEmployee);
 
-                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployeeUpdate);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(employeeAdapter);
+
+                if(filterName != null) {
+                    employeeAdapter.getFilter().filter(filterName);
+                }
+                listEmployee.clear();
 
                 pbar.setVisibility(View.GONE);
 
