@@ -2,7 +2,6 @@ package umn.ac.mecinan.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,18 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
-import umn.ac.mecinan.listener.EmployeeAdapterListener;
-import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.model.User;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
@@ -33,17 +27,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     private List<User> searchList;
     private List<User> storedList;
 
-    private EmployeeAdapterListener listener;
-
     public EmployeeAdapter(Context mCtx, List<User> employeeList) {
         this.mCtx = mCtx;
         this.employeeList = this.searchList = this.storedList = employeeList;
     }
 
-    public void EmployeeAdapter2(Context mCtx, List<User> employeeList, EmployeeAdapterListener listener) {
+    public void EmployeeAdapter2(Context mCtx, List<User> employeeList) {
         this.mCtx = mCtx;
         this.employeeList = this.searchList = this.storedList = employeeList;
-        this.listener = listener;
     }
 
     @NonNull
@@ -83,13 +74,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             employeeRate = itemView.findViewById(R.id.employeeRate);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.employeeSelected(employeeList.get(getAdapterPosition()));
-                }
-            });
         }
     }
 
