@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.listener.EmployeeAdapterListener;
 import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.model.User;
 
@@ -32,16 +33,24 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     private List<User> searchList;
     private List<User> storedList;
 
+    private EmployeeAdapterListener listener;
+
     public EmployeeAdapter(Context mCtx, List<User> employeeList) {
         this.mCtx = mCtx;
         this.employeeList = this.searchList = this.storedList = employeeList;
+    }
+
+    public void EmployeeAdapter2(Context mCtx, List<User> employeeList, EmployeeAdapterListener listener) {
+        this.mCtx = mCtx;
+        this.employeeList = this.searchList = this.storedList = employeeList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public EmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.employee_list, null);
+        View view = inflater.inflate(R.layout.employee_list, viewGroup, false);
         EmployeeAdapter.EmployeeViewHolder holder = new EmployeeAdapter.EmployeeViewHolder(view);
         return holder;
     }
@@ -74,6 +83,13 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             employeeRate = itemView.findViewById(R.id.employeeRate);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.employeeSelected(employeeList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 

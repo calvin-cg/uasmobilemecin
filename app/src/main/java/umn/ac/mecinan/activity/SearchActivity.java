@@ -39,6 +39,7 @@ import java.util.List;
 import umn.ac.mecinan.adapter.EmployeeAdapter;
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
+import umn.ac.mecinan.listener.EmployeeAdapterListener;
 import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.listener.OnGetProjectDataListener;
 import umn.ac.mecinan.listener.OnGetUserInProjectListener;
@@ -46,7 +47,7 @@ import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.User;
 
-public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, EmployeeAdapterListener {
 
     /**
      * DECLARATION - SPINNER FIELD
@@ -64,6 +65,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     List<User> listEmployee = new ArrayList<>();
     EmployeeAdapter employeeAdapter;
     String filterName;
+
+    //EmployeeAdapterListener employeeAdapterListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +106,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                 if(employeeAdapter == null) {
-                    employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                    employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee, employeeAdapterListener);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     recyclerView.setAdapter(employeeAdapter);
                 } else {
@@ -205,7 +208,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             public void onSuccess() {
                 List<User> listEmployeeUpdate = new ArrayList<>(listEmployee);
 
-                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployeeUpdate);
+                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployeeUpdate, employeeAdapterListener);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(employeeAdapter);
 
@@ -216,6 +219,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
                 pbar.setVisibility(View.GONE);
 
+                Log.d("Test","Masuk sini");
                 if(employeeAdapter.getItemCount() <= 0) {
                     tvEmpty.setText(getString(R.string.empty_employee));
                     tvEmpty.setVisibility(View.VISIBLE);
@@ -233,4 +237,24 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-}
+
+    /*
+     * Method: employeeSelected
+     * Desc: Called when an employee is clicked in Search Activity
+     * Params: @User employee
+     * Result: Intent to EmployeeDetails Activity
+    */
+    public void employeeSelected(User employee) {
+
+        // Make intent
+        Intent intent = new Intent(SearchActivity.this, EmployeeDetails.class);
+
+        // Put intent extra details to be sent
+        intent.putExtra("username", employee.getUsername());
+
+        // Start activity
+        startActivity(intent);
+
+    } // End of employeeSelected() method
+
+} // End of SearchActivity class
