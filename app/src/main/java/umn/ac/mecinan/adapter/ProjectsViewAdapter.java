@@ -54,6 +54,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
+
         Project project = projectList.get(i);
         Boolean isEmployee = isEmployeeList.get(i);
         ButtonProject buttonProject = buttonProjectList.get(i);
@@ -66,10 +67,10 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         /** WorkRequest */
         if(isEmployee) {
             projectViewHolder.projectWorkRequest.setText("Requested By ");
-            //projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
+            projectViewHolder.projectWRUser.setText(project.getUserClient().getUsername());
         } else {
             projectViewHolder.projectWorkRequest.setText("Worked By ");
-            //projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
+            projectViewHolder.projectWRUser.setText(project.getUserEmployee().getUsername());
         }
 
         /** progressionBar */
@@ -160,6 +161,18 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvStatus = "UNDEFINED";
                 tvProgressBar = 0;
         }
+    }
+
+    public void updateProjectList(List<Project> projects, List<Boolean> isEmployees, List<ButtonProject> buttonProjects) {
+        projectList.clear();
+        isEmployeeList.clear();
+        buttonProjectList.clear();
+
+        projectList = projects;
+        isEmployeeList = isEmployees;
+        buttonProjectList = buttonProjects;
+
+        this.notifyDataSetChanged();
     }
 
 }

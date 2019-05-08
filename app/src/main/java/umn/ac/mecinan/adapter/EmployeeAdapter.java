@@ -2,27 +2,39 @@ package umn.ac.mecinan.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseError;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.listener.OnGetEmployeeListener;
 import umn.ac.mecinan.model.User;
 
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>{
+public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
 
     private Context mCtx;
     private List<User> employeeList;
     private boolean myRequest;
 
-    public EmployeeAdapter(Context mCtx, List<User> employeeList){
+    private List<User> searchList;
+    private List<User> storedList;
+
+    public EmployeeAdapter(Context mCtx, List<User> employeeList) {
         this.mCtx = mCtx;
-        this.employeeList = employeeList;
+        this.employeeList = this.searchList = this.storedList = employeeList;
     }
 
     @NonNull
@@ -36,7 +48,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onBindViewHolder(@NonNull EmployeeViewHolder employeeViewHolder, int i) {
-        User employee = employeeList.get(i);
+        User employee = storedList.get(i);
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
         employeeViewHolder.employeeField.setText(employee.getField());
@@ -48,7 +60,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public int getItemCount() {
-        return employeeList.size();
+        return storedList.size();
     }
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {
@@ -63,5 +75,39 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
         }
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+
+                Log.d("charString", charString);
+                if (charString.isEmpty()) {
+                    searchList = storedList = employeeList;
+                } else {
+                    ArrayList<User> filteredList = new ArrayList<>();
+                    for (User row : employeeList) {
+                        Log.d("user", row.getUsername());
+                        if (row.getUsername().toLowerCase().contains(charString.toLowerCase())) {
+                            Log.d("username ", "username sama");
+                            filteredList.add(row);
+                        }
+                    }
+                    searchList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = searchList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                searchList = (ArrayList<User>) results.values;
+                storedList = searchList;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

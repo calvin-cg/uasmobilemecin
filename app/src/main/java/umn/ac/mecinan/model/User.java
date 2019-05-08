@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import umn.ac.mecinan.listener.OnGetEmployeeListener;
@@ -294,7 +295,7 @@ public class User {
      *
      * return void
      */
-    public void retrieveUserInProject(final FirebaseUser curr_user, final Project project, final OnGetUserInProjectListener userInProjectListener) {
+    public void retrieveUserInProject(final FirebaseUser curr_user, final List<Project> projects, final OnGetUserInProjectListener userInProjectListener) {
         final String TAG = "user_in_project";
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -305,25 +306,28 @@ public class User {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int countJoin = 0;
                 //Log.d(TAG, "countJoinGlobal: " + countJoin);
+                Log.d("adapter_notify", "pr size: " + projects.size());
+                for(Project project: projects){
+                    int countJoin = 0;
 
-                for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    if(project.getIdEmployee().equals(ds.getKey())) {
-                        Log.d(TAG, "key: " + ds.getKey());
-                        project.setUserEmployee(ds.getValue(User.class));
-                        countJoin++;
-                    }
+                    for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                        if(project.getIdEmployee().equals(ds.getKey())) {
+                            Log.d(TAG, "key: " + ds.getKey());
+                            project.setUserEmployee(ds.getValue(User.class));
+                            countJoin++;
+                        }
 
-                    if(project.getIdClient().equals(ds.getKey())) {
-                        project.setUserClient(ds.getValue(User.class));
-                        countJoin++;
-                    }
+                        if(project.getIdClient().equals(ds.getKey())) {
+                            project.setUserClient(ds.getValue(User.class));
+                            countJoin++;
+                        }
 
-                    if(project.getIdEmployee().equals(ds.getKey()) || project.getIdClient().equals(ds.getKey())){
-                        if(countJoin >= 2) {
-                            Log.d(TAG, "curr_user: " + curr_user.getEmail());
-                            userInProjectListener.onDataChange(project);
+                        if(project.getIdEmployee().equals(ds.getKey()) || project.getIdClient().equals(ds.getKey())){
+                            if(countJoin >= 2) {
+                                Log.d(TAG, "onDataChange curr_user: " + curr_user.getEmail());
+                                userInProjectListener.onDataChange(project);
+                            }
                         }
                     }
                 }

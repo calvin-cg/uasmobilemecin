@@ -111,6 +111,24 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                         Log.d(TAG, "ds: " + ds.getValue(User.class).getPhoneNumber());
                         dataUser = ds.getValue(User.class);
 
+                        EditText et_username = findViewById(R.id.editText_ef_username);
+                        EditText et_desc = findViewById(R.id.editText_ef_decs);
+                        EditText et_phone = findViewById(R.id.editText_ef_phone);
+                        EditText et_fee = findViewById(R.id.editText_ef_fee);
+
+                        if(dataUser.getUsername() != null) {
+                            et_username.setText(dataUser.getUsername());
+                        }
+                        if(dataUser.getDesc() != null) {
+                            et_desc.setText(dataUser.getDesc());
+                        }
+                        if(dataUser.getPhoneNumber() != null) {
+                            et_phone.setText(dataUser.getPhoneNumber());
+                        }
+                        if(dataUser.getFee() != null) {
+                            et_fee.setText(dataUser.getFee());
+                        }
+
 
                     }
                 }

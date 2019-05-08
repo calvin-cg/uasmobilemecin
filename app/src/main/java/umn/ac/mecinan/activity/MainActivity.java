@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }, intentFilter);
 
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
 
-
-/*        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        /*FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference ref = db.getReference("project");
         String key = ref.push().getKey();
 
