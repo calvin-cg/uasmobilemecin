@@ -1,6 +1,8 @@
 package umn.ac.mecinan.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.activity.EmployeeDetails;
+import umn.ac.mecinan.activity.SearchActivity;
 import umn.ac.mecinan.model.User;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
@@ -28,11 +32,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     private List<User> storedList;
 
     public EmployeeAdapter(Context mCtx, List<User> employeeList) {
-        this.mCtx = mCtx;
-        this.employeeList = this.searchList = this.storedList = employeeList;
-    }
-
-    public void EmployeeAdapter2(Context mCtx, List<User> employeeList) {
         this.mCtx = mCtx;
         this.employeeList = this.searchList = this.storedList = employeeList;
     }
@@ -67,13 +66,31 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         TextView employeeName, employeeField, employeeRate, employeeCompletedProject;
         RatingBar employeeRatingBar;
 
-        public EmployeeViewHolder(@NonNull View itemView) {
+        public EmployeeViewHolder(@NonNull final View itemView) {
             super(itemView);
+
             employeeName = itemView.findViewById(R.id.employeeName);
             employeeField = itemView.findViewById(R.id.employeeField);
             employeeRate = itemView.findViewById(R.id.employeeRate);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
+
+                    intent.putExtra("username", employeeName.getText().toString());
+                    intent.putExtra("field", employeeField.getText().toString());
+                    intent.putExtra("rate", employeeRate.getText().toString());
+                    intent.putExtra("completed", employeeCompletedProject.getText().toString());
+
+
+                    v.getContext().startActivity(intent);
+
+                }
+            });
         }
     }
 

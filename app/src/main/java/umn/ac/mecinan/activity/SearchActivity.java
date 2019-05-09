@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                 if(employeeAdapter == null) {
-                    employeeAdapter = new EmployeeAdapter(getApplication(), listEmployee);
+                    employeeAdapter = new EmployeeAdapter(SearchActivity.this, listEmployee);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     recyclerView.setAdapter(employeeAdapter);
                 } else {
@@ -193,7 +193,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             public void onSuccess() {
                 List<User> listEmployeeUpdate = new ArrayList<>(listEmployee);
 
-                employeeAdapter = new EmployeeAdapter(getApplication(), listEmployeeUpdate);
+                employeeAdapter = new EmployeeAdapter(SearchActivity.this, listEmployeeUpdate);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(employeeAdapter);
 
