@@ -1,8 +1,9 @@
 package umn.ac.mecinan.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
-import umn.ac.mecinan.listener.OnGetEmployeeListener;
+import umn.ac.mecinan.activity.EmployeeDetails;
+import umn.ac.mecinan.activity.SearchActivity;
 import umn.ac.mecinan.model.User;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
@@ -41,7 +40,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @Override
     public EmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.employee_list, null);
+        View view = inflater.inflate(R.layout.employee_list, viewGroup, false);
         EmployeeAdapter.EmployeeViewHolder holder = new EmployeeAdapter.EmployeeViewHolder(view);
         return holder;
     }
@@ -67,13 +66,31 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         TextView employeeName, employeeField, employeeRate, employeeCompletedProject;
         RatingBar employeeRatingBar;
 
-        public EmployeeViewHolder(@NonNull View itemView) {
+        public EmployeeViewHolder(@NonNull final View itemView) {
             super(itemView);
+
             employeeName = itemView.findViewById(R.id.employeeName);
             employeeField = itemView.findViewById(R.id.employeeField);
             employeeRate = itemView.findViewById(R.id.employeeRate);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
+
+                    intent.putExtra("username", employeeName.getText().toString());
+                    intent.putExtra("field", employeeField.getText().toString());
+                    intent.putExtra("rate", employeeRate.getText().toString());
+                    intent.putExtra("completed", employeeCompletedProject.getText().toString());
+
+
+                    v.getContext().startActivity(intent);
+
+                }
+            });
         }
     }
 
