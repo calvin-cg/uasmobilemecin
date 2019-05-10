@@ -11,6 +11,8 @@
     >
 
     <!-- 320dp hardcode, karena kalau match parent cardnya ga fullwidth -->
+
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,8 +21,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/employeeName"
@@ -117,10 +118,10 @@
             <RatingBar
                 android:id="@+id/employeeRatingBar"
                 style="?android:attr/ratingBarStyleSmall"
-                android:progressTint="@color/colorAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
+                android:progressTint="@color/colorAccent"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/employeeRate"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -168,4 +169,5 @@
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+
 </LinearLayout>
