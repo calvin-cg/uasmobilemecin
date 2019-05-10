@@ -64,6 +64,8 @@ public class SignupActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        FirebaseUser curr_user = auth.getCurrentUser();
+
         mDatabase = FirebaseDatabase.getInstance().getReference("user");
 
         btnSignIn = (Button) findViewById(R.id.btn_signup_login);
@@ -162,6 +164,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                         //store to db
                                         User user = new User(
+                                                curr_user.getUid(),
                                                 username,
                                                 email,
                                                 tagline.get(idx),

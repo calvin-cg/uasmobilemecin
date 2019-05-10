@@ -14,6 +14,9 @@ import android.widget.Filterable;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +53,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         User employee = storedList.get(i);
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
+        employeeViewHolder.employeePhone.setText(employee.getPhoneNumber());
+        //employeeViewHolder.employeeDesc.setText(employee.getDesc());
+        employeeViewHolder.employeeCategory.setText(employee.getCategory());
         employeeViewHolder.employeeField.setText(employee.getField());
         employeeViewHolder.employeeRatingBar.setRating(4);
-        employeeViewHolder.employeeRate.setText("Rate: " + employee.getFee());
-        employeeViewHolder.employeeCompletedProject.setText(employee.getPhoneNumber());
+        employeeViewHolder.employeeFee.setText("Fee: " + employee.getFee());
+        //employeeViewHolder.employeeCompletedProject.setText(employee.getPhoneNumber());
+        employeeViewHolder.employeeId.setText(employee.getId());
 
     }
 
@@ -63,17 +70,21 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     }
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {
-        TextView employeeName, employeeField, employeeRate, employeeCompletedProject;
+        TextView employeeName, employeePhone, employeeDesc, employeeCategory, employeeField, employeeFee, employeeCompletedProject, employeeId;
         RatingBar employeeRatingBar;
 
         public EmployeeViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             employeeName = itemView.findViewById(R.id.employeeName);
+            employeePhone = itemView.findViewById(R.id.tv_employeeList_phone);
+            //employeeDesc = itemView.findViewById(R.id.tv_employeeList_desc);
+            employeeCategory = itemView.findViewById(R.id.tv_employeeList_cat);
             employeeField = itemView.findViewById(R.id.employeeField);
-            employeeRate = itemView.findViewById(R.id.employeeRate);
+            employeeFee = itemView.findViewById(R.id.tv_employeeList_fee);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
-            employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+            employeeId = itemView.findViewById(R.id.tv_employeeList_id);
+            //employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -82,9 +93,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                     Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
 
                     intent.putExtra("username", employeeName.getText().toString());
+                    intent.putExtra("phone", employeePhone.getText().toString());
+                    //intent.putExtra("desc", employeeDesc.getText().toString());
+                    intent.putExtra("category", employeeCategory.getText().toString());
                     intent.putExtra("field", employeeField.getText().toString());
-                    intent.putExtra("rate", employeeRate.getText().toString());
-                    intent.putExtra("completed", employeeCompletedProject.getText().toString());
+                    intent.putExtra("fee", employeeFee.getText().toString());
+                    intent.putExtra("idemployee", employeeId.getText().toString());
+                    Log.d("idEmployee", employeeId.getText().toString());
+                    //intent.putExtra("completed", employeeCompletedProject.getText().toString());
 
                     v.getContext().startActivity(intent);
 

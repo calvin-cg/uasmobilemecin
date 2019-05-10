@@ -89,17 +89,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <TextView
-                android:id="@+id/tv_employeeDetails_completed"
+           <TextView
+                android:id="@+id/tv_employeeDetails_idEmployee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
-                android:text="[email]"
+                android:text="id"
+               android:textColor="@color/bittersweet"
                 android:textAlignment="center"
-                android:textColor="@color/brink_pink"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_username" />
@@ -117,37 +117,38 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_completed" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_idEmployee" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/tv_employeeDetails_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Description]"
                 android:textAlignment="center"
                 android:textColor="@color/colorHeading_4"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_phone" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_phone" />-->
 
             <TextView
                 android:id="@+id/tv_employeeDetails_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Field]"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_desc" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_phone" />
 
             <TextView
                 android:id="@+id/tv_employeeDetails_cat"
@@ -164,11 +165,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_field" />
 
             <TextView
-                android:id="@+id/tv_employeeDetails_rate"
+                android:id="@+id/tv_employeeDetails_fee"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Fee]"
                 android:textAlignment="center"
@@ -190,7 +191,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_rate" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeDetails_fee" />
 
 
         </android.support.constraint.ConstraintLayout>

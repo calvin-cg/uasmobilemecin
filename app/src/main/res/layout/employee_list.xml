@@ -10,6 +10,7 @@
     android:layout_centerHorizontal="true">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/colorBorderLight"
@@ -23,18 +24,46 @@
             <TextView
                 android:id="@+id/employeeName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="33dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
                 android:text="employeeNameDef"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="21sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_employeeList_phone"
+                android:layout_width="109dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="phone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/employeeName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_employeeList_id"
+                android:layout_width="109dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="id"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                android:textSize="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/employeeField"
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_phone" />
+
+            <!--<TextView
                 android:id="@+id/tvCompletedProject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,9 +76,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/employeeCompletedProject"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeRate" />
+                app:layout_constraintTop_toBottomOf="@+id/employeeRate" />-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/employeeCompletedProject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -60,7 +89,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvCompletedProject"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCompletedProject" />
+                app:layout_constraintTop_toTopOf="@+id/tvCompletedProject" />-->
 
             <TextView
                 android:id="@+id/employeeField"
@@ -68,20 +97,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
                 android:text="employeeFieldDef"
                 android:textColor="@color/cabaret"
                 android:textSize="17sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeName" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_phone" />
 
             <TextView
+                android:id="@+id/tv_employeeList_cat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="24dp"
+                android:text="employeeCatDef"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/employeeField" />
+
+            <TextView
+                android:id="@+id/tv_employeeList_fee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="24dp"
+                android:text="Fee"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_cat" />
+
+            <!-- <TextView
                 android:id="@+id/employeeRate"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="72dp"
                 android:layout_marginEnd="24dp"
                 android:text="employeeRateDef"
                 android:textAlignment="textEnd"
@@ -90,22 +145,23 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeRatingBar" />
+                app:layout_constraintStart_toEndOf="@+id/employeeRatingBar"
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_phone" />-->
 
             <RatingBar
                 android:id="@+id/employeeRatingBar"
                 style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
-                android:progressTint="@color/colorAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="5dp"
                 android:numStars="5"
+                android:progressTint="@color/colorAccent"
                 android:rating="3"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeField" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_fee" />
+
 
         </android.support.constraint.ConstraintLayout>
 

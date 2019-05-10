@@ -31,14 +31,15 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 
 public class User {
 
-    private String username, email, tagline, phoneNumber, desc, field, category, fee;
+    private String username, email, tagline, phoneNumber, desc, field, category, fee, id;
     private Boolean isEmployee;
 
 
     public User(){
 
     }
-    public User(String username, String email, String tagline, String phoneNumber) {
+    public User(String id, String username, String email, String tagline, String phoneNumber) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.tagline = tagline;
@@ -46,7 +47,7 @@ public class User {
         this.isEmployee = false;
     }
 
-    public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee) {
+    public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee, String id) {
         this.email = email;
         this.username = username;
         this.desc = desc;
@@ -54,6 +55,15 @@ public class User {
         this.field = field;
         this.category = category;
         this.fee = fee;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Map<String, Object> toMap() {

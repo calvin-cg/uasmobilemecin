@@ -206,6 +206,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     String email = users.getEmail();
                     String field = string_field;
                     String category = string_category;
+                    String id = users.getUid();
 
                     /**Write New Data User **/
                     User user = new User(
@@ -215,7 +216,8 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                                     phone,
                                     field,
                                     category,
-                                    fee
+                                    fee,
+                                    id
                             );
                     Map<String, Object> postValues = user.toMap();
 
