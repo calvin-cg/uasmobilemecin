@@ -51,9 +51,9 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
         employeeViewHolder.employeeField.setText(employee.getField());
-        employeeViewHolder.employeeRatingBar.setRating(5);
-        employeeViewHolder.employeeRate.setText(employee.getPhoneNumber());
-        employeeViewHolder.employeeCompletedProject.setText(employee.getEmail());
+        employeeViewHolder.employeeRatingBar.setRating(4);
+        employeeViewHolder.employeeRate.setText("Rate: " + employee.getFee());
+        employeeViewHolder.employeeCompletedProject.setText(employee.getPhoneNumber());
 
     }
 
@@ -85,7 +85,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                     intent.putExtra("field", employeeField.getText().toString());
                     intent.putExtra("rate", employeeRate.getText().toString());
                     intent.putExtra("completed", employeeCompletedProject.getText().toString());
-
 
                     v.getContext().startActivity(intent);
 

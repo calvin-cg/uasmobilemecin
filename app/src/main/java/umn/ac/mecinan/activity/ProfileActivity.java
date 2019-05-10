@@ -76,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User user) {
                 TextView tvName = findViewById(R.id.tvName);
+                TextView tvName2 = findViewById(R.id.tvName2);
                 //TextView tvTagline = findViewById(R.id.tvTagline);
                 TextView tvEmail = findViewById(R.id.tvEmail);
                 TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
@@ -85,14 +86,15 @@ public class ProfileActivity extends AppCompatActivity {
                 TextView tvFee = findViewById(R.id.tvFee);
 
 
-                tvName.setText(user.getUsername());
+                tvName.setText("Hi, " + user.getUsername() + "!");
+                tvName2.setText(user.getUsername());
                 //tvTagline.setText(user.getTagline());
                 tvEmail.setText(user.getEmail());
                 tvPhoneNumber.setText(user.getPhoneNumber());
                 tvDesc.setText(user.getDesc());
                 tvField.setText(user.getField());
                 tvCategory.setText(user.getCategory());
-                tvFee.setText(user.getFee());
+                tvFee.setText("Rate: " + user.getFee());
 
 
                 if(user.getDesc() == null) {
