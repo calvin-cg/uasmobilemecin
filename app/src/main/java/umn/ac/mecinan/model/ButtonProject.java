@@ -98,7 +98,7 @@ public class ButtonProject {
         return buttonProject;
     }
 
-    public void makeListener(Button btnLeft, Button btnRight, int status, final String idProject) {
+    public void makeListener(Button btnLeft, Button btnRight, int status, final String idProject, final Project project) {
         final String TAG = "button_click";
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -110,6 +110,20 @@ public class ButtonProject {
             btnLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(1);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Project Accepted");
+                    mail.setMailContent(project.getUserEmployee().getUsername() + " Has accepted your project proposal. Please continue with your payment to begin this project.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserClient().getId());
+                    mail.setMailSender(project.getUserEmployee().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", 1);
 
                     projectRef.updateChildren(newProjectStatus);
@@ -120,6 +134,20 @@ public class ButtonProject {
             btnRight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(-1);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Project Rejected");
+                    mail.setMailContent(project.getUserEmployee().getUsername() + " Has reject your project proposal.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserClient().getId());
+                    mail.setMailSender(project.getUserEmployee().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", -1);
 
                     projectRef.updateChildren(newProjectStatus);
@@ -132,6 +160,20 @@ public class ButtonProject {
             btnLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(2);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Project Paid");
+                    mail.setMailContent(project.getUserClient().getUsername() + " Has paid this project. You may start to work on this project.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserEmployee().getId());
+                    mail.setMailSender(project.getUserClient().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", 2);
 
                     projectRef.updateChildren(newProjectStatus);
@@ -144,6 +186,20 @@ public class ButtonProject {
             btnLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(3);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Project Finished");
+                    mail.setMailContent(project.getUserEmployee().getUsername() + " Has finished this project. You may give a review within n-days.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserClient().getId());
+                    mail.setMailSender(project.getUserEmployee().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", 3);
 
                     projectRef.updateChildren(newProjectStatus);
@@ -156,6 +212,20 @@ public class ButtonProject {
             btnLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(4);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Congratulations! All has been done");
+                    mail.setMailContent("Congratulations! " + project.getUserClient().getUsername() + " happy with your work. See you in the next project ;)");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserEmployee().getId());
+                    mail.setMailSender(project.getUserClient().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", 4);
 
                     projectRef.updateChildren(newProjectStatus);
@@ -166,6 +236,20 @@ public class ButtonProject {
             btnRight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(4);
+                    mail.setMailIsRead(false);
+                    mail.setMailTitle("Complain");
+                    mail.setMailContent("I'm really sorry to say this, but " + project.getUserClient().getUsername() + " has some review with your work.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(project.getTitle());
+                    mail.setMailRecipient(project.getUserEmployee().getId());
+                    mail.setMailSender(project.getUserClient().getId());
+                    mail.sendMail(mail);
+
                     newProjectStatus.put("/" + idProject + "/status", -4);
 
                     projectRef.updateChildren(newProjectStatus);

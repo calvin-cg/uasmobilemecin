@@ -28,9 +28,9 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
     @Override
     public MailViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.mail_list, null);
-        MailViewHolder holder = new MailViewHolder(view);
-        return null;
+        View view = inflater.inflate(R.layout.mail_list, viewGroup, false);
+        MailAdapter.MailViewHolder holder = new MailAdapter.MailViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
         //mailViewHolder.iv_mailList_mailImage.setImageDrawable(mCtx.getResources().getDrawable(mail.getMailImage()));
 
         mailViewHolder.tv_mailList_title.setText(mail.getMailTitle());
-        mailViewHolder.tv_mailList_date.setText(String.valueOf(mail.getMailReceivedDate()));
+        //mailViewHolder.tv_mailList_date.setText(String.valueOf(mail.getMailReceivedDate()));
 
         mailViewHolder.tv_mailList_projectName.setText(String.valueOf(mail.getProjectName()));
         mailViewHolder.tv_mailList_content.setText(mail.getMailContent());
@@ -49,7 +49,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mailList.size();
     }
 
     public class MailViewHolder extends RecyclerView.ViewHolder {
@@ -67,5 +67,13 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
             tv_mailList_projectName = itemView.findViewById(R.id.tv_mailList_projectName);
 
         }
+    }
+
+    public void updateMailList(List<Mail> mails) {
+        mailList.clear();
+
+        mailList = mails;
+
+        this.notifyDataSetChanged();
     }
 }

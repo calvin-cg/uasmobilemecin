@@ -84,7 +84,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
         projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
         projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
-        buttonProject.makeListener(projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject());
+        buttonProject.makeListener(projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project);
     }
 
     @Override

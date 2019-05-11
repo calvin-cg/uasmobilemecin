@@ -24,10 +24,12 @@ android:layout_centerHorizontal="true">
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="[Mail Title]"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/tv_mailList_date"
                 app:layout_constraintStart_toEndOf="@+id/iv_mailList_mailImage"
                 app:layout_constraintTop_toTopOf="@+id/iv_mailList_mailImage" />
 
