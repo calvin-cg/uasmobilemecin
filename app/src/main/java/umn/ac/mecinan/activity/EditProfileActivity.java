@@ -1,10 +1,15 @@
 package umn.ac.mecinan.activity;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +22,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +38,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +54,10 @@ import umn.ac.mecinan.model.User;
 public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     final String TAG = "edit_profile";
 
+    private Uri file_path;
+    private Uri new_avatar_path;
+    private final int PICK_IMAGE_REQUEST = 71;
+
     private String string_field;
     private String string_category;
 
@@ -48,6 +66,9 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference userRef = db.getReference("user");
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageReference = storage.getReference("user_avatar/");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +88,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
             }
         }, intentFilter);
 
+
         Spinner spinnerField = findViewById(R.id.spinnerField);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.field_select, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,74 +101,79 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         spinnerCategory.setAdapter(adapter1);
         spinnerCategory.setOnItemSelectedListener(this);
 
-        final String TAG = "edit_profile";
 
-        final FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (users == null) {
+        if (curr_user == null) {
             Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
-            String FirebaseUsername = users.getUid();
-            String FirebaseEmail = users.getEmail();
-
+            String FirebaseUsername = curr_user.getUid();
+            String FirebaseEmail = curr_user.getEmail();
 
             Log.d(TAG, "firebase: " + FirebaseUsername);
         }
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference userRef = database.getReference("user");
 
-        /** Get User Data **/
-        userRef.addValueEventListener(new ValueEventListener() {
-            User dataUser;
+        /** Get User Data from Bundle **/
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange");
+        String avatar_path = extras.getString("USER_AVATAR");
+        String name = extras.getString("USER_NAME");
+        String username = extras.getString("USER_USERNAME");
+        String email = extras.getString("USER_EMAIL");
+        String phone_number = extras.getString("USER_PHONE_NUMBER");
+        String desc = extras.getString("USER_DESC");
+        String field = extras.getString("USER_FIELD");
+        String category = extras.getString("USER_CATEGORY");
+        String fee = extras.getString("USER_FEE");
 
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+        ImageView iv_avatar = findViewById(R.id.iv_avatar);
+        EditText et_username = findViewById(R.id.editText_ef_username);
+        EditText et_desc = findViewById(R.id.editText_ef_decs);
+        EditText et_phone = findViewById(R.id.editText_ef_phone);
+        EditText et_fee = findViewById(R.id.editText_ef_fee);
 
-                    if(curr_user.getEmail().equals(ds.getValue(User.class).getEmail())) {
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getUsername());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getTagline());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getEmail());
-                        Log.d(TAG, "ds: " + ds.getValue(User.class).getPhoneNumber());
-                        dataUser = ds.getValue(User.class);
-
-                        EditText et_username = findViewById(R.id.editText_ef_username);
-                        EditText et_desc = findViewById(R.id.editText_ef_decs);
-                        EditText et_phone = findViewById(R.id.editText_ef_phone);
-                        EditText et_fee = findViewById(R.id.editText_ef_fee);
-
-                        if(dataUser.getUsername() != null) {
-                            et_username.setText(dataUser.getUsername());
-                        }
-                        if(dataUser.getDesc() != null) {
-                            et_desc.setText(dataUser.getDesc());
-                        }
-                        if(dataUser.getPhoneNumber() != null) {
-                            et_phone.setText(dataUser.getPhoneNumber());
-                        }
-                        if(dataUser.getFee() != null) {
-                            et_fee.setText(dataUser.getFee());
-                        }
-
-
-                    }
-                }
+        if(avatar_path != null) {
+            file_path = android.net.Uri.parse(avatar_path);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), file_path);
+                iv_avatar.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
 
+        if(username != null) {
+            et_username.setText(username);
+        }
+
+        if(desc != null) {
+            et_desc.setText(desc);
+        }
+
+        if(phone_number != null) {
+            et_phone.setText(phone_number);
+        }
+
+        if(fee != null) {
+            et_fee.setText(fee);
+        }
+
+
+        /** Listener for Edit Profile Photo */
+        Button btn_edit_avatar = findViewById(R.id.btn_edit_avatar);
+        btn_edit_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read user value.", error.toException());
+            public void onClick(View v) {
+                Log.d("avatar_change", "avatar clicked");
+                chooseImage();
             }
         });
 
-        Button btnEdit = findViewById(R.id.btn_edit);
 
+        /** Listener for Confirm Edit */
+        Button btnEdit = findViewById(R.id.btn_edit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             TextView tv_ef_username = findViewById(R.id.ef_username);
             TextView tv_ef_desc = findViewById(R.id.ef_desc);
@@ -203,10 +230,10 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 }
 
                 if(!isEmpty){
-                    String email = users.getEmail();
+                    String email = curr_user.getEmail();
                     String field = string_field;
                     String category = string_category;
-                    String id = users.getUid();
+                    String id = curr_user.getUid();
 
                     /**Write New Data User **/
                     User user = new User(
@@ -229,11 +256,50 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     childUpdates.put("category", category);
                     childUpdates.put("fee", fee);
 
-                    userRef.child(users.getUid()).updateChildren(childUpdates);
+                    userRef.child(curr_user.getUid()).updateChildren(childUpdates);
 
 
-                    startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
-                    finish();
+                    /**
+                     * Changing profile photo
+                     * If there is a changed
+                     **/
+                    if(new_avatar_path != file_path && new_avatar_path != null) {
+                        final ProgressDialog progressDialog = new ProgressDialog(v.getContext());
+                        progressDialog.setTitle("Uploading Profile Photo...");
+                        progressDialog.show();
+
+                        storageReference = storageReference.child(curr_user.getUid());
+                        Log.d("avatar_change", "storageReference: " + storageReference);
+
+                        storageReference.putFile(new_avatar_path)
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplication(), "Uploaded", Toast.LENGTH_SHORT).show();
+
+                                        startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplication(), "Upload Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                                    }
+                                });
+                    } else {
+                        startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
+                        finish();
+                    }
                 }
 
 
@@ -262,5 +328,35 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         Log.d(TAG, "nothing selected");
     }
 
+    public void chooseImage() {
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
 
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Application");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+        startActivityForResult(chooserIntent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ImageView avatar = findViewById(R.id.iv_avatar);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            new_avatar_path = data.getData();
+            Log.d("avatar_change", "path: " + new_avatar_path);
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), new_avatar_path);
+                avatar.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

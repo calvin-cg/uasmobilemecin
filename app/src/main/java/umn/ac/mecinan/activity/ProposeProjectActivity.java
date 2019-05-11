@@ -61,6 +61,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProposeProjectActivity.this, SearchActivity.class);
+                finish();
                 startActivity(intent);
             }
         });
@@ -153,6 +154,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                     mDatabase.child("propose_project").push().setValue(propose);
 
                     Intent i = new Intent(ProposeProjectActivity.this, SearchActivity.class);
+                    finish();
                     startActivity(i);
                 }
 

@@ -204,9 +204,8 @@ public class User {
      * desc: retrieve user avatar from realtime db and set into ImageView
      *
      * param:
-     *      @Context context
      *      @FirebaseUser curr_user
-     *      @ImageView avatar
+     *      @OnGetUserAvatarDataListener userAvatarListener
      *
      * return void
      */
@@ -215,7 +214,7 @@ public class User {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference mAvatarRef;
-        mAvatarRef = storage.getReference("user_avatar/" + curr_user.getUid() + ".jpg");
+        mAvatarRef = storage.getReference("user_avatar/" + curr_user.getUid());
 
         Log.d(TAG, "ref: " + mAvatarRef);
         Log.d(TAG, "snap: " + "start");
