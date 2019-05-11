@@ -51,14 +51,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         User employee = storedList.get(i);
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
-        employeeViewHolder.employeePhone.setText(employee.getPhoneNumber());
-        //employeeViewHolder.employeeDesc.setText(employee.getDesc());
-        employeeViewHolder.employeeCategory.setText(employee.getCategory());
         employeeViewHolder.employeeField.setText(employee.getField());
         employeeViewHolder.employeeRatingBar.setRating(4);
-        employeeViewHolder.employeeFee.setText("Fee: " + employee.getFee());
-        //employeeViewHolder.employeeCompletedProject.setText(employee.getPhoneNumber());
-        employeeViewHolder.employeeId.setText(employee.getId());
+        employeeViewHolder.employeeRate.setText("Rate: " + employee.getFee());
+        employeeViewHolder.employeeCompletedProject.setText(employee.getPhoneNumber());
 
     }
 
@@ -68,7 +64,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     }
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {
-        TextView employeeName, employeePhone, employeeDesc, employeeCategory, employeeField, employeeFee, employeeCompletedProject, employeeId;
+        TextView employeeName, employeeField, employeeRate, employeeCompletedProject, tv_id_employee;
         RatingBar employeeRatingBar;
 
         public EmployeeViewHolder(@NonNull final View itemView) {
@@ -76,10 +72,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
             employeeName = itemView.findViewById(R.id.tv_mailList_title);
             employeeField = itemView.findViewById(R.id.employeeField);
-            employeeFee = itemView.findViewById(R.id.tv_employeeList_fee);
+            employeeRate = itemView.findViewById(R.id.employeeRate);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
-            employeeId = itemView.findViewById(R.id.tv_employeeList_id);
-            //employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+            employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
+            tv_id_employee = itemView.findViewById(R.id.tv_id_employee);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,14 +84,10 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                     Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
 
                     intent.putExtra("username", employeeName.getText().toString());
-                    intent.putExtra("phone", employeePhone.getText().toString());
-                    //intent.putExtra("desc", employeeDesc.getText().toString());
-                    intent.putExtra("category", employeeCategory.getText().toString());
                     intent.putExtra("field", employeeField.getText().toString());
-                    intent.putExtra("fee", employeeFee.getText().toString());
-                    intent.putExtra("idemployee", employeeId.getText().toString());
-                    Log.d("idEmployee", employeeId.getText().toString());
-                    //intent.putExtra("completed", employeeCompletedProject.getText().toString());
+                    intent.putExtra("rate", employeeRate.getText().toString());
+                    intent.putExtra("completed", employeeCompletedProject.getText().toString());
+                    intent.putExtra("id_employee", tv_id_employee.getText().toString());
 
                     v.getContext().startActivity(intent);
 

@@ -48,7 +48,7 @@ public class EmployeeDetails extends AppCompatActivity {
         final String category = intent.getStringExtra("category");
         final String field = intent.getStringExtra("field");
         final String fee = intent.getStringExtra("fee");
-        final String idEmployee = intent.getStringExtra("idemployee");
+        final String idEmployee = intent.getStringExtra("id_employee");
         Log.d("id", idEmployee);
         //final String completed = intent.getStringExtra("completed");
 
@@ -70,9 +70,6 @@ public class EmployeeDetails extends AppCompatActivity {
                 Intent intent = new Intent(v.getContext(), ProposeProjectActivity.class);
                 intent.putExtra("idemployee", idEmployee);
                 v.getContext().startActivity(intent);
-
-
-
             }
         });
 
