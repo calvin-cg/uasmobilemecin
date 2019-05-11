@@ -22,6 +22,10 @@ public class InboxActivity extends AppCompatActivity {
      */
     BottomNavigationView bottomNavigationView;
 
+    /**
+     * BELOM BIKIN MAIL-MAIL AN
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

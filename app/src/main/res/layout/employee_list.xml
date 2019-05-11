@@ -21,7 +21,7 @@
 
 
             <TextView
-                android:id="@+id/employeeName"
+                android:id="@+id/tv_mailList_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -74,7 +74,7 @@
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeName" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_mailList_title" />
 
             <TextView
                 android:id="@+id/employeeRate"
