@@ -20,23 +20,30 @@ public class Mail {
     private String idMail;
     private int mailType;    /** Mail Type is the same as Project Status to determine mail icon */
     private boolean mailIsRead;
-    private String mailTitle, mailContent, mailReceivedDate;
-    private String projectName, mailRecipient, mailSender;  /** mailRecipient & mailSender will be filled with corresponding user data */
+    private String mailCategory, mailTitle, mailContent, mailReceivedDate;
+    private String mailRecipient, mailSender;  /** mailRecipient & mailSender will be filled with corresponding user data */
     private User userRecipient, userSender;
+    private String idProject, projectName, projectField, projectCategory;
 
     public Mail() { }
-    public Mail(String idMail, int mailType, boolean mailIsRead, String mailTitle, String mailContent, String mailReceivedDate, String projectName, String mailRecipient, String mailSender) {
+    public Mail(String idMail, int mailType, boolean mailIsRead, String mailCategory,
+                String mailTitle, String mailContent, String mailReceivedDate, String mailRecipient,
+                String mailSender, String idProject, String projectName, String projectField, String projectCategory) {
         this.idMail = idMail;
         this.mailType = mailType;
         this.mailIsRead = mailIsRead;
+        this.mailCategory = mailCategory;
         this.mailTitle = mailTitle;
         this.mailContent = mailContent;
         this.mailReceivedDate = mailReceivedDate;
-        this.projectName = projectName;
         this.mailRecipient = mailRecipient;
         this.mailSender = mailSender;
         this.userRecipient = null;
         this.userSender = null;
+        this.idProject = idProject;
+        this.projectName = projectName;
+        this.projectField = projectField;
+        this.projectCategory = projectCategory;
     }
 
     public String getIdMail() {
@@ -52,6 +59,9 @@ public class Mail {
     public boolean getMailIsRead() { return mailIsRead; }
     public void setMailIsRead(boolean mailIsRead) { this.mailIsRead = mailIsRead; }
 
+    public String getMailCategory() { return mailCategory; }
+    public void setMailCategory(String mailCategory) { this.mailCategory = mailCategory; }
+
     public String getMailTitle() { return mailTitle; }
     public void setMailTitle(String mailTitle) { this.mailTitle = mailTitle; }
 
@@ -60,9 +70,6 @@ public class Mail {
 
     public String getMailReceivedDate() { return mailReceivedDate; }
     public void setMailReceivedDate(String mailReceivedDate) { this.mailReceivedDate = mailReceivedDate; }
-
-    public String getProjectName() { return projectName; }
-    public void setProjectName(String projectName) { this.projectName = projectName; }
 
     public String getMailRecipient() { return mailRecipient; }
     public void setMailRecipient(String mailRecipient) { this.mailRecipient = mailRecipient; }
@@ -78,6 +85,28 @@ public class Mail {
     public User getUserSender() { return userSender; }
     public void setUserSender(User userSender) {
         this.userSender = userSender;
+    }
+
+    public String getIdProject() { return idProject; }
+    public void setIdProject(String idProject) {
+        this.idProject = idProject;
+    }
+
+    public String getProjectName() { return projectName; }
+    public void setProjectName(String projectName) { this.projectName = projectName; }
+
+    public String getProjectField() {
+        return projectField;
+    }
+    public void setProjectField(String projectField) {
+        this.projectField = projectField;
+    }
+
+    public String getProjectCategory() {
+        return projectCategory;
+    }
+    public void setProjectCategory(String projectCategory) {
+        this.projectCategory = projectCategory;
     }
 
 

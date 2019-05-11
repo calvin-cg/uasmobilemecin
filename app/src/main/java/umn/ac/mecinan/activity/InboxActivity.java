@@ -73,23 +73,6 @@ public class InboxActivity extends AppCompatActivity {
         }, intentFilter);
 
 
-        /*String key = ref.push().getKey();
-        Mail mail = new Mail(
-                key,
-                0,
-                false,
-                "[Project Title] [Status: (i.e: Proposal)].",
-                "[Mail Content]... [User] has [status] the project.",
-                null,
-                "Project Name",
-                "Recipient",
-                "Sender"
-        );
-
-        Log.d("manual_input", "id: " + mail.getIdMail());
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, mail);
-        ref.updateChildren(childUpdates);*/
         /**
          * Retrieve Inbox
          */

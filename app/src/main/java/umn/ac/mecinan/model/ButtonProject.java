@@ -116,12 +116,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(1);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Project Accepted");
                     mail.setMailContent(project.getUserEmployee().getUsername() + " Has accepted your project proposal. Please continue with your payment to begin this project.");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserClient().getId());
                     mail.setMailSender(project.getUserEmployee().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", 1);
@@ -140,12 +145,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(-1);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Project Rejected");
                     mail.setMailContent(project.getUserEmployee().getUsername() + " Has reject your project proposal.");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserClient().getId());
                     mail.setMailSender(project.getUserEmployee().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", -1);
@@ -166,12 +176,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(2);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Project Paid");
                     mail.setMailContent(project.getUserClient().getUsername() + " Has paid this project. You may start to work on this project.");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserEmployee().getId());
                     mail.setMailSender(project.getUserClient().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", 2);
@@ -192,12 +207,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(3);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Project Finished");
                     mail.setMailContent(project.getUserEmployee().getUsername() + " Has finished this project. You may give a review within n-days.");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserClient().getId());
                     mail.setMailSender(project.getUserEmployee().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", 3);
@@ -218,12 +238,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(4);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Congratulations! All has been done");
                     mail.setMailContent("Congratulations! " + project.getUserClient().getUsername() + " happy with your work. See you in the next project ;)");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserEmployee().getId());
                     mail.setMailSender(project.getUserClient().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", 4);
@@ -242,12 +267,17 @@ public class ButtonProject {
                     Mail mail = new Mail();
                     mail.setMailType(4);
                     mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
                     mail.setMailTitle("Complain");
                     mail.setMailContent("I'm really sorry to say this, but " + project.getUserClient().getUsername() + " has some review with your work.");
                     mail.setMailReceivedDate(null);
                     mail.setProjectName(project.getTitle());
                     mail.setMailRecipient(project.getUserEmployee().getId());
                     mail.setMailSender(project.getUserClient().getId());
+                    mail.setIdProject(project.getIdProject());
+                    mail.setProjectName(project.getTitle());
+                    mail.setProjectField(project.getIdField());
+                    mail.setProjectCategory(project.getIdCategory());
                     mail.sendMail(mail);
 
                     newProjectStatus.put("/" + idProject + "/status", -4);

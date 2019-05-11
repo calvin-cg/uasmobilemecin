@@ -1,6 +1,8 @@
 package umn.ac.mecinan.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.activity.MailDetails;
 import umn.ac.mecinan.model.Mail;
 
 public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder>{
@@ -35,7 +38,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MailViewHolder mailViewHolder, int i) {
-        Mail mail = mailList.get(i);
+        final Mail mail = mailList.get(i);
 
         //mailViewHolder.iv_mailList_mailImage.setImageDrawable(mCtx.getResources().getDrawable(mail.getMailImage()));
 
@@ -44,6 +47,26 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
 
         mailViewHolder.tv_mailList_projectName.setText(String.valueOf(mail.getProjectName()));
         mailViewHolder.tv_mailList_content.setText(mail.getMailContent());
+
+        mailViewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MailDetails.class);
+
+                Bundle extras = new Bundle();
+                extras.putString("mail_details_id_mail", mail.getIdMail());
+                extras.putString("mail_details_category", mail.getMailCategory());
+                extras.putString("mail_details_project_field", mail.getProjectField());
+                extras.putString("mail_details_project_category", mail.getProjectCategory());
+                extras.putString("mail_details_project_name", mail.getProjectName());
+                extras.putString("mail_details_date", mail.getMailReceivedDate());
+                extras.putString("mail_details_title", mail.getMailTitle());
+                extras.putString("mail_details_content", mail.getMailContent());
+
+                intent.putExtras(extras);
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
@@ -56,6 +79,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
         ImageView iv_mailList_mailImage;
         TextView tv_mailList_title, tv_mailList_content, tv_mailList_date;
         TextView tv_mailList_projectName;
+        View view;
 
         public MailViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,7 +89,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
             tv_mailList_content = itemView.findViewById(R.id.tv_mailList_content);
             tv_mailList_date = itemView.findViewById(R.id.tv_mailList_date);
             tv_mailList_projectName = itemView.findViewById(R.id.tv_mailList_projectName);
-
+            view = itemView;
         }
     }
 
