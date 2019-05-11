@@ -3,9 +3,11 @@ package umn.ac.mecinan.model;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.database.DatabaseReference;
@@ -103,13 +105,8 @@ public class ButtonProject{
         return buttonProject;
     }
 
-    public void makeListener(Button btnLeft, Button btnRight, int status, final String idProject, final Project project) {
+    public void makeListener(final View view, Button btnLeft, Button btnRight, int status, final String idProject, final Project project) {
         final String TAG = "button_click";
-
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        final DatabaseReference projectRef = db.getReference("project");
-
-        final Map<String, Object> newProjectStatus = new HashMap<>();
 
         if(status == 0) {
             btnLeft.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +129,19 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
+                    int new_status = 1;
+
+                    /*
                     newProjectStatus.put("/" + idProject + "/status", 1);
 
                     projectRef.updateChildren(newProjectStatus);
+                    */
+
                     Log.d(TAG, "Accepted");
 
-                    //showCustomDialog();
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
 
@@ -163,12 +165,16 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
-                    newProjectStatus.put("/" + idProject + "/status", -1);
+                    int new_status = -1;
 
-                    projectRef.updateChildren(newProjectStatus);
+                    /*newProjectStatus.put("/" + idProject + "/status", -1);
+
+                    projectRef.updateChildren(newProjectStatus);*/
                     Log.d(TAG, "Rejected");
+
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
         }
@@ -194,12 +200,16 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
-                    newProjectStatus.put("/" + idProject + "/status", 2);
+                    int new_status = 2;
 
-                    projectRef.updateChildren(newProjectStatus);
+                    /*newProjectStatus.put("/" + idProject + "/status", 2);
+
+                    projectRef.updateChildren(newProjectStatus);*/
                     Log.d(TAG, "Paid");
+
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
         }
@@ -225,12 +235,16 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
-                    newProjectStatus.put("/" + idProject + "/status", 3);
+                    int new_status = 3;
 
-                    projectRef.updateChildren(newProjectStatus);
+                    /*newProjectStatus.put("/" + idProject + "/status", 3);
+
+                    projectRef.updateChildren(newProjectStatus);*/
                     Log.d(TAG, "Finished");
+
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
         }
@@ -256,13 +270,16 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
-                    newProjectStatus.put("/" + idProject + "/status", 4);
+                    int new_status = 4;
 
-                    projectRef.updateChildren(newProjectStatus);
+                    /*newProjectStatus.put("/" + idProject + "/status", 4);
+
+                    projectRef.updateChildren(newProjectStatus);*/
                     Log.d(TAG, "Confirmed");
 
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
 
@@ -286,30 +303,92 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    mail.sendMail(mail);
+                    //mail.sendMail(mail);
 
-                    newProjectStatus.put("/" + idProject + "/status", -4);
+                    int new_status = -4;
 
-                    projectRef.updateChildren(newProjectStatus);
+                    /*newProjectStatus.put("/" + idProject + "/status", -4);
+
+                    projectRef.updateChildren(newProjectStatus);*/
                     Log.d(TAG, "Revision");
+
+                    showCustomDialog(view, mail, idProject, new_status);
                 }
             });
         }
     }
 
-    /*private void showCustomDialog() {
-        //then we will inflate the custom alert dialog xml that we created
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, viewGroup, false);
+    public void showCustomDialog(View view, final Mail mail, final String idProject, final int new_status) {
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference projectRef = db.getReference("project");
+        final Map<String, Object> newProjectStatus = new HashMap<>();
+
+
+        /**
+         * Preparing the Inflater with context from passed view (from Project View Adapter)
+         */
+        LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
+
+
+        /**
+         * Inflating into new view
+         * (showing it to screen according which button is clicked)
+         */
+        View v;
+
+        if(new_status == 1) {
+            v = layoutInflater.inflate(R.layout.custom_dialog_accept, null);
+        } else if(new_status == -1) {
+            v = layoutInflater.inflate(R.layout.custom_dialog_reject, null);
+        } else if(new_status == 2) {
+            v = layoutInflater.inflate(R.layout.custom_dialog_pay, null);
+        } else if(new_status == 3) {
+            v = layoutInflater.inflate(R.layout.custom_dialog_finish, null);
+        } else if(new_status == 4) {
+            v = layoutInflater.inflate(R.layout.custom_dialog_confirm, null);
+        } else {
+            /** For Now the Default Value is -4 */
+            v = layoutInflater.inflate(R.layout.custom_dialog_revision, null);
+        }
+
+        Button btn_positive = (Button) v.findViewById(R.id.btn_positive);
+        Button btn_negative = (Button) v.findViewById(R.id.btn_negative);
 
         //Now we need an AlertDialog.Builder object
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
         //setting the view of the builder to our custom view that we already inflated
-        builder.setView(dialogView);
+        builder.setView(v);
 
         //finally creating the alert dialog and displaying it
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }*/
 
+
+        /**
+         * Button Positive Listener
+         */
+        btn_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mail.sendMail(mail);
+
+                newProjectStatus.put("/" + idProject + "/status", new_status);
+                projectRef.updateChildren(newProjectStatus);
+                alertDialog.dismiss();
+            }
+        });
+
+
+        /**
+         * Button Negative Listener
+         */
+        btn_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+    }
 }

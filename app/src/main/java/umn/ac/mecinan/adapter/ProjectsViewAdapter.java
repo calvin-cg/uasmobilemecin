@@ -84,7 +84,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
         projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
         projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
-        buttonProject.makeListener(projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project);
+        buttonProject.makeListener(projectViewHolder.view, projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project);
     }
 
     @Override
@@ -95,6 +95,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         Button btnLeft, btnRight;
         ProgressBar projectProgressBar;
         RatingBar projectRating;
+        View view;
 
         public ProjectViewHolder(@NonNull View itemView){
             super(itemView);
@@ -109,6 +110,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectRating = itemView.findViewById(R.id.employeeRatingBar);
             btnLeft = itemView.findViewById(R.id.btn_left);
             btnRight = itemView.findViewById(R.id.btn_right);
+            view = itemView;
         }
     }
 

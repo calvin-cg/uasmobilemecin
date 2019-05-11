@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="4dp"
             android:layout_marginHorizontal="32dp"
-            android:text="Revision"
+            android:text="Finish"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorAccent"
@@ -59,7 +59,7 @@
                 android:layout_marginVertical="4dp"
                 android:layout_marginHorizontal="8dp"
                 android:background="@drawable/background02"
-                android:text="Revision"
+                android:text="Finish"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_negative"
                 app:layout_constraintStart_toStartOf="parent"
