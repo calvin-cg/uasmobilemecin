@@ -14,7 +14,7 @@ public class Propose {
         this.idEmployee = idEmployee;
         this.field = field;
         this.cat = cat;
-        this.duration = title;
+        this.title = title;
         this.duration = duration;
         this.price = price;
         this.desc = desc;

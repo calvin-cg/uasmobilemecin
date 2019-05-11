@@ -69,20 +69,20 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
 
-        /*FirebaseDatabase db = FirebaseDatabase.getInstance();
+/*        FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference ref = db.getReference("project");
         String key = ref.push().getKey();
 
         Project project = new Project(
             key,
-            "Project w/ Status 4 (client confirm)",
+            "Project w/ Status 4 (punya Devi)",
             "C35GovM3FAcHq1M0j9LesmeWinz1",
             "lmUOraYXRRYuqWzAJrjrU4DCEr63",
             "IT",
             "Website",
-            "Project dengan status 4 (for employee)",
+            "Project dengan status 4 (punya Devi)",
             5000,
-            0,
+            4,
             5
         );
 

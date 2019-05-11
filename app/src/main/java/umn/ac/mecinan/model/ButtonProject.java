@@ -1,7 +1,10 @@
 package umn.ac.mecinan.model;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,9 +14,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import umn.ac.mecinan.R;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
+import umn.ac.mecinan.fragment.MainOngoingFragment;
 
-public class ButtonProject {
+public class ButtonProject{
     private int viewBtnLeft, viewBtnRight;
     private String stringBtnLeft, stringBtnRight;
 
@@ -133,6 +138,8 @@ public class ButtonProject {
 
                     projectRef.updateChildren(newProjectStatus);
                     Log.d(TAG, "Accepted");
+
+                    //showCustomDialog();
                 }
             });
 
@@ -255,6 +262,7 @@ public class ButtonProject {
 
                     projectRef.updateChildren(newProjectStatus);
                     Log.d(TAG, "Confirmed");
+
                 }
             });
 
@@ -288,4 +296,20 @@ public class ButtonProject {
             });
         }
     }
+
+    /*private void showCustomDialog() {
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, viewGroup, false);
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }*/
+
 }
