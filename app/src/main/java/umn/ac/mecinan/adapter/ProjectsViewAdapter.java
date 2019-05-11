@@ -3,7 +3,6 @@ package umn.ac.mecinan.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,11 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseError;
-
-import java.sql.Array;
 import java.util.List;
 
 import umn.ac.mecinan.R;
-import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
-import umn.ac.mecinan.model.User;
 
 public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapter.ProjectViewHolder> {
 
@@ -105,7 +99,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         public ProjectViewHolder(@NonNull View itemView){
             super(itemView);
 
-            projectTitle = itemView.findViewById(R.id.employeeName);
+            projectTitle = itemView.findViewById(R.id.tv_mailList_title);
             projectProgressBar = itemView.findViewById(R.id.projectProgressBar);
             projectWorkRequest = itemView.findViewById(R.id.tvCompletedProject);
             projectWRUser = itemView.findViewById(R.id.employeeCompletedProject);

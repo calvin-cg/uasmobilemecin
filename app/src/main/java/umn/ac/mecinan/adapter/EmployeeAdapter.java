@@ -1,6 +1,5 @@
 package umn.ac.mecinan.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.activity.EmployeeDetails;
-import umn.ac.mecinan.activity.SearchActivity;
 import umn.ac.mecinan.model.User;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
@@ -76,10 +74,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         public EmployeeViewHolder(@NonNull final View itemView) {
             super(itemView);
 
-            employeeName = itemView.findViewById(R.id.employeeName);
-            employeePhone = itemView.findViewById(R.id.tv_employeeList_phone);
-            //employeeDesc = itemView.findViewById(R.id.tv_employeeList_desc);
-            employeeCategory = itemView.findViewById(R.id.tv_employeeList_cat);
+            employeeName = itemView.findViewById(R.id.tv_mailList_title);
             employeeField = itemView.findViewById(R.id.employeeField);
             employeeFee = itemView.findViewById(R.id.tv_employeeList_fee);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
