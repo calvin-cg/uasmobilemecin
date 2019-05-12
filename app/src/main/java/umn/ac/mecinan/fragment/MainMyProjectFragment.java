@@ -139,6 +139,12 @@ public class MainMyProjectFragment extends Fragment {
 
                                 ButtonProject buttonProject = new ButtonProject();
                                 listButton.add(buttonProject.makeButton(project.getStatus()));
+                            } else {
+                                listMyProject.add(project);
+                                listIsEmployee.add(false);
+
+                                ButtonProject buttonProject = new ButtonProject();
+                                listButton.add(buttonProject.makeButton(4));
                             }
                         }
                     }

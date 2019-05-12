@@ -80,11 +80,13 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         }
 
         /** Button */
-        projectViewHolder.btnLeft.setVisibility(buttonProject.getViewBtnLeft());
-        projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
-        projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
-        projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
-        buttonProject.makeListener(projectViewHolder.view, projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project);
+        if(buttonProject != null) {
+            projectViewHolder.btnLeft.setVisibility(buttonProject.getViewBtnLeft());
+            projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
+            projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
+            projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
+            buttonProject.makeListener(projectViewHolder.view, projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project);
+        }
     }
 
     @Override
@@ -122,7 +124,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvProgressBar = 10;
                 break;
             case  1:
-                tvStatus = "Project Accepted, Waiting for Confirmation"; // client need to confirm 'project accepted"
+                tvStatus = "Project Accepted, Waiting for Payment"; // client need to confirm 'project accepted"
                 tvProgressBar = 20;
                 break;
             case -1:
@@ -134,7 +136,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvProgressBar = 30;
                 break;
             case  2:
-                tvStatus = "Project Paid, Waiting for Confirmation"; // employee need to confirm 'payment"
+                tvStatus = "Project Paid, Please Wait Until Project is Done"; // employee need to confirm 'payment"
                 tvProgressBar = 40;
                 break;
             case -3:

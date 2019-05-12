@@ -141,6 +141,12 @@ public class MainOngoingFragment extends Fragment {
 
                                 ButtonProject buttonProject = new ButtonProject();
                                 listButton.add(buttonProject.makeButton(project.getStatus()));
+                            } else {
+                                listOngoing.add(project);
+                                listIsEmployee.add(true);
+
+                                ButtonProject buttonProject = new ButtonProject();
+                                listButton.add(buttonProject.makeButton(4));
                             }
                         }
                     }
