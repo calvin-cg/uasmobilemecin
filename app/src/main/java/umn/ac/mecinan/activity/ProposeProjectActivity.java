@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.Mail;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.Propose;
 import umn.ac.mecinan.model.User;
@@ -133,7 +134,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
 
                 if(!isEmpty) {
                     String idClient = curr_user.getUid();
-                    int status = 1;
+                    int status = 0;
                     float rating = 5;
 
                     Intent intent = getIntent();
@@ -155,19 +156,28 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                     );
 
                     mDatabase.child("project").child(idProject).setValue(project);
-/*
-                    idProject = project.getIdProject();
-                    Map<String, Object> postValues = project.toMap();
-                    Map<String, Object> childUpdates = new HashMap<>();
-
-                    String key = mDatabase.push().getKey();
-                    childUpdates.put("idProject", idProject);
-                    mDatabase.child("project").child(key).updateChildren(childUpdates);*/
 
 
-                    Intent i = new Intent(ProposeProjectActivity.this, SearchActivity.class);
+                    /**
+                     * Set variable for mail
+                     */
+                    Mail mail = new Mail();
+                    mail.setMailType(1);
+                    mail.setMailIsRead(false);
+                    mail.setMailCategory("Work");
+                    mail.setMailTitle("Project Proposal");
+                    mail.setMailContent(curr_user.getEmail() + " Has proposed a new project to You. Please check and consider to accept or reject it.");
+                    mail.setMailReceivedDate(null);
+                    mail.setProjectName(title);
+                    mail.setMailRecipient(idEmployee);
+                    mail.setMailSender(curr_user.getUid());
+                    mail.setIdProject(idProject);
+                    mail.setProjectName(title);
+                    mail.setProjectField(field);
+                    mail.setProjectCategory(category);
+                    mail.sendMail(mail);
+
                     finish();
-                    startActivity(i);
                 }
 
             }
