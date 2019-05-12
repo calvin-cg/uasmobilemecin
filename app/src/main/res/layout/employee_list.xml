@@ -63,7 +63,7 @@
                 app:layout_constraintStart_toEndOf="@+id/employeeField"
                 app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_phone" />
 
-            <!--<TextView
+            <TextView
                 android:id="@+id/tvCompletedProject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -76,20 +76,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/employeeCompletedProject"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeRate" />-->
+                app:layout_constraintTop_toBottomOf="@+id/employeeRate" />
 
-            <!--<TextView
+            <TextView
                 android:id="@+id/employeeCompletedProject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
-                android:text="NULL"
+                android:text="[n]"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvCompletedProject"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCompletedProject" />-->
+                app:layout_constraintTop_toTopOf="@+id/tvCompletedProject" />
 
             <TextView
                 android:id="@+id/employeeField"

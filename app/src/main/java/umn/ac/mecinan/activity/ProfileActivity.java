@@ -15,9 +15,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +87,10 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(User user) {
+                final RatingBar rb_employee_profile = findViewById(R.id.rb_employee_profile);
+                TextView tv_rating = findViewById(R.id.tv_rating);
                 TextView tvName = findViewById(R.id.tvName);
+                TextView tv_completed_project = findViewById(R.id.tv_completed_project);
                 TextView tvName2 = findViewById(R.id.tvName2);
                 TextView tvEmail = findViewById(R.id.tvEmail);
                 TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
@@ -93,8 +98,21 @@ public class ProfileActivity extends AppCompatActivity {
                 TextView tvField = findViewById(R.id.tvField);
                 TextView tvCategory = findViewById(R.id.tvCategory);
                 TextView tvFee = findViewById(R.id.tvFee);
+                Integer completed_project = user.getTotalProjectCompleted();
+                Float rating;
 
+                if(completed_project > 0) {
+                    rating = user.getRatingEmployee() / completed_project;
+                } else {
+                    rating = user.getRatingEmployee();
+                }
 
+                if(completed_project > 0) {
+                    tv_rating.setText(String.format("%.1f", rating));
+                }
+
+                rb_employee_profile.setRating(rating);
+                tv_completed_project.setText(completed_project.toString() + " Completed Project");
                 tvName.setText("Hi, " + user.getUsername() + "!");
                 tvName2.setText(user.getUsername());
                 //tvTagline.setText(user.getTagline());

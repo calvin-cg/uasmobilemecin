@@ -10,13 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import umn.ac.mecinan.R;
 
 public class EmployeeDetails extends AppCompatActivity {
 
-    TextView tv_employeeDetails_username, tv_employeeDetails_field, tv_employeeDetails_fee, tv_employeeDetails_completed;
+    RatingBar rb_employee_details;
+    TextView tv_rating, tv_completed_project;
+    TextView tv_employeeDetails_username, tv_employeeDetails_field, tv_employeeDetails_fee;
     TextView tv_employeeDetails_phone, tv_employeeDetails_cat, tv_employeeDetails_idEmployee;
     Button btn_employeeDetails_contact;
 
@@ -30,6 +33,9 @@ public class EmployeeDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_details);
 
+        rb_employee_details = findViewById(R.id.rb_employee_details);
+        tv_rating = findViewById(R.id.tv_rating);
+        tv_completed_project = findViewById(R.id.tv_completed_project);
         tv_employeeDetails_username = findViewById(R.id.tv_employeeDetails_username);
         tv_employeeDetails_phone = findViewById(R.id.tv_employeeDetails_phone);
         //tv_employeeDetails_desc = findViewById(R.id.tv_employeeList_desc);
@@ -40,18 +46,28 @@ public class EmployeeDetails extends AppCompatActivity {
         //tv_employeeDetails_completed = findViewById(R.id.tv_employeeDetails_completed);
         btn_employeeDetails_contact = findViewById(R.id.btn_employeeDetails_contact);
 
+
         Intent intent = getIntent();
 
-        final String username = intent.getStringExtra("username");
-        final String phone = intent.getStringExtra("phone");
+        Float rating = intent.getFloatExtra("rating", 0.0f);
+        Integer completed_project = intent.getIntExtra("completed_project", 0);
+
+        if(completed_project > 0 ) {
+            rating = rating / completed_project;
+        }
+
+        String username = intent.getStringExtra("username");
+        String phone = intent.getStringExtra("phone");
         //final String desc = intent.getStringExtra("desc");
-        final String category = intent.getStringExtra("category");
-        final String field = intent.getStringExtra("field");
-        final String fee = intent.getStringExtra("fee");
+        String category = intent.getStringExtra("category");
+        String field = intent.getStringExtra("field");
+        String fee = intent.getStringExtra("fee");
         final String idEmployee = intent.getStringExtra("id_employee");
         Log.d("id", idEmployee);
-        //final String completed = intent.getStringExtra("completed");
 
+        rb_employee_details.setRating(rating);
+        tv_rating.setText(String.format("%.1f", rating));
+        tv_completed_project.setText(completed_project.toString() + " Completed Project");
         tv_employeeDetails_username.setText(username);
         tv_employeeDetails_phone.setText(phone);
         //tv_employeeDetails_desc.setText(desc);
@@ -59,7 +75,6 @@ public class EmployeeDetails extends AppCompatActivity {
         tv_employeeDetails_field.setText(field);
         tv_employeeDetails_fee.setText(fee);
         tv_employeeDetails_idEmployee.setText(idEmployee);
-        //tv_employeeDetails_completed.setText(completed);
 
         /**
          * BUTTON PROPOSE

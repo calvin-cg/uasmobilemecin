@@ -32,7 +32,15 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 public class User {
 
     private String username, email, tagline, phoneNumber, desc, field, category, fee, id;
+
+    /** isEmployee Default Value is false */
     private Boolean isEmployee;
+
+    /** ratingEmployee Default Value is 0.0f */
+    private Float ratingEmployee;
+
+    /** totalProject Completed Default Value is 0 */
+    private Integer totalProjectCompleted;
 
 
     public User(){
@@ -45,6 +53,8 @@ public class User {
         this.tagline = tagline;
         this.phoneNumber = phoneNumber;
         this.isEmployee = false;
+        this.ratingEmployee = 0.0f;
+        this.totalProjectCompleted = 0;
     }
 
     public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee, String id) {
@@ -140,6 +150,20 @@ public class User {
     }
     public void setIsEmployee(Boolean isEmployee) {
         this.isEmployee = isEmployee;
+    }
+
+    public Float getRatingEmployee() {
+        return ratingEmployee;
+    }
+    public void setRatingEmployee(Float ratingEmployee) {
+        this.ratingEmployee = ratingEmployee;
+    }
+
+    public Integer getTotalProjectCompleted() {
+        return totalProjectCompleted;
+    }
+    public void setTotalProjectCompleted(Integer totalProjectCompleted) {
+        this.totalProjectCompleted = totalProjectCompleted;
     }
 
 

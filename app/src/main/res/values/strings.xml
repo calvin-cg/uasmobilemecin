@@ -38,6 +38,9 @@
     <!-- SIGNUP ACTIVITY -->
     <string name="tv_signup_loginhint">Already have an account?</string>
 
+    <!-- PROFILE ACTIVITY -->
+    <string name="tv_no_rating">N/A</string>
+
     <!-- EDIT PROFILE ACTIVITY -->
     <string name="iv_edit_avatar">Edit Profile Photo</string>
 
