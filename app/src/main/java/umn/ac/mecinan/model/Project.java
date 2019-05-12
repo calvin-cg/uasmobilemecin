@@ -9,6 +9,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import umn.ac.mecinan.listener.OnGetProjectDataListener;
 
 public class Project {
@@ -71,6 +74,12 @@ public class Project {
         this.price = price;
         this.status = status;
         this.rating = rating;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("idProject", idProject);
+        return result;
     }
 
 

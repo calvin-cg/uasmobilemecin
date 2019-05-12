@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.flags.impl.DataUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -21,7 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.model.Propose;
 import umn.ac.mecinan.model.User;
 
@@ -84,7 +89,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
 
                 String name = inputname.getText().toString().trim();
                 String duration = inputduration.getText().toString().trim();
-                String price = inputprice.getText().toString().trim();
+                int price = Integer.parseInt(inputprice.getText().toString().trim());
                 String desc = inputdesc.getText().toString().trim();
                 String title = inputtitle.getText().toString().trim();
 
@@ -113,7 +118,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                 }
 
                 /** Fee Propose Field Validation **/
-                if(TextUtils.isEmpty(price)) {
+                if(inputprice.getText().toString().trim().length() < 0) {
                     textprice.setTextColor(getResources().getColor(R.color.brink_pink));
                     isEmpty = true;
                 } else {
@@ -135,23 +140,36 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                 if(!isEmpty) {
                     String idClient = curr_user.getUid();
                     int status = 1;
+                    float rating = 5;
 
                     Intent intent = getIntent();
                     String idEmployee = intent.getStringExtra("idemployee");
+                    String idProject = mDatabase.push().getKey();
+                    //String idProject = null;
 
-                    Propose propose = new Propose(
-                            name,
-                            idClient,
+                    Project project = new Project(
+                            idProject,
+                            title,
                             idEmployee,
+                            idClient,
                             field,
                             category,
-                            title,
-                            duration,
-                            price,
                             desc,
-                            status
+                            price,
+                            status,
+                            rating
                     );
-                    mDatabase.child("propose_project").push().setValue(propose);
+
+                    mDatabase.child("project").child(idProject).setValue(project);
+/*
+                    idProject = project.getIdProject();
+                    Map<String, Object> postValues = project.toMap();
+                    Map<String, Object> childUpdates = new HashMap<>();
+
+                    String key = mDatabase.push().getKey();
+                    childUpdates.put("idProject", idProject);
+                    mDatabase.child("project").child(key).updateChildren(childUpdates);*/
+
 
                     Intent i = new Intent(ProposeProjectActivity.this, SearchActivity.class);
                     finish();

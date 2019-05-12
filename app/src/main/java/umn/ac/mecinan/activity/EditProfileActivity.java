@@ -95,12 +95,40 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         spinnerField.setAdapter(adapter);
         spinnerField.setOnItemSelectedListener(this);
 
-        Spinner spinnerCategory = findViewById(R.id.spinnerCategory);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_it, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapter1);
-        spinnerCategory.setOnItemSelectedListener(this);
 
+        //Log.d("field :", string_field);
+
+        if(string_field == "Information & Technology"){
+            Spinner spinnerCategory = findViewById(R.id.spinnerCategory);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_it, android.R.layout.simple_spinner_item);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(adapter1);
+            spinnerCategory.setOnItemSelectedListener(this);
+        }
+
+        if(string_field == "Art & Design"){
+            Spinner spinnerCategory = findViewById(R.id.spinnerCategory);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_ad, android.R.layout.simple_spinner_item);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(adapter1);
+            spinnerCategory.setOnItemSelectedListener(this);
+        }
+
+        if(string_field == "Business"){
+            Spinner spinnerCategory = findViewById(R.id.spinnerCategory);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_bu, android.R.layout.simple_spinner_item);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(adapter1);
+            spinnerCategory.setOnItemSelectedListener(this);
+        }
+
+        if(string_field == "Public Relation") {
+            Spinner spinnerCategory = findViewById(R.id.spinnerCategory);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_pr, android.R.layout.simple_spinner_item);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(adapter1);
+            spinnerCategory.setOnItemSelectedListener(this);
+        }
 
         if (curr_user == null) {
             Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
@@ -234,6 +262,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                     String field = string_field;
                     String category = string_category;
                     String id = curr_user.getUid();
+
 
                     /**Write New Data User **/
                     User user = new User(
