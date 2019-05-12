@@ -56,12 +56,6 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
         spinnePurposerField.setAdapter(adapter);
         spinnePurposerField.setOnItemSelectedListener(this);
 
-        Spinner spinnerPurposeCategory = findViewById(R.id.spinner_propose_Category);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_it, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPurposeCategory.setAdapter(adapter1);
-        spinnerPurposeCategory.setOnItemSelectedListener(this);
-
         btn_cancel.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
@@ -184,6 +178,19 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(parent.getId() == R.id.spinner_propose_Field) {
             field = parent.getItemAtPosition(position).toString();
+
+            if(position == 0){
+                spinnerCatIT();
+            }
+            if(position == 1){
+                spinnerCatAD();
+            }
+            if(position == 2){
+                spinnerCatBU();
+            }
+            if(position == 3){
+                spinnerCatPR();
+            }
             Log.d(TAG, field);
         }
 
@@ -197,5 +204,37 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         Log.d(TAG, "nothing selected");
+    }
+
+    public void spinnerCatIT(){
+        Spinner spinnerProposeCategory = findViewById(R.id.spinner_propose_Category);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_it, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProposeCategory.setAdapter(adapter1);
+        spinnerProposeCategory.setOnItemSelectedListener(this);
+    }
+
+    public void spinnerCatAD(){
+        Spinner spinnerProposeCategory = findViewById(R.id.spinner_propose_Category);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_ad, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProposeCategory.setAdapter(adapter1);
+        spinnerProposeCategory.setOnItemSelectedListener(this);
+    }
+
+    public void spinnerCatBU(){
+        Spinner spinnerProposeCategory = findViewById(R.id.spinner_propose_Category);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_bu, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProposeCategory.setAdapter(adapter1);
+        spinnerProposeCategory.setOnItemSelectedListener(this);
+    }
+
+    public void spinnerCatPR(){
+        Spinner spinnerProposeCategory = findViewById(R.id.spinner_propose_Category);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.cat_pr, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProposeCategory.setAdapter(adapter1);
+        spinnerProposeCategory.setOnItemSelectedListener(this);
     }
 }
