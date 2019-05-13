@@ -145,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         /**Retrieve Avatar**/
         try{
-            user.retrieveAvatar(curr_user, new OnGetUserAvatarDataListener() {
+            user.retrieveAvatar(curr_user.getUid(), new OnGetUserAvatarDataListener() {
                 @Override
                 public void onStart() {
 

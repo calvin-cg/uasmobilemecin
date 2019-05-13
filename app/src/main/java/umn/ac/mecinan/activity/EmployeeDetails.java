@@ -1,6 +1,9 @@
 package umn.ac.mecinan.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +13,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
+import java.io.IOException;
+
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.listener.OnGetUserAvatarDataListener;
+import umn.ac.mecinan.model.User;
 
 public class EmployeeDetails extends AppCompatActivity {
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser curr_user = auth.getCurrentUser();
+
+    /**
+     * DECLARATION - CHOOSE IMAGE
+     */
+    private Uri file_path;
 
     RatingBar rb_employee_details;
     TextView tv_rating, tv_completed_project;
@@ -75,6 +95,43 @@ public class EmployeeDetails extends AppCompatActivity {
         tv_employeeDetails_field.setText(field);
         tv_employeeDetails_fee.setText(fee);
         tv_employeeDetails_idEmployee.setText(idEmployee);
+
+
+
+        /**
+         * Retrieve Avatar
+         */
+        User user = new User();
+        try{
+            user.retrieveAvatar(idEmployee, new OnGetUserAvatarDataListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onSuccess(File file) {
+                    Log.d("employee avatar", "get");
+                    ImageView avatar = findViewById(R.id.imageView);
+
+                    file_path = android.net.Uri.parse(file.toURI().toString());
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), file_path);
+                        avatar.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailed(Exception exception) {
+                    Log.d("employee avatar", "Exception: " + exception);
+                }
+            });
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
 
         /**
          * BUTTON PROPOSE

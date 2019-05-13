@@ -107,7 +107,7 @@
                 android:id="@+id/tv_mail_details_project_category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/shape_intro_background"
                 android:paddingHorizontal="8dp"
@@ -116,23 +116,23 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
                 android:textSize="11sp"
-                app:layout_constraintStart_toEndOf="@+id/tv_mail_details_project_field"
-                app:layout_constraintTop_toBottomOf="@+id/tv_mail_details_category" />
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mail_details_project_field" />
 
             <TextView
                 android:id="@+id/tv_mail_details_project_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Project Name]"
                 android:textAlignment="textStart"
-                android:textColor="@color/bittersweet"
+                android:textColor="@color/cabaret"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/tv_mail_details_project_field" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_mail_details_project_category" />
 
             <TextView
                 android:id="@+id/tv_mail_details_date"
@@ -174,7 +174,7 @@
                 android:layout_marginEnd="32dp"
                 android:text="[Mail Title]"
                 android:textAlignment="textStart"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -189,6 +189,7 @@
                 android:layout_marginEnd="32dp"
                 android:text="[Mail Content]"
                 android:textAlignment="textStart"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_mail_details_title" />

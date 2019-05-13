@@ -43,6 +43,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorAccent"
                 android:textSize="17sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/employeeName"
@@ -58,6 +59,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorAccent"
                 android:textSize="5dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/employeeField"
@@ -67,16 +69,13 @@
                 android:id="@+id/tvCompletedProject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="16dp"
                 android:text="Completed Project "
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorHeading_4"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/employeeRatingBar"
                 app:layout_constraintEnd_toStartOf="@+id/employeeCompletedProject"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeRate" />
+                app:layout_constraintTop_toTopOf="@+id/employeeRatingBar" />
 
             <TextView
                 android:id="@+id/employeeCompletedProject"
@@ -85,7 +84,7 @@
                 android:layout_marginEnd="24dp"
                 android:text="[n]"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/cabaret"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvCompletedProject"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,22 +95,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="24dp"
                 android:text="employeeFieldDef"
                 android:textColor="@color/cabaret"
                 android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_phone" />
+                app:layout_constraintTop_toBottomOf="@+id/employeeName" />
 
             <TextView
                 android:id="@+id/tv_employeeList_cat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginEnd="24dp"
                 android:text="employeeCatDef"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorHeading_4"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,11 +122,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="24dp"
                 android:text="Fee"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_cat" />
@@ -150,17 +151,31 @@
 
             <RatingBar
                 android:id="@+id/employeeRatingBar"
-                style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+                style="@android:style/Widget.Material.Light.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
                 android:numStars="5"
                 android:progressTint="@color/colorAccent"
                 android:rating="3"
                 android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_employeeList_fee" />
+
+            <TextView
+                android:id="@+id/tv_employeeList_rating"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="null"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/employeeRatingBar"
+                app:layout_constraintStart_toEndOf="@+id/employeeRatingBar"
+                app:layout_constraintTop_toTopOf="@+id/employeeRatingBar" />
 
 
         </android.support.constraint.ConstraintLayout>

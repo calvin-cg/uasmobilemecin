@@ -262,7 +262,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                         progressDialog.setTitle("Uploading Profile Photo...");
                         progressDialog.show();
 
-                        storageReference = storageReference.child(curr_user.getUid());
+                        storageReference = storageReference.child(curr_user.getUid() + ".jpg");
                         Log.d("avatar_change", "storageReference: " + storageReference);
 
                         storageReference.putFile(new_avatar_path)

@@ -233,12 +233,12 @@ public class User {
      *
      * return void
      */
-    public void retrieveAvatar(FirebaseUser curr_user, final OnGetUserAvatarDataListener userAvatarListener) throws IOException {
+    public void retrieveAvatar(final String user_id, final OnGetUserAvatarDataListener userAvatarListener) throws IOException {
         final String TAG = "retrieve_avatar";
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference mAvatarRef;
-        mAvatarRef = storage.getReference("user_avatar/" + curr_user.getUid());
+        mAvatarRef = storage.getReference("user_avatar/" + user_id + ".jpg");
 
         Log.d(TAG, "ref: " + mAvatarRef);
         Log.d(TAG, "snap: " + "start");
@@ -262,6 +262,7 @@ public class User {
                     try{
                         retrieveDefaultAvatar(new OnGetUserAvatarDataListener() {
                             final String TAG = "retrieve_profile";
+
 
                             @Override
                             public void onStart() {
