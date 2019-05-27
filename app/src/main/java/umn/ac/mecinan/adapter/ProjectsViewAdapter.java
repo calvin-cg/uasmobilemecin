@@ -57,6 +57,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         projectViewHolder.projectTitle.setText(project.getTitle());
         projectViewHolder.projectField.setText(project.getIdField()); // Perlu diganti biar muncul nama dari table lain
         projectViewHolder.projectCategory.setText(project.getIdCategory()); // Perlu diganti biar muncul nama dari table lain
+        projectViewHolder.projectDeadline.setText(project.getDate());
 
         /** WorkRequest */
         if(isEmployee) {
@@ -93,7 +94,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     public int getItemCount() {return projectList.size();}
 
     class ProjectViewHolder extends RecyclerView.ViewHolder{
-        TextView projectTitle, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
+        TextView projectTitle, projectDeadline, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
         Button btnLeft, btnRight;
         ProgressBar projectProgressBar;
         RatingBar projectRating;
@@ -103,6 +104,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             super(itemView);
 
             projectTitle = itemView.findViewById(R.id.tv_mailList_title);
+            projectDeadline = itemView.findViewById(R.id.tv_project_deadline);
             projectProgressBar = itemView.findViewById(R.id.projectProgressBar);
             projectWorkRequest = itemView.findViewById(R.id.tvCompletedProject);
             projectWRUser = itemView.findViewById(R.id.employeeCompletedProject);
