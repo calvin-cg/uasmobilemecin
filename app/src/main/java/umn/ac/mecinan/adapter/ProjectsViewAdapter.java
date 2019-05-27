@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import umn.ac.mecinan.R;
@@ -57,7 +59,14 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         projectViewHolder.projectTitle.setText(project.getTitle());
         projectViewHolder.projectField.setText(project.getIdField()); // Perlu diganti biar muncul nama dari table lain
         projectViewHolder.projectCategory.setText(project.getIdCategory()); // Perlu diganti biar muncul nama dari table lain
-        projectViewHolder.projectDeadline.setText(project.getDate());
+
+        /** Mail Date **/
+        String strDateFormat, formattedDate;
+        DateFormat dateFormat;
+        strDateFormat = "dd MMMM yyyy";
+        dateFormat = new SimpleDateFormat(strDateFormat);
+        formattedDate = dateFormat.format(project.getDate());
+        projectViewHolder.projectDeadline.setText(formattedDate);
 
         /** WorkRequest */
         if(isEmployee) {

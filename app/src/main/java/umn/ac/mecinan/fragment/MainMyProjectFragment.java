@@ -19,12 +19,15 @@ import com.google.firebase.database.DatabaseError;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import umn.ac.mecinan.listener.OnGetProjectDataListener;
 import umn.ac.mecinan.listener.OnGetUserInProjectListener;
 import umn.ac.mecinan.model.ButtonProject;
+import umn.ac.mecinan.model.Mail;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
@@ -158,6 +161,7 @@ public class MainMyProjectFragment extends Fragment {
 
                         @Override
                         public void onSuccess() {
+
                             List<Project> listMyProjectUpdate = new ArrayList<>(listMyProject);
                             List<Boolean> listIsEmployeeUpdate = new ArrayList<>(listIsEmployee);
                             List<ButtonProject> listButtonUpdate = new ArrayList<>(listButton);

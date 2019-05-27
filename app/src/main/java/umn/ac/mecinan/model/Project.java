@@ -27,7 +27,7 @@ public class Project {
     private int status;
     //private Date dateEnd;
     private float rating;
-    private String date;
+    private long date;
 
     /**
      * STATUS
@@ -62,7 +62,7 @@ public class Project {
 
     }
     */
-    public Project(String idProject, String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating, String date) {
+    public Project(String idProject, String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating, long date) {
         this.idProject = idProject;
         this.title = title;
         this.idEmployee = idEmployee;
@@ -136,11 +136,10 @@ public class Project {
         this.dateEnd = dateEnd;
     }*/
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
-
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

@@ -26,7 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,7 +138,35 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                 String title = inputtitle.getText().toString().trim();
                 String duration = inputDuration.getText().toString().trim();
 
-                Log.d("duration", duration);
+
+                /** Checking Date and Converting Date **/
+                Date date = null, dateNow;
+                dateNow = new Date();
+
+                try{
+                    date = new SimpleDateFormat("dd/MM/yyyy").parse(duration);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Log.d("date_propose", "date: " + date);
+
+                String strDateFormat, formattedDate;
+                DateFormat dateFormat;
+                strDateFormat = "dd MMMM yyyy";
+                dateFormat = new SimpleDateFormat(strDateFormat);
+                formattedDate = dateFormat.format(date);
+                Log.d("date_propose", "formatted: " + formattedDate);
+
+
+                /** Finish Project Date Validation **/
+                if(date.getTime() < dateNow.getTime()) {
+                    Toast.makeText(getApplicationContext(), "Finish Project Date must not below or today", Toast.LENGTH_SHORT).show();
+                    textduration.setTextColor(getResources().getColor(R.color.brink_pink));
+                    isEmpty = true;
+                } else {
+                    textduration.setTextColor(getResources().getColor(R.color.black));
+                }
+
                 /** Name Propose Field Validation **/
                 if(TextUtils.isEmpty(name)) {
                     textname.setTextColor(getResources().getColor(R.color.brink_pink));
@@ -200,7 +232,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                             price,
                             status,
                             rating,
-                            duration
+                            date.getTime()
                     );
 
                     mDatabase.child("project").child(idProject).setValue(project);
