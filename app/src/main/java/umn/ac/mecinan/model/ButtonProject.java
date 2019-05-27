@@ -308,7 +308,7 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    int new_status = 3;
+                    int new_status = 2;
 
                     Log.d(TAG, "Revision");
                     showCustomDialog(view, mail, project, idProject, userEmployee, new_status);
