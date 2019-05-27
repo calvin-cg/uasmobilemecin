@@ -173,7 +173,7 @@
                     android:background="@drawable/background02"
                     android:text="[Left]"
                     android:textSize="12sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_right"
@@ -185,7 +185,7 @@
                     android:background="@drawable/background02"
                     android:text="[Right]"
                     android:textSize="12sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
                 "/>
 
             </LinearLayout>

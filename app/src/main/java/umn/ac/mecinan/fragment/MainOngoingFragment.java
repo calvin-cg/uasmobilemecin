@@ -23,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +33,7 @@ import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.ProjectAttributes;
 import umn.ac.mecinan.model.User;
 import umn.ac.mecinan.listener.OnGetProjectDataListener;
 import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
@@ -87,10 +90,7 @@ public class MainOngoingFragment extends Fragment {
                 ProjectsViewAdapter ongoingAdapter;
 
                 List<Project> allProject = new ArrayList<>();
-                List<Project> listOngoing = new ArrayList<>();
-
-                List<Boolean> listIsEmployee = new ArrayList<>();
-                List<ButtonProject> listButton = new ArrayList<>();
+                List<ProjectAttributes> projectAttributes = new ArrayList<>();
 
                 Boolean firstInit = true;
 
@@ -143,46 +143,59 @@ public class MainOngoingFragment extends Fragment {
                                 pBar.setVisibility(View.GONE);
 
                                 if(project.getStatus() == 2 || project.getStatus() == 0) {
-                                    listOngoing.add(project);
-                                    listIsEmployee.add(true);
-
                                     ButtonProject buttonProject = new ButtonProject();
-                                    listButton.add(buttonProject.makeButton(project.getStatus()));
+
+                                    /** Transferring to Project Attributs **/
+                                    projectAttributes.add(
+                                            new ProjectAttributes(
+                                                    project,
+                                                    true,
+                                                    buttonProject.makeButton(project.getStatus())
+                                            )
+                                    );
                                 } else {
-                                    listOngoing.add(project);
-                                    listIsEmployee.add(true);
-
                                     ButtonProject buttonProject = new ButtonProject();
-                                    listButton.add(buttonProject.makeButton(4));
+
+                                    /** Transferring to Project Attributs **/
+                                    projectAttributes.add(
+                                            new ProjectAttributes(
+                                                    project,
+                                                    true,
+                                                    buttonProject.makeButton(4)
+                                            )
+                                    );
                                 }
                             }
                         }
 
                         @Override
                         public void onSuccess() {
-                            List<Project> listOngoingUpdate = new ArrayList<>(listOngoing);
-                            List<Boolean> listIsEmployeeUpdate = new ArrayList<>(listIsEmployee);
-                            List<ButtonProject> listButtonUpdate = new ArrayList<>(listButton);
+
+                            /** Sorting Ascending to deadline **/
+                            Collections.sort(projectAttributes, new Comparator<ProjectAttributes>() {
+                                @Override
+                                public int compare(ProjectAttributes o1, ProjectAttributes o2) {
+                                    return Long.compare(o1.getProject().getDate(), o2.getProject().getDate());
+                                }
+                            });
+
+                            List<ProjectAttributes> projectAttributesUpdate = new ArrayList<>(projectAttributes);
 
                             /**
                              * Set to recycler view from listongoing
                              */
                             if(firstInit) {
-                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), listOngoingUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                ongoingAdapter = new ProjectsViewAdapter(getActivity(), projectAttributesUpdate);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 recyclerView.setAdapter(ongoingAdapter);
 
-                                listOngoing.clear();
-                                listIsEmployee.clear();
-                                listButton.clear();
+                                projectAttributes.clear();
 
                                 firstInit = false;
                             } else {
-                                ongoingAdapter.updateProjectList(listOngoingUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                ongoingAdapter.updateProjectList(projectAttributesUpdate);
 
-                                listOngoing.clear();
-                                listIsEmployee.clear();
-                                listButton.clear();
+                                projectAttributes.clear();
                             }
 
                             pBar.setVisibility(View.GONE);

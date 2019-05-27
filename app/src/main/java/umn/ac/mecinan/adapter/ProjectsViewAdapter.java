@@ -18,6 +18,7 @@ import java.util.List;
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
+import umn.ac.mecinan.model.ProjectAttributes;
 
 public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapter.ProjectViewHolder> {
 
@@ -25,6 +26,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private List<Project> projectList;
     private List<Boolean> isEmployeeList;
     private List<ButtonProject> buttonProjectList;
+    private List<ProjectAttributes> projectAttributesList;
 
     private String tvStatus;
     private int tvProgressBar;
@@ -32,11 +34,9 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private int visibilityBtnLeft, visibilityBtnRight;
     private String stringBtnLeft, stringBtnRight;
 
-    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList, List<ButtonProject> buttonProjectList){
-        this.isEmployeeList = isEmployeeList;
+    public ProjectsViewAdapter(Context mCtx, List<ProjectAttributes> projectAttributesList){
         this.mCtx = mCtx;
-        this.projectList = projectList;
-        this.buttonProjectList = buttonProjectList;
+        this.projectAttributesList = projectAttributesList;
     }
 
     @NonNull
@@ -51,9 +51,11 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
 
-        Project project = projectList.get(i);
-        Boolean isEmployee = isEmployeeList.get(i);
-        ButtonProject buttonProject = buttonProjectList.get(i);
+        ProjectAttributes projectAttributes = projectAttributesList.get(i);
+
+        Project project = projectAttributes.getProject();
+        Boolean isEmployee = projectAttributes.getIsEmployee();
+        ButtonProject buttonProject = projectAttributes.getButtonProject();
 
         /** Set Project Brief Data */
         projectViewHolder.projectTitle.setText(project.getTitle());
@@ -100,7 +102,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     }
 
     @Override
-    public int getItemCount() {return projectList.size();}
+    public int getItemCount() {return projectAttributesList.size();}
 
     class ProjectViewHolder extends RecyclerView.ViewHolder{
         TextView projectTitle, projectDeadline, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
@@ -172,14 +174,10 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         }
     }
 
-    public void updateProjectList(List<Project> projects, List<Boolean> isEmployees, List<ButtonProject> buttonProjects) {
-        projectList.clear();
-        isEmployeeList.clear();
-        buttonProjectList.clear();
+    public void updateProjectList(List<ProjectAttributes> projectAttributes) {
+        projectAttributesList.clear();
 
-        projectList = projects;
-        isEmployeeList = isEmployees;
-        buttonProjectList = buttonProjects;
+        projectAttributesList = projectAttributes;
 
         this.notifyDataSetChanged();
     }

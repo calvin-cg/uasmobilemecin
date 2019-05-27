@@ -76,6 +76,34 @@ public class ButtonProject{
         ButtonProject buttonProject = new ButtonProject();
 
         switch(status){
+            case -4:
+                buttonProject.setViewBtnLeft(View.GONE);
+                buttonProject.setStringBtnLeft("");
+                buttonProject.setViewBtnRight(View.GONE);
+                buttonProject.setStringBtnRight("");
+                break;
+
+            case -3:
+                buttonProject.setViewBtnLeft(View.GONE);
+                buttonProject.setStringBtnLeft("");
+                buttonProject.setViewBtnRight(View.GONE);
+                buttonProject.setStringBtnRight("");
+                break;
+
+            case -2:
+                buttonProject.setViewBtnLeft(View.GONE);
+                buttonProject.setStringBtnLeft("");
+                buttonProject.setViewBtnRight(View.GONE);
+                buttonProject.setStringBtnRight("");
+                break;
+
+            case -1:
+                buttonProject.setViewBtnLeft(View.GONE);
+                buttonProject.setStringBtnLeft("");
+                buttonProject.setViewBtnRight(View.GONE);
+                buttonProject.setStringBtnRight("");
+                break;
+
             case 0:
                 buttonProject.setViewBtnLeft(View.VISIBLE);
                 buttonProject.setStringBtnLeft("Accept");
@@ -280,7 +308,7 @@ public class ButtonProject{
                     mail.setProjectName(project.getTitle());
                     mail.setProjectField(project.getIdField());
                     mail.setProjectCategory(project.getIdCategory());
-                    int new_status = -4;
+                    int new_status = 3;
 
                     Log.d(TAG, "Revision");
                     showCustomDialog(view, mail, project, idProject, userEmployee, new_status);

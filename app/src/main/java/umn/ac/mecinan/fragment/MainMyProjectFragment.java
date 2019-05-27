@@ -31,6 +31,7 @@ import umn.ac.mecinan.model.Mail;
 import umn.ac.mecinan.model.Project;
 import umn.ac.mecinan.adapter.ProjectsViewAdapter;
 import umn.ac.mecinan.R;
+import umn.ac.mecinan.model.ProjectAttributes;
 import umn.ac.mecinan.model.User;
 
 public class MainMyProjectFragment extends Fragment {
@@ -88,10 +89,7 @@ public class MainMyProjectFragment extends Fragment {
                 ProjectsViewAdapter myProjectAdapter;
 
                 List<Project> allProject = new ArrayList<>();
-                List<Project> listMyProject = new ArrayList<>();
-
-                List<Boolean> listIsEmployee = new ArrayList<>();
-                List<ButtonProject> listButton = new ArrayList<>();
+                List<ProjectAttributes> projectAttributes = new ArrayList<>();
 
                 Boolean firstInit = true;
 
@@ -144,17 +142,27 @@ public class MainMyProjectFragment extends Fragment {
                                 pBar.setVisibility(View.GONE);
 
                                 if(project.getStatus() == 1 || project.getStatus() == 3) {
-                                    listMyProject.add(project);
-                                    listIsEmployee.add(false);
-
                                     ButtonProject buttonProject = new ButtonProject();
-                                    listButton.add(buttonProject.makeButton(project.getStatus()));
+
+                                    /** Transferring to Project Attributs **/
+                                    projectAttributes.add(
+                                            new ProjectAttributes(
+                                                project,
+                                                    false,
+                                                    buttonProject.makeButton(project.getStatus())
+                                            )
+                                    );
                                 } else {
-                                    listMyProject.add(project);
-                                    listIsEmployee.add(false);
-
                                     ButtonProject buttonProject = new ButtonProject();
-                                    listButton.add(buttonProject.makeButton(4));
+
+                                    /** Transferring to Project Attributs **/
+                                    projectAttributes.add(
+                                            new ProjectAttributes(
+                                                    project,
+                                                    false,
+                                                    buttonProject.makeButton(4)
+                                            )
+                                    );
                                 }
                             }
                         }
@@ -162,29 +170,31 @@ public class MainMyProjectFragment extends Fragment {
                         @Override
                         public void onSuccess() {
 
-                            List<Project> listMyProjectUpdate = new ArrayList<>(listMyProject);
-                            List<Boolean> listIsEmployeeUpdate = new ArrayList<>(listIsEmployee);
-                            List<ButtonProject> listButtonUpdate = new ArrayList<>(listButton);
+                            /** Sorting Ascending to deadline **/
+                            Collections.sort(projectAttributes, new Comparator<ProjectAttributes>() {
+                                @Override
+                                public int compare(ProjectAttributes o1, ProjectAttributes o2) {
+                                    return Long.compare(o1.getProject().getDate(), o2.getProject().getDate());
+                                }
+                            });
+
+                            List<ProjectAttributes> projectAttributesUpdate = new ArrayList<>(projectAttributes);
 
                             /**
                              * Set to recycler view from listongoing
                              */
                             if(firstInit) {
-                                myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                myProjectAdapter = new ProjectsViewAdapter(getActivity(), projectAttributesUpdate);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 recyclerView.setAdapter(myProjectAdapter);
 
-                                listMyProject.clear();
-                                listIsEmployee.clear();
-                                listButton.clear();
+                                projectAttributes.clear();
 
                                 firstInit = false;
                             } else {
-                                myProjectAdapter.updateProjectList(listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                myProjectAdapter.updateProjectList(projectAttributesUpdate);
 
-                                listMyProject.clear();
-                                listIsEmployee.clear();
-                                listButton.clear();
+                                projectAttributes.clear();
                             }
 
                             pBar.setVisibility(View.GONE);
