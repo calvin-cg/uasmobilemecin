@@ -110,7 +110,16 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                 EditText inputDuration = findViewById(R.id.et_propose_Duration);
 
                 String name = inputname.getText().toString().trim();
-                int price = Integer.parseInt(inputprice.getText().toString().trim());
+
+                /** checking input price field **/
+                int price;
+
+                if(inputprice.getText().toString().equals("")) {
+                    price = 0;
+                } else {
+                    price = Integer.parseInt(inputprice.getText().toString().trim());
+                }
+
                 String desc = inputdesc.getText().toString().trim();
                 String title = inputtitle.getText().toString().trim();
                 String duration = inputDuration.getText().toString().trim();
@@ -141,7 +150,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                 }
 
                 /** Fee Propose Field Validation **/
-                if(inputprice.getText().toString().trim().length() < 0) {
+                if(inputprice.getText().toString().trim().length() <= 0) {
                     textprice.setTextColor(getResources().getColor(R.color.brink_pink));
                     isEmpty = true;
                 } else {
@@ -216,9 +225,6 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
     @SuppressWarnings("deprecation")
     public void setDate(View view) {
         showDialog(999);
-        Toast.makeText(getApplicationContext(), "ca",
-                Toast.LENGTH_SHORT)
-                .show();
     }
 
     @Override
