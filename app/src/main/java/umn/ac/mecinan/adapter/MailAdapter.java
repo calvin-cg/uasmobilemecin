@@ -41,11 +41,8 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
     public void onBindViewHolder(@NonNull MailViewHolder mailViewHolder, int i) {
         final Mail mail = mailList.get(i);
 
-        //mailViewHolder.iv_mailList_mailImage.setImageDrawable(mCtx.getResources().getDrawable(mail.getMailImage()));
-
         mailViewHolder.tv_mailList_title.setText(mail.getMailTitle());
-        //mailViewHolder.tv_mailList_date.setText(String.valueOf(mail.getMailReceivedDate()));
-
+        mailViewHolder.tv_mailList_date.setText(String.valueOf(mail.getMailReceivedDate()));
         mailViewHolder.tv_mailList_projectName.setText(String.valueOf(mail.getProjectName()));
         mailViewHolder.tv_mailList_content.setText(mail.getMailContent());
 

@@ -10,6 +10,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -159,6 +163,12 @@ public class Mail {
     public void sendMail(Mail mail) {
         FirebaseDatabase mail_db = FirebaseDatabase.getInstance();
         DatabaseReference mail_ref = mail_db.getReference("mail");
+
+        Date date = new Date();
+        String strDateFormat = "dd-MMMM-yyyy kk:mm:ss";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        String formattedDate = dateFormat.format(date);
+        mail.setMailReceivedDate(formattedDate);
 
         String key = mail_ref.push().getKey();
         mail.setIdMail(key);
