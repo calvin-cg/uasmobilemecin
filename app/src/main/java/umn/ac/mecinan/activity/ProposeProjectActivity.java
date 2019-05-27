@@ -215,7 +215,7 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
                     mail.setMailCategory("Work");
                     mail.setMailTitle("Project Proposal");
                     mail.setMailContent(curr_user.getEmail() + " Has proposed a new project to You. Please check and consider to accept or reject it.");
-                    mail.setMailReceivedDate(null);
+                    mail.setMailReceivedDate(0);
                     mail.setProjectName(title);
                     mail.setMailRecipient(idEmployee);
                     mail.setMailSender(curr_user.getUid());

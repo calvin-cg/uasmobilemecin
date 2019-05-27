@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +65,7 @@ public class MailDetails extends AppCompatActivity {
             final String md_project_field = extras.getString("mail_details_project_field");
             final String md_project_category = extras.getString("mail_details_project_category");
             final String md_project_name = extras.getString("mail_details_project_name");
-            final String md_date = extras.getString("mail_details_date");
+            final long md_date = extras.getLong("mail_details_date");
             final String md_title = extras.getString("mail_details_title");
             final String md_content = extras.getString("mail_details_content");
 
@@ -73,11 +75,17 @@ public class MailDetails extends AppCompatActivity {
                 iv_mail_icon.setImageDrawable(getResources().getDrawable(R.mipmap.mail_closed_orange_256));
             }
 
+            String strDateFormat, formattedDate;
+            DateFormat dateFormat;
+            strDateFormat = "dd-MMMM-yyyy kk:mm:ss";
+            dateFormat = new SimpleDateFormat(strDateFormat);
+            formattedDate = dateFormat.format(md_date);
+
             tvmd_category.setText(md_category);
             tvmd_project_field.setText(md_project_field);
             tvmd_project_category.setText(md_project_category);
             tvmd_project_name.setText(md_project_name);
-            tvmd_date.setText(md_date);
+            tvmd_date.setText(formattedDate);
             tvmd_title.setText(md_title);
             tvmd_content.setText(md_content);
 

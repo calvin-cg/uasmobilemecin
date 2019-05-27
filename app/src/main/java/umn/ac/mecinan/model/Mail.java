@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -24,14 +25,15 @@ public class Mail {
     private String idMail;
     private int mailType;    /** Mail Type is the same as Project Status to determine mail icon */
     private boolean mailIsRead;
-    private String mailCategory, mailTitle, mailContent, mailReceivedDate;
+    private String mailCategory, mailTitle, mailContent;
+    private long mailReceivedDate;
     private String mailRecipient, mailSender;  /** mailRecipient & mailSender will be filled with corresponding user data */
     private User userRecipient, userSender;
     private String idProject, projectName, projectField, projectCategory;
 
     public Mail() { }
     public Mail(String idMail, int mailType, boolean mailIsRead, String mailCategory,
-                String mailTitle, String mailContent, String mailReceivedDate, String mailRecipient,
+                String mailTitle, String mailContent, long mailReceivedDate, String mailRecipient,
                 String mailSender, String idProject, String projectName, String projectField, String projectCategory) {
         this.idMail = idMail;
         this.mailType = mailType;
@@ -72,8 +74,8 @@ public class Mail {
     public String getMailContent() { return mailContent; }
     public void setMailContent(String mailContent) { this.mailContent = mailContent; }
 
-    public String getMailReceivedDate() { return mailReceivedDate; }
-    public void setMailReceivedDate(String mailReceivedDate) { this.mailReceivedDate = mailReceivedDate; }
+    public long getMailReceivedDate() { return mailReceivedDate; }
+    public void setMailReceivedDate(long mailReceivedDate) { this.mailReceivedDate = mailReceivedDate; }
 
     public String getMailRecipient() { return mailRecipient; }
     public void setMailRecipient(String mailRecipient) { this.mailRecipient = mailRecipient; }
@@ -164,11 +166,15 @@ public class Mail {
         FirebaseDatabase mail_db = FirebaseDatabase.getInstance();
         DatabaseReference mail_ref = mail_db.getReference("mail");
 
-        Date date = new Date();
-        String strDateFormat = "dd-MMMM-yyyy kk:mm:ss";
-        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-        String formattedDate = dateFormat.format(date);
-        mail.setMailReceivedDate(formattedDate);
+        Date date;
+        String strDateFormat, formattedDate;
+        DateFormat dateFormat;
+
+        date = new Date();
+        strDateFormat = "dd-MMMM-yyyy kk:mm:ss";
+        dateFormat = new SimpleDateFormat(strDateFormat);
+        formattedDate = dateFormat.format(date);
+        mail.setMailReceivedDate(date.getTime());
 
         String key = mail_ref.push().getKey();
         mail.setIdMail(key);

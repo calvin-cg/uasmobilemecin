@@ -26,6 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +116,14 @@ public class InboxActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "callback success retrieve mail");
+
+                /** Sort Descending mail_list **/
+                Collections.sort(mail_list, new Comparator<Mail>() {
+                    @Override
+                    public int compare(Mail o1, Mail o2) {
+                        return Long.compare(o2.getMailReceivedDate(), o1.getMailReceivedDate());
+                    }
+                });
 
                 List<Mail> mail_list_update = new ArrayList<>(mail_list);
 

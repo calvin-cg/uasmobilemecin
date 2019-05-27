@@ -1,5 +1,6 @@
 package umn.ac.mecinan.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -70,134 +71,141 @@ public class MainMyProjectFragment extends Fragment {
 
 
         /**
-         * Retrieve My Project
+         * Checking Attached Activity
          */
-        Project project = new Project();
-        project.retrieveProject(new OnGetProjectDataListener() {
-            final String TAG = "retrieve_my_project";
-            ProjectsViewAdapter myProjectAdapter;
+        Activity activity = getActivity();
 
-            List<Project> allProject = new ArrayList<>();
-            List<Project> listMyProject = new ArrayList<>();
+        if(isAdded() && activity != null) {
+            /**
+             * Retrieve My Project
+             */
+            Project project = new Project();
+            project.retrieveProject(new OnGetProjectDataListener() {
+                final String TAG = "retrieve_my_project";
+                ProjectsViewAdapter myProjectAdapter;
 
-            List<Boolean> listIsEmployee = new ArrayList<>();
-            List<ButtonProject> listButton = new ArrayList<>();
+                List<Project> allProject = new ArrayList<>();
+                List<Project> listMyProject = new ArrayList<>();
 
-            Boolean firstInit = true;
+                List<Boolean> listIsEmployee = new ArrayList<>();
+                List<ButtonProject> listButton = new ArrayList<>();
 
-            @Override
-            public void onStart() {
-                TextView tvEmpty;
-                ProgressBar pBar;
-                tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
-                pBar = myFragmentView.findViewById(R.id.pBar);
+                Boolean firstInit = true;
 
-                tvEmpty.setText(getString(R.string.loading_my_project));
-                pBar.setVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onStart() {
+                    TextView tvEmpty;
+                    ProgressBar pBar;
+                    tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
+                    pBar = myFragmentView.findViewById(R.id.pBar);
 
-            @Override
-            public void onDataChange(Project project) {
-                allProject.add(project);
-            }
+                    tvEmpty.setText(getString(R.string.loading_my_project));
+                    pBar.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "callback success retrieve my project");
+                @Override
+                public void onDataChange(Project project) {
+                    allProject.add(project);
+                }
 
-                final String TAG = "user_in_project";
-                Log.d("user_in_project", "retrieving user in project");
-                User userInProject = new User();
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "callback success retrieve my project");
 
-                /**
-                 * Joining Process--
-                 * Retrieve User who are on the project
-                 * (from idEmployee and idClient)
-                 */
-                userInProject.retrieveUserInProject(curr_user, allProject, new OnGetUserInProjectListener() {
-                    TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
-                    RecyclerView recyclerView = myFragmentView.findViewById(R.id.myprojectRecyclerView);
-                    ProgressBar pBar = myFragmentView.findViewById(R.id.pBar);
+                    final String TAG = "user_in_project";
+                    Log.d("user_in_project", "retrieving user in project");
+                    User userInProject = new User();
 
-                    @Override
-                    public void onStart() {
+                    /**
+                     * Joining Process--
+                     * Retrieve User who are on the project
+                     * (from idEmployee and idClient)
+                     */
+                    userInProject.retrieveUserInProject(curr_user, allProject, new OnGetUserInProjectListener() {
+                        TextView tvEmpty = myFragmentView.findViewById(R.id.tvEmptyMyProject);
+                        RecyclerView recyclerView = myFragmentView.findViewById(R.id.myprojectRecyclerView);
+                        ProgressBar pBar = myFragmentView.findViewById(R.id.pBar);
 
-                    }
+                        @Override
+                        public void onStart() {
 
-                    @Override
-                    public void onDataChange(Project project) {
-                        String curr_user_email = curr_user.getEmail();
-                        User client = project.getUserClient();
+                        }
 
-                        if(curr_user_email.equals(client.getEmail())) {
-                            tvEmpty.setVisibility(View.GONE);
-                            pBar.setVisibility(View.GONE);
+                        @Override
+                        public void onDataChange(Project project) {
+                            String curr_user_email = curr_user.getEmail();
+                            User client = project.getUserClient();
 
-                            if(project.getStatus() == 1 || project.getStatus() == 3) {
-                                listMyProject.add(project);
-                                listIsEmployee.add(false);
+                            if(curr_user_email.equals(client.getEmail())) {
+                                tvEmpty.setVisibility(View.GONE);
+                                pBar.setVisibility(View.GONE);
 
-                                ButtonProject buttonProject = new ButtonProject();
-                                listButton.add(buttonProject.makeButton(project.getStatus()));
-                            } else {
-                                listMyProject.add(project);
-                                listIsEmployee.add(false);
+                                if(project.getStatus() == 1 || project.getStatus() == 3) {
+                                    listMyProject.add(project);
+                                    listIsEmployee.add(false);
 
-                                ButtonProject buttonProject = new ButtonProject();
-                                listButton.add(buttonProject.makeButton(4));
+                                    ButtonProject buttonProject = new ButtonProject();
+                                    listButton.add(buttonProject.makeButton(project.getStatus()));
+                                } else {
+                                    listMyProject.add(project);
+                                    listIsEmployee.add(false);
+
+                                    ButtonProject buttonProject = new ButtonProject();
+                                    listButton.add(buttonProject.makeButton(4));
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onSuccess() {
-                        List<Project> listMyProjectUpdate = new ArrayList<>(listMyProject);
-                        List<Boolean> listIsEmployeeUpdate = new ArrayList<>(listIsEmployee);
-                        List<ButtonProject> listButtonUpdate = new ArrayList<>(listButton);
+                        @Override
+                        public void onSuccess() {
+                            List<Project> listMyProjectUpdate = new ArrayList<>(listMyProject);
+                            List<Boolean> listIsEmployeeUpdate = new ArrayList<>(listIsEmployee);
+                            List<ButtonProject> listButtonUpdate = new ArrayList<>(listButton);
 
-                        /**
-                         * Set to recycler view from listongoing
-                         */
-                        if(firstInit) {
-                            myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            recyclerView.setAdapter(myProjectAdapter);
+                            /**
+                             * Set to recycler view from listongoing
+                             */
+                            if(firstInit) {
+                                myProjectAdapter = new ProjectsViewAdapter(getActivity(), listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                recyclerView.setAdapter(myProjectAdapter);
 
-                            listMyProject.clear();
-                            listIsEmployee.clear();
-                            listButton.clear();
+                                listMyProject.clear();
+                                listIsEmployee.clear();
+                                listButton.clear();
 
-                            firstInit = false;
-                        } else {
-                            myProjectAdapter.updateProjectList(listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
+                                firstInit = false;
+                            } else {
+                                myProjectAdapter.updateProjectList(listMyProjectUpdate, listIsEmployeeUpdate, listButtonUpdate);
 
-                            listMyProject.clear();
-                            listIsEmployee.clear();
-                            listButton.clear();
+                                listMyProject.clear();
+                                listIsEmployee.clear();
+                                listButton.clear();
+                            }
+
+                            pBar.setVisibility(View.GONE);
+
+                            if(myProjectAdapter.getItemCount() <= 0) {
+                                tvEmpty.setText(getString(R.string.empty_my_project));
+                                tvEmpty.setVisibility(View.VISIBLE);
+                            }
+
+                            allProject.clear();
                         }
 
-                        pBar.setVisibility(View.GONE);
-
-                        if(myProjectAdapter.getItemCount() <= 0) {
-                            tvEmpty.setText(getString(R.string.empty_my_project));
-                            tvEmpty.setVisibility(View.VISIBLE);
+                        @Override
+                        public void onFailed(DatabaseError databaseError) {
+                            Log.d(TAG, "dbError: " + databaseError);
                         }
+                    });
+                }
 
-                        allProject.clear();
-                    }
-
-                    @Override
-                    public void onFailed(DatabaseError databaseError) {
-                        Log.d(TAG, "dbError: " + databaseError);
-                    }
-                });
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-                Log.d(TAG, "dbError: " + databaseError);
-            }
-        });
+                @Override
+                public void onFailed(DatabaseError databaseError) {
+                    Log.d(TAG, "dbError: " + databaseError);
+                }
+            });
+        }
 
         return myFragmentView;
     }

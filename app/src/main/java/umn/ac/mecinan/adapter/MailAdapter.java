@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import umn.ac.mecinan.R;
@@ -42,7 +47,15 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
         final Mail mail = mailList.get(i);
 
         mailViewHolder.tv_mailList_title.setText(mail.getMailTitle());
-        mailViewHolder.tv_mailList_date.setText(String.valueOf(mail.getMailReceivedDate()));
+
+        /** Mail Date **/
+        String strDateFormat, formattedDate;
+        DateFormat dateFormat;
+        strDateFormat = "dd-MMMM-yyyy kk:mm:ss";
+        dateFormat = new SimpleDateFormat(strDateFormat);
+        formattedDate = dateFormat.format(mail.getMailReceivedDate());
+        mailViewHolder.tv_mailList_date.setText(formattedDate);
+
         mailViewHolder.tv_mailList_projectName.setText(String.valueOf(mail.getProjectName()));
         mailViewHolder.tv_mailList_content.setText(mail.getMailContent());
 
@@ -65,7 +78,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
                 extras.putString("mail_details_project_field", mail.getProjectField());
                 extras.putString("mail_details_project_category", mail.getProjectCategory());
                 extras.putString("mail_details_project_name", mail.getProjectName());
-                extras.putString("mail_details_date", mail.getMailReceivedDate());
+                extras.putLong("mail_details_date", mail.getMailReceivedDate());
                 extras.putString("mail_details_title", mail.getMailTitle());
                 extras.putString("mail_details_content", mail.getMailContent());
 
