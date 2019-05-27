@@ -209,17 +209,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvField" />
 
+            <ImageView
+                android:id="@+id/imageMoney"
+                android:layout_width="22dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="148dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:src="@drawable/rp"
+                app:layout_constraintEnd_toStartOf="@+id/tvFee"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
             <TextView
                 android:id="@+id/tvFee"
-                android:layout_width="0dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="16dp"
                 android:text="[Fee]"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
 
             <Button

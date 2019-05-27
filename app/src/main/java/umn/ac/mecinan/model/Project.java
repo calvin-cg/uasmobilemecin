@@ -27,6 +27,7 @@ public class Project {
     private int status;
     //private Date dateEnd;
     private float rating;
+    private String date;
 
     /**
      * STATUS
@@ -61,7 +62,7 @@ public class Project {
 
     }
     */
-    public Project(String idProject, String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating) {
+    public Project(String idProject, String title, String idEmployee, String idClient, String idField, String idCategory, String desc, int price, int status, float rating, String date) {
         this.idProject = idProject;
         this.title = title;
         this.idEmployee = idEmployee;
@@ -74,6 +75,7 @@ public class Project {
         this.price = price;
         this.status = status;
         this.rating = rating;
+        this.date = date;
     }
 
     public Map<String, Object> toMap() {
@@ -134,6 +136,13 @@ public class Project {
         this.dateEnd = dateEnd;
     }*/
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getIdEmployee() {
         return idEmployee;
