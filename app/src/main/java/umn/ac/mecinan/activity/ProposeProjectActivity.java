@@ -60,14 +60,24 @@ public class ProposeProjectActivity extends AppCompatActivity implements Adapter
         btn_cancel = findViewById(R.id.btn_cancel);
         btn_propose = findViewById(R.id.btn_propose);
 
-        ImageView imageCalander = findViewById(R.id.imageCalender);
+        /** Calender **/
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        ImageView imageCalander = findViewById(R.id.imageCalender);
         imageCalander.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                setDate(v);
+                showDate(year, month+1, day);
+            }
+        });
+
+        EditText et_finish_date = findViewById(R.id.et_propose_Duration);
+        et_finish_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setDate(v);
