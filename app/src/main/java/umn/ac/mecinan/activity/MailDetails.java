@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,6 +66,12 @@ public class MailDetails extends AppCompatActivity {
             final String md_date = extras.getString("mail_details_date");
             final String md_title = extras.getString("mail_details_title");
             final String md_content = extras.getString("mail_details_content");
+
+            if(md_category.equals("Work")) {
+                iv_mail_icon.setImageDrawable(getResources().getDrawable(R.mipmap.work_orange_256));
+            } else {
+                iv_mail_icon.setImageDrawable(getResources().getDrawable(R.mipmap.mail_closed_orange_256));
+            }
 
             tvmd_category.setText(md_category);
             tvmd_project_field.setText(md_project_field);

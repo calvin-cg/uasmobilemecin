@@ -10,11 +10,13 @@ android:padding="0dp"
 android:layout_centerHorizontal="true">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cv_mail_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white">
+        android:background="#005E4141">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_mail_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,7 +44,7 @@ android:layout_centerHorizontal="true">
                 android:cropToPadding="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@mipmap/mail_closed_orange_64" />
 
             <TextView
                 android:id="@+id/tv_mailList_date"
@@ -89,7 +91,6 @@ android:layout_centerHorizontal="true">
                 android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:background="@color/bittersweet"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

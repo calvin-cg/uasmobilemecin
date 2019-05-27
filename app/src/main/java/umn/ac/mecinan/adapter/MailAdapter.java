@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,14 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
         mailViewHolder.tv_mailList_projectName.setText(String.valueOf(mail.getProjectName()));
         mailViewHolder.tv_mailList_content.setText(mail.getMailContent());
 
+        /** Changing Card Background & icon according to read status **/
+        if(mail.getMailIsRead()) {
+            mailViewHolder.cv_mail_list.setCardBackgroundColor(mCtx.getResources().getColor(R.color.colorBorderLight));
+            mailViewHolder.iv_mailList_mailImage.setImageDrawable(mCtx.getResources().getDrawable(R.mipmap.email_opened_orange_256));
+        } else {
+            mailViewHolder.iv_mailList_mailImage.setImageDrawable(mCtx.getResources().getDrawable(R.mipmap.mail_closed_orange_256));
+        }
+
         mailViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +85,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
     }
 
     public class MailViewHolder extends RecyclerView.ViewHolder {
+        CardView cv_mail_list;
         ImageView iv_mailList_mailImage;
         TextView tv_mailList_title, tv_mailList_content, tv_mailList_date;
         TextView tv_mailList_projectName;
@@ -84,6 +94,7 @@ public class MailAdapter extends RecyclerView.Adapter<MailAdapter.MailViewHolder
         public MailViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            cv_mail_list = itemView.findViewById(R.id.cv_mail_list);
             iv_mailList_mailImage = itemView.findViewById(R.id.iv_mailList_mailImage);
             tv_mailList_title = itemView.findViewById(R.id.tv_mailList_title);
             tv_mailList_content = itemView.findViewById(R.id.tv_mailList_content);
