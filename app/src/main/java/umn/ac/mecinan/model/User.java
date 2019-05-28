@@ -31,22 +31,33 @@ import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 
 public class User {
 
-    private String username, email, tagline, phoneNumber, desc, field, category, fee;
+    private String username, email, tagline, phoneNumber, desc, field, category, fee, id;
+
+    /** isEmployee Default Value is false */
     private Boolean isEmployee;
+
+    /** ratingEmployee Default Value is 0.0f */
+    private Float ratingEmployee;
+
+    /** totalProject Completed Default Value is 0 */
+    private Integer totalProjectCompleted;
 
 
     public User(){
 
     }
-    public User(String username, String email, String tagline, String phoneNumber) {
+    public User(String id, String username, String email, String tagline, String phoneNumber) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.tagline = tagline;
         this.phoneNumber = phoneNumber;
         this.isEmployee = false;
+        this.ratingEmployee = 0.0f;
+        this.totalProjectCompleted = 0;
     }
 
-    public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee) {
+    public User(String email, String username, String desc, String phoneNumber, String field, String category, String fee, String id) {
         this.email = email;
         this.username = username;
         this.desc = desc;
@@ -54,6 +65,15 @@ public class User {
         this.field = field;
         this.category = category;
         this.fee = fee;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Map<String, Object> toMap() {
@@ -132,6 +152,20 @@ public class User {
         this.isEmployee = isEmployee;
     }
 
+    public Float getRatingEmployee() {
+        return ratingEmployee;
+    }
+    public void setRatingEmployee(Float ratingEmployee) {
+        this.ratingEmployee = ratingEmployee;
+    }
+
+    public Integer getTotalProjectCompleted() {
+        return totalProjectCompleted;
+    }
+    public void setTotalProjectCompleted(Integer totalProjectCompleted) {
+        this.totalProjectCompleted = totalProjectCompleted;
+    }
+
 
 
     /**
@@ -194,18 +228,17 @@ public class User {
      * desc: retrieve user avatar from realtime db and set into ImageView
      *
      * param:
-     *      @Context context
      *      @FirebaseUser curr_user
-     *      @ImageView avatar
+     *      @OnGetUserAvatarDataListener userAvatarListener
      *
      * return void
      */
-    public void retrieveAvatar(FirebaseUser curr_user, final OnGetUserAvatarDataListener userAvatarListener) throws IOException {
+    public void retrieveAvatar(final String user_id, final OnGetUserAvatarDataListener userAvatarListener) throws IOException {
         final String TAG = "retrieve_avatar";
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference mAvatarRef;
-        mAvatarRef = storage.getReference("user_avatar/" + curr_user.getUid() + ".jpg");
+        mAvatarRef = storage.getReference("user_avatar/" + user_id + ".jpg");
 
         Log.d(TAG, "ref: " + mAvatarRef);
         Log.d(TAG, "snap: " + "start");
@@ -229,6 +262,7 @@ public class User {
                     try{
                         retrieveDefaultAvatar(new OnGetUserAvatarDataListener() {
                             final String TAG = "retrieve_profile";
+
 
                             @Override
                             public void onStart() {

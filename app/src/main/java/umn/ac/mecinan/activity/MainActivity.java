@@ -1,5 +1,6 @@
 package umn.ac.mecinan.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -66,69 +67,8 @@ public class MainActivity extends AppCompatActivity {
         }, intentFilter);
 
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-
-        /*FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference("project");
-        String key = ref.push().getKey();
-
-        Project project = new Project(
-            key,
-            "Project w/ Status 4 (client confirm)",
-            "C35GovM3FAcHq1M0j9LesmeWinz1",
-            "lmUOraYXRRYuqWzAJrjrU4DCEr63",
-            "IT",
-            "Website",
-            "Project dengan status 4 (for employee)",
-            5000,
-            0,
-            5
-        );
-
-        Log.d("manual_input", "id: " + project.getIdProject());
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, project);
-        ref.updateChildren(childUpdates);*/
-
-
-        Log.d("current_user", "curruser UID: " + currentUser.getUid());
-        Log.d("current_user", "curruser photo: " + currentUser.getPhotoUrl());
-
-        currentUser.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-            @Override
-            public void onSuccess(GetTokenResult getTokenResult) {
-                String idToken = getTokenResult.getToken();
-
-                Log.d("current_user", "curruser token: " + idToken);
-            }
-        });
-
-        /*
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference("project");
-        String key = ref.push().getKey();
-
-        Project project = new Project(
-            key,
-            "Project w/ Status 4 (client confirm)",
-            "C35GovM3FAcHq1M0j9LesmeWinz1",
-            "lmUOraYXRRYuqWzAJrjrU4DCEr63",
-            "IT",
-            "Website",
-            "Project dengan status 4 (for employee)",
-            5000,
-            0,
-            5
-        );
-
-        Log.d("manual_input", "id: " + project.getIdProject());
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, project);
-        ref.updateChildren(childUpdates);
-        */
-
         Log.d("EZRA", "Start Main");
+
 
         /**
          * TAB LAYOUT

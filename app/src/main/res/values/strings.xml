@@ -7,7 +7,7 @@
     <string name="start">Start</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="signup">Sign up</string>
+    <string name="signup">Sign Up</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="email">Email</string>
@@ -38,6 +38,11 @@
     <!-- SIGNUP ACTIVITY -->
     <string name="tv_signup_loginhint">Already have an account?</string>
 
+    <!-- PROFILE ACTIVITY -->
+    <string name="tv_no_rating">N/A</string>
+
+    <!-- EDIT PROFILE ACTIVITY -->
+    <string name="iv_edit_avatar">Edit Profile Photo</string>
 
     <!-- MAIN ACTIVITY -->
     <string name="tv_main_dashboardTitle">Dashboard</string>
@@ -56,6 +61,10 @@
     <!-- INTRO ACTIVITY -->
     <string name="empty_employee">There is no employee available</string>
     <string name="loading_employee">Loading List Employee</string>
+
+    <!-- INBOX ACTIVITY -->
+    <string name="empty_mail">There is no mail available</string>
+    <string name="loading_mail">Loading your mail</string>
 
     <!-- SKILL FIELD AND CATEGORY -->
     <string-array name="field_view">

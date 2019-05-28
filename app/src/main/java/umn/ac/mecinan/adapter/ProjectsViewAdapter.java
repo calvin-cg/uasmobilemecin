@@ -3,7 +3,6 @@ package umn.ac.mecinan.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,14 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseError;
-
-import java.sql.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import umn.ac.mecinan.R;
-import umn.ac.mecinan.listener.OnGetUserProjectRoleListener;
 import umn.ac.mecinan.model.ButtonProject;
 import umn.ac.mecinan.model.Project;
-import umn.ac.mecinan.model.User;
+import umn.ac.mecinan.model.ProjectAttributes;
 
 public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapter.ProjectViewHolder> {
 
@@ -29,6 +26,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private List<Project> projectList;
     private List<Boolean> isEmployeeList;
     private List<ButtonProject> buttonProjectList;
+    private List<ProjectAttributes> projectAttributesList;
 
     private String tvStatus;
     private int tvProgressBar;
@@ -36,11 +34,9 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     private int visibilityBtnLeft, visibilityBtnRight;
     private String stringBtnLeft, stringBtnRight;
 
-    public ProjectsViewAdapter(Context mCtx, List<Project> projectList, List<Boolean> isEmployeeList, List<ButtonProject> buttonProjectList){
-        this.isEmployeeList = isEmployeeList;
+    public ProjectsViewAdapter(Context mCtx, List<ProjectAttributes> projectAttributesList){
         this.mCtx = mCtx;
-        this.projectList = projectList;
-        this.buttonProjectList = buttonProjectList;
+        this.projectAttributesList = projectAttributesList;
     }
 
     @NonNull
@@ -55,14 +51,24 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ProjectViewHolder projectViewHolder, int i){
 
-        Project project = projectList.get(i);
-        Boolean isEmployee = isEmployeeList.get(i);
-        ButtonProject buttonProject = buttonProjectList.get(i);
+        ProjectAttributes projectAttributes = projectAttributesList.get(i);
+
+        Project project = projectAttributes.getProject();
+        Boolean isEmployee = projectAttributes.getIsEmployee();
+        ButtonProject buttonProject = projectAttributes.getButtonProject();
 
         /** Set Project Brief Data */
         projectViewHolder.projectTitle.setText(project.getTitle());
         projectViewHolder.projectField.setText(project.getIdField()); // Perlu diganti biar muncul nama dari table lain
         projectViewHolder.projectCategory.setText(project.getIdCategory()); // Perlu diganti biar muncul nama dari table lain
+
+        /** Mail Date **/
+        String strDateFormat, formattedDate;
+        DateFormat dateFormat;
+        strDateFormat = "dd MMMM yyyy";
+        dateFormat = new SimpleDateFormat(strDateFormat);
+        formattedDate = dateFormat.format(project.getDate());
+        projectViewHolder.projectDeadline.setText(formattedDate);
 
         /** WorkRequest */
         if(isEmployee) {
@@ -86,26 +92,30 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         }
 
         /** Button */
-        projectViewHolder.btnLeft.setVisibility(buttonProject.getViewBtnLeft());
-        projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
-        projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
-        projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
-        buttonProject.makeListener(projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject());
+        if(buttonProject != null) {
+            projectViewHolder.btnLeft.setVisibility(buttonProject.getViewBtnLeft());
+            projectViewHolder.btnLeft.setText(buttonProject.getStringBtnLeft());
+            projectViewHolder.btnRight.setVisibility(buttonProject.getViewBtnRight());
+            projectViewHolder.btnRight.setText(buttonProject.getStringBtnRight());
+            buttonProject.makeListener(projectViewHolder.view, projectViewHolder.btnLeft, projectViewHolder.btnRight, project.getStatus(), project.getIdProject(), project.getUserEmployee(), project);
+        }
     }
 
     @Override
-    public int getItemCount() {return projectList.size();}
+    public int getItemCount() {return projectAttributesList.size();}
 
     class ProjectViewHolder extends RecyclerView.ViewHolder{
-        TextView projectTitle, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
+        TextView projectTitle, projectDeadline, projectWorkRequest, projectWRUser, projectField, projectCategory, projectStatus;
         Button btnLeft, btnRight;
         ProgressBar projectProgressBar;
         RatingBar projectRating;
+        View view;
 
         public ProjectViewHolder(@NonNull View itemView){
             super(itemView);
 
-            projectTitle = itemView.findViewById(R.id.employeeName);
+            projectTitle = itemView.findViewById(R.id.tv_mailList_title);
+            projectDeadline = itemView.findViewById(R.id.tv_project_deadline);
             projectProgressBar = itemView.findViewById(R.id.projectProgressBar);
             projectWorkRequest = itemView.findViewById(R.id.tvCompletedProject);
             projectWRUser = itemView.findViewById(R.id.employeeCompletedProject);
@@ -115,6 +125,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
             projectRating = itemView.findViewById(R.id.employeeRatingBar);
             btnLeft = itemView.findViewById(R.id.btn_left);
             btnRight = itemView.findViewById(R.id.btn_right);
+            view = itemView;
         }
     }
 
@@ -126,7 +137,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvProgressBar = 10;
                 break;
             case  1:
-                tvStatus = "Project Accepted, Waiting for Confirmation"; // client need to confirm 'project accepted"
+                tvStatus = "Project Accepted, Waiting for Payment"; // client need to confirm 'project accepted"
                 tvProgressBar = 20;
                 break;
             case -1:
@@ -138,7 +149,7 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
                 tvProgressBar = 30;
                 break;
             case  2:
-                tvStatus = "Project Paid, Waiting for Confirmation"; // employee need to confirm 'payment"
+                tvStatus = "Project Paid, Please Wait Until Project is Done"; // employee need to confirm 'payment"
                 tvProgressBar = 40;
                 break;
             case -3:
@@ -163,14 +174,10 @@ public class ProjectsViewAdapter extends RecyclerView.Adapter<ProjectsViewAdapte
         }
     }
 
-    public void updateProjectList(List<Project> projects, List<Boolean> isEmployees, List<ButtonProject> buttonProjects) {
-        projectList.clear();
-        isEmployeeList.clear();
-        buttonProjectList.clear();
+    public void updateProjectList(List<ProjectAttributes> projectAttributes) {
+        projectAttributesList.clear();
 
-        projectList = projects;
-        isEmployeeList = isEmployees;
-        buttonProjectList = buttonProjects;
+        projectAttributesList = projectAttributes;
 
         this.notifyDataSetChanged();
     }

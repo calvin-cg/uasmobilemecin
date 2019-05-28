@@ -4,16 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +30,10 @@ import com.google.firebase.database.DatabaseError;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.model.User;
@@ -34,6 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     User user = new User();
     final String TAG = "retrieve_profile";
+
+    /**
+     * DECLARATION - CHOOSE IMAGE
+     */
+    private Uri file_path;
+    private final int PICK_IMAGE_REQUEST = 71;
 
     /**
      * DECLARATION - BOTTOM NAVIGATION
@@ -75,17 +91,34 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(User user) {
+                final RatingBar rb_employee_profile = findViewById(R.id.rb_employee_profile);
+                TextView tv_rating = findViewById(R.id.tv_rating);
                 TextView tvName = findViewById(R.id.tvName);
-                //TextView tvTagline = findViewById(R.id.tvTagline);
+                TextView tv_completed_project = findViewById(R.id.tv_completed_project);
+                TextView tvName2 = findViewById(R.id.tvName2);
                 TextView tvEmail = findViewById(R.id.tvEmail);
                 TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
                 TextView tvDesc = findViewById(R.id.tvDesc);
                 TextView tvField = findViewById(R.id.tvField);
                 TextView tvCategory = findViewById(R.id.tvCategory);
                 TextView tvFee = findViewById(R.id.tvFee);
+                Integer completed_project = user.getTotalProjectCompleted();
+                Float rating;
 
+                if(completed_project > 0) {
+                    rating = user.getRatingEmployee() / completed_project;
+                } else {
+                    rating = user.getRatingEmployee();
+                }
 
-                tvName.setText(user.getUsername());
+                if(completed_project > 0) {
+                    tv_rating.setText(String.format("%.1f", rating));
+                }
+
+                rb_employee_profile.setRating(rating);
+                tv_completed_project.setText(completed_project.toString() + " Completed Project");
+                tvName.setText("Hi, " + user.getUsername() + "!");
+                tvName2.setText(user.getUsername());
                 //tvTagline.setText(user.getTagline());
                 tvEmail.setText(user.getEmail());
                 tvPhoneNumber.setText(user.getPhoneNumber());
@@ -93,7 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
                 tvField.setText(user.getField());
                 tvCategory.setText(user.getCategory());
                 tvFee.setText(user.getFee());
-
 
                 if(user.getDesc() == null) {
                     tvDesc.setVisibility(View.GONE);
@@ -117,7 +149,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         /**Retrieve Avatar**/
         try{
-            user.retrieveAvatar(curr_user, new OnGetUserAvatarDataListener() {
+            user.retrieveAvatar(curr_user.getUid(), new OnGetUserAvatarDataListener() {
                 @Override
                 public void onStart() {
 
@@ -127,9 +159,13 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onSuccess(File file) {
                     ImageView avatar = findViewById(R.id.imageView);
 
-                    Glide.with(getApplicationContext())
-                            .load(file)
-                            .into(avatar);
+                    file_path = android.net.Uri.parse(file.toURI().toString());
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), file_path);
+                        avatar.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -169,8 +205,45 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                startActivity(intent);
+                if(file_path == null) {
+                    Toast.makeText(getApplicationContext(), "Please Wait until Profile Photo is Loaded", Toast.LENGTH_SHORT).show();
+                } else {
+                    TextView tvName = findViewById(R.id.tvName);
+                    TextView tvName2 = findViewById(R.id.tvName2);
+                    TextView tvEmail = findViewById(R.id.tvEmail);
+                    TextView tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
+                    TextView tvDesc = findViewById(R.id.tvDesc);
+                    TextView tvField = findViewById(R.id.tvField);
+                    TextView tvCategory = findViewById(R.id.tvCategory);
+                    TextView tvFee = findViewById(R.id.tvFee);
+
+                    Bundle extras = new Bundle();
+                    String avatar_path = file_path.toString();
+                    String name = tvName.getText().toString();
+                    String username = tvName2.getText().toString();
+                    String email = tvEmail.getText().toString();
+                    String phone_number = tvPhoneNumber.getText().toString();
+                    String desc = tvDesc.getText().toString();
+                    String field = tvField.getText().toString();
+                    String category = tvCategory.getText().toString();
+                    String fee = tvFee.getText().toString();
+
+                    /** Storing to bundle */
+                    extras.putString("USER_AVATAR", avatar_path);
+                    extras.putString("USER_NAME", name);
+                    extras.putString("USER_USERNAME", username);
+                    extras.putString("USER_EMAIL", email);
+                    extras.putString("USER_PHONE_NUMBER", phone_number);
+                    extras.putString("USER_DESC", desc);
+                    extras.putString("USER_FIELD", field);
+                    extras.putString("USER_CATEGORY", category);
+                    extras.putString("USER_FEE", fee);
+
+                    Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                    intent.putExtras(extras);
+
+                    startActivity(intent);
+                }
             }
         });
 
@@ -214,6 +287,4 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

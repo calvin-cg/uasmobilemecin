@@ -1,8 +1,8 @@
 package umn.ac.mecinan.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,12 +14,14 @@ import android.widget.Filterable;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.mecinan.R;
 import umn.ac.mecinan.activity.EmployeeDetails;
-import umn.ac.mecinan.activity.SearchActivity;
 import umn.ac.mecinan.model.User;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> implements Filterable {
@@ -47,14 +49,47 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public void onBindViewHolder(@NonNull EmployeeViewHolder employeeViewHolder, int i) {
-        User employee = storedList.get(i);
+        final User employee = storedList.get(i);
+        Float rating;
+        Integer completed_project;
+
+        completed_project = employee.getTotalProjectCompleted();
+
+        if(employee.getTotalProjectCompleted() > 0) {
+            rating = employee.getRatingEmployee() / completed_project;
+        } else {
+            rating = employee.getRatingEmployee();
+        }
 
         employeeViewHolder.employeeName.setText(employee.getUsername());
+        employeeViewHolder.employeePhone.setText(employee.getPhoneNumber());
+        //employeeViewHolder.employeeDesc.setText(employee.getDesc());
+        employeeViewHolder.employeeCategory.setText(employee.getCategory());
         employeeViewHolder.employeeField.setText(employee.getField());
-        employeeViewHolder.employeeRatingBar.setRating(5);
-        employeeViewHolder.employeeRate.setText(employee.getPhoneNumber());
-        employeeViewHolder.employeeCompletedProject.setText(employee.getEmail());
+        employeeViewHolder.employeeRatingBar.setRating(rating);
+        employeeViewHolder.employeeRatingText.setText(rating.toString());
+        employeeViewHolder.employeeCompletedProject.setText(completed_project.toString());
+        employeeViewHolder.employeeFee.setText("Fee: " + employee.getFee());
+        employeeViewHolder.employeeId.setText(employee.getId());
 
+        /** Recycler On Click Listener */
+        employeeViewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
+
+                intent.putExtra("username", employee.getUsername());
+                intent.putExtra("field", employee.getField());
+                intent.putExtra("fee", employee.getFee());
+                intent.putExtra("phone", employee.getPhoneNumber());
+                intent.putExtra("id_employee", employee.getId());
+                intent.putExtra("category", employee.getCategory());
+                intent.putExtra("rating", employee.getRatingEmployee());
+                intent.putExtra("completed_project", employee.getTotalProjectCompleted());
+
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -63,34 +98,23 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     }
 
     public class EmployeeViewHolder extends RecyclerView.ViewHolder {
-        TextView employeeName, employeeField, employeeRate, employeeCompletedProject;
+        TextView employeeName, employeePhone, employeeRatingText, employeeCategory, employeeField, employeeFee, employeeCompletedProject, employeeId;
         RatingBar employeeRatingBar;
+        View view;
 
         public EmployeeViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             employeeName = itemView.findViewById(R.id.employeeName);
+            employeePhone = itemView.findViewById(R.id.tv_employeeList_phone);
+            employeeCategory = itemView.findViewById(R.id.tv_employeeList_cat);
             employeeField = itemView.findViewById(R.id.employeeField);
-            employeeRate = itemView.findViewById(R.id.employeeRate);
+            employeeFee = itemView.findViewById(R.id.tv_employeeList_fee);
             employeeRatingBar = itemView.findViewById(R.id.employeeRatingBar);
+            employeeRatingText = itemView.findViewById(R.id.tv_employeeList_rating);
             employeeCompletedProject = itemView.findViewById(R.id.employeeCompletedProject);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(v.getContext(), EmployeeDetails.class);
-
-                    intent.putExtra("username", employeeName.getText().toString());
-                    intent.putExtra("field", employeeField.getText().toString());
-                    intent.putExtra("rate", employeeRate.getText().toString());
-                    intent.putExtra("completed", employeeCompletedProject.getText().toString());
-
-
-                    v.getContext().startActivity(intent);
-
-                }
-            });
+            employeeId = itemView.findViewById(R.id.tv_employeeList_id);
+            view = itemView;
         }
     }
 
